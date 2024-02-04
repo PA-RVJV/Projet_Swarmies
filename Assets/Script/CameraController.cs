@@ -112,8 +112,13 @@ public class CameraController : MonoBehaviour
         var xAngle = camRotation.x;
         var xAngleBas =  _cam.fieldOfView / 2 * xAngle;
         var zAngleDroit =  (_cam.fieldOfView / 2 * _cam.aspect) * zAngle;
-        var zPadding = Mathf.Tan(Mathf.Deg2Rad * xAngle) * camPosition.y; 
-        var xPadding = Mathf.Tan(Mathf.Deg2Rad * zAngle) * camPosition.y;
+        
+        // on rajoute du bourrage sur le clamp de la camera qui correspond a son angle
+        // ici c'est le coté opposé qu'on veut vu qu'on a l'angle et le coté adjacent
+        // du coup tangente. un angle de zero est une camera horizontale, un angle de 90
+        // est une camera braquee sur le sol
+        var zPadding = Mathf.Tan(Mathf.Deg2Rad * (90 - xAngle)) * camPosition.y; 
+        var xPadding = Mathf.Tan(Mathf.Deg2Rad * (zAngle)) * camPosition.y;
         
         _topLeftClamp = new Vector3(
             x: (terrainTransform.position.x) * terrainScale.x * -1 - xPadding, 

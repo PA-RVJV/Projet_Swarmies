@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9df03d59-959a-4ed0-b1f4-d7932a3f623b" name="Changes" comment="">
+    <list default="true" id="9df03d59-959a-4ed0-b1f4-d7932a3f623b" name="Changes" comment="ajout d'un clamp sur le terrain sur la cam, groupé la cam et le script de cam en un seul objet">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Projet_Swarmies/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Projet_Swarmies/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/New Terrain 1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/New Terrain 1.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Battle.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Battle.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Script/CameraController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/CameraController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -19,6 +17,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///Users/ivo/Desktop/RVJV/Projet_Swarmies/Assets/Scenes/Battle.unity" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///Users/ivo/Desktop/RVJV/Projet_Swarmies/Assets/Scenes/Battle.unity" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///Users/ivo/Desktop/RVJV/Projet_Swarmies/Assets/Scenes/Battle.unity" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -108,8 +107,17 @@
       <workItem from="1706559052240" duration="70000" />
       <workItem from="1706559564603" duration="5187000" />
       <workItem from="1707079838979" duration="208000" />
-      <workItem from="1707080306304" duration="2102000" />
+      <workItem from="1707080306304" duration="3052000" />
     </task>
+    <task id="LOCAL-00001" summary="ajout d'un clamp sur le terrain sur la cam, groupé la cam et le script de cam en un seul objet">
+      <option name="closed" value="true" />
+      <created>1707082479027</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1707082479027</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -120,5 +128,26 @@
   <component name="UnityUnitTestConfiguration" currentTestLauncher="Both" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="ajout d'un clamp sur le terrain sur la cam, groupé la cam et le script de cam en un seul objet" />
+    <option name="LAST_COMMIT_MESSAGE" value="ajout d'un clamp sur le terrain sur la cam, groupé la cam et le script de cam en un seul objet" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Script/CameraController.cs</url>
+          <line>119</line>
+          <properties documentPath="$PROJECT_DIR$/Assets/Script/CameraController.cs" initialLine="119" containingFunctionPresentation="Method 'ComputeCameraBounds'">
+            <startOffsets>
+              <option value="3826" />
+            </startOffsets>
+            <endOffsets>
+              <option value="3898" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
