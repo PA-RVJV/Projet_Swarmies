@@ -35,8 +35,10 @@ public class CameraController : MonoBehaviour
             zoomSpeed = 20.0f;
         }
         
+        // on récup les input (zqsd ou fleche clavier) 
         float hsp = transform.position.y * speed * Input.GetAxis("Horizontal");
         float vsp = transform.position.y * speed * Input.GetAxis("Vertical");
+        // on récup l'input molette de la souris
         float scrollSp = Mathf.Log(transform.position.y) * -zoomSpeed * Input.GetAxis("Mouse ScrollWheel");
 
         if ((transform.position.y >= maxHeight) && (scrollSp > 0))
