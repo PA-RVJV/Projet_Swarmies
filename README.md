@@ -12,8 +12,8 @@ Version unity utilisé : 2022.3.13f1
 
 package utilisé:
 - AI Navigation
-
-package autorisé ?!
+- package autorisé ?!
+  
 TODO :
 - positionement des troupes lors de déplacement en groupe
 - implémenter la class unit1 pour une gestion de la vie et des dégat
@@ -21,6 +21,6 @@ TODO :
 - script pour l'attaque entre unité (attaque a distance ?)
 - définir des condition de victoire (plus d'unité joueur en vie ou plus d'unité ennemies en vie)
 - 
-- QUOI AJOUTER A LA BOUCLE DE GAMEPLAY pricipale?
+- QUOI AJOUTER A LA BOUCLE DE GAMEPLAY principale?
 
 
