@@ -1,15 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class warriorSpawner : MonoBehaviour
+public class unit1 : MonoBehaviour
 {
-    // Class pour le spawn des unité; spawn lors de l'appuis du joueur sur un élément bouton ou autre
-    
     // Start is called before the first frame update
     void Start()
     {
-        
+        unitSelectionManager.Instance.allUnitsList.Add(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        unitSelectionManager.Instance.allUnitsList.Remove(gameObject);
     }
 
     // Update is called once per frame
