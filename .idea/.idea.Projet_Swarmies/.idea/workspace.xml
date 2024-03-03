@@ -5,7 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9df03d59-959a-4ed0-b1f4-d7932a3f623b" name="Changes" comment="ajout d'un clamp sur le terrain sur la cam, groupé la cam et le script de cam en un seul objet">
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Battle.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Battle.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Projet_Swarmies/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Projet_Swarmies/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Script/menuController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/menuController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Script/unit1.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/unit1.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Script/unitMoveController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/unitMoveController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Script/unitSelectionBox.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/unitSelectionBox.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Script/unitSelectionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/unitSelectionManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +116,8 @@
       <workItem from="1707154859173" duration="1103000" />
       <workItem from="1707572452389" duration="590000" />
       <workItem from="1708620065433" duration="92000" />
-      <workItem from="1709480587102" duration="10181000" />
+      <workItem from="1709480587102" duration="10182000" />
+      <workItem from="1709503084729" duration="4899000" />
     </task>
     <task id="LOCAL-00001" summary="ajout d'un clamp sur le terrain sur la cam, groupé la cam et le script de cam en un seul objet">
       <option name="closed" value="true" />

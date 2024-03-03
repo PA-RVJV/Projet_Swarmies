@@ -17,13 +17,13 @@ public class menuController : MonoBehaviour
         
     }
     
-    // Quitter
+    // méthode pour quitter l'apli appeller lors d'un clic sur le bouton quiter du menu (gerer sur unity)
     public void Quit()
     {
         Application.Quit();
     }
     
-    // Changer de scene
+    // méthode de changement de scène appeler lors d'un clic sur le bouton jouer du menu (gerer sur unity)
     public void SwitchScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
