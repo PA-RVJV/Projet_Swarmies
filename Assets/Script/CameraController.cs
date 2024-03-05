@@ -4,43 +4,45 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public float speed = 0.06f;
-    public float zoomSpeed = 10.0f;
-    public float rotateSpeed= 0.1f;
+    public float speed = 0.06f; // Vitesse de déplacement de la caméra
+    public float zoomSpeed = 10.0f; // Vitesse de zoom de la caméra
+    public float rotateSpeed= 0.1f; // Vitesse de rotation de la caméra
  
-    public float maxHeight= 40f;
-    public float minHeight= 8f;
+    public float maxHeight= 40f; // Hauteur maximale de la caméra
+    public float minHeight= 8f; // Hauteur minimale de la caméra
 
-    private Vector2 p1;
-    private Vector2 p2;
+    private Vector2 p1; // Position initiale du curseur pour la rotation
+    private Vector2 p2; // Position finale du curseur pour la rotation
 
-    private Camera _cam;
+    private Camera _cam; // Référence à l'objet Camera
     
-    public Terrain clampTo; // le mesh auquel on veut se clamp
-    private Vector3 _topLeftClamp;
-    private Vector3 _bottomRightClamp;
+    public Terrain clampTo; // Terrain utilisé pour limiter le déplacement de la caméra
+    private Vector3 _topLeftClamp; // Limite supérieure gauche pour le déplacement de la caméra
+    private Vector3 _bottomRightClamp; // Limite inférieure droite pour le déplacement de la caméra
     
     void Start()
     {
-        _cam = GetComponent<Camera>();
-        ComputeCameraBounds();
+        _cam = GetComponent<Camera>(); // Obtient le composant Camera de cet objet
+        ComputeCameraBounds(); // Calcule les limites de déplacement de la caméra en fonction du terrain
     }
 
     void Update()
     {
-        var speed = this.speed;
+        var speed = this.speed; // Utilise la vitesse de déplacement définie
         if(Input.GetKey(KeyCode.LeftShift))
         {
-            speed = 0.06f;
-            zoomSpeed = 20.0f;
+            speed = 0.06f; // Augmente la vitesse de déplacement si LeftShift est pressé
+            zoomSpeed = 20.0f; // Augmente la vitesse de zoom si LeftShift est pressé
         }
         
-        // on récup les input (zqsd ou fleche clavier) 
+        // Calcule le déplacement horizontal et vertical basé sur les entrées de l'utilisateur
         float hsp = transform.position.y * speed * Input.GetAxis("Horizontal");
         float vsp = transform.position.y * speed * Input.GetAxis("Vertical");
-        // on récup l'input molette de la souris
+        
+        // Calcule le déplacement de zoom basé sur la molette de la souris
         float scrollSp = Mathf.Log(transform.position.y) * -zoomSpeed * Input.GetAxis("Mouse ScrollWheel");
 
+        // Limite le zoom pour ne pas dépasser les hauteurs maximale et minimale
         if ((transform.position.y >= maxHeight) && (scrollSp > 0))
         {
             scrollSp = 0;
@@ -50,6 +52,7 @@ public class CameraController : MonoBehaviour
             scrollSp = 0;
         }
         
+        // Assure que le zoom ne dépasse pas les limites définies
         if((transform.position.y + scrollSp) > maxHeight)
         {
             scrollSp = maxHeight - transform.position.y;
@@ -58,6 +61,8 @@ public class CameraController : MonoBehaviour
         {
             scrollSp = minHeight - transform.position.y;
         }
+        
+        // Calcule le déplacement total de la caméra
         Vector3 verticalMove = new Vector3(0, scrollSp, 0);
         Vector3 lateralMove = hsp * transform.right;
         Vector3 forwardMove = transform.forward;
@@ -67,6 +72,7 @@ public class CameraController : MonoBehaviour
 
         Vector3 move = verticalMove + lateralMove + forwardMove;
 
+        // Applique le déplacement en tenant compte des limites du terrain
         var camPos = transform.position;
         
         camPos += move;
@@ -75,11 +81,12 @@ public class CameraController : MonoBehaviour
 
         transform.position = camPos;
 
-        // getCameraRotation();
+        // Appelle la méthode de rotation de la caméra (actuellement non appelée dans Update)
     }
 
     private void getCameraRotation()
     {
+        // Gère la rotation de la caméra avec le bouton du milieu de la souris
         if (Input.GetMouseButtonDown(2))
         {
             p1 = Input.mousePosition;
@@ -100,6 +107,9 @@ public class CameraController : MonoBehaviour
 
     private void ComputeCameraBounds()
     {
+        // Calcule les limites de déplacement de la caméra en fonction de la taille du terrain
+        // et de la position et de la rotation de la caméra pour éviter que la vue ne sorte du terrain
+        
         var terrainTransform = clampTo.transform;
         var camTransform = _cam.transform;
         var camPosition = camTransform.position;
