@@ -44,7 +44,7 @@ namespace PS.InputHandlers
         
         void Update()
         {
-            // Actuellement vide, mais pourrait être utilisé pour d'autres vérifications d'entrées.
+            
         }
 
         // Gère le mouvement des unités basé sur les entrées de l'utilisateur.
