@@ -10,41 +10,26 @@ namespace PS.Units
         {
             Warrior,
             Shooter,
-            Healer
+            Healer,
+            Worker
         };
         
-        // Indique si l'unité appartient au joueur.
-        public bool isPlayerUnit;
-
-        // Type de l'unité.
-        public unitType type;
+        [Header("Unit Settings")]
+        [Space(15)]
         
-        // Nom de l'unité.
-        public new string name;
-
-        // Préfabriqué de l'unité pour instanciation.
-        public GameObject unitPrefab;
-
-        // Coût de l'unité.
-        public int cost;
-        // Attaque de l'unité.
-        public int attack;
-        // Santé de l'unité.
-        public int health;
-        // Armure de l'unité.
-        public int armor;
-    
-        // Méthode Start - Vide car ScriptableObject n'utilise pas Start ou Update.
-        void Start()
-        {
-            
-        }
-    
-        // Méthode Update - Vide car ScriptableObject n'utilise pas Start ou Update.
-        void Update()
-        {
+        public unitType type; // Type de l'unité
+        public new string name;// Nom de l'unité
+        public GameObject unitPrefab; // Préfabriqué de l'unité pour instanciation.
         
-        }
+        [Space(40)]
+        [Header("Unit Stats")]
+        [Space(15)]
+        
+        public int cost; // Coût de l'unité
+        public int attack; // Attaque de l'unité
+        public int attackRange; // Portée de l'attaque de l'unité
+        public int health; // Santé de l'unité.
+        public int armor; // Armure de l'unité.
     }
 }
 

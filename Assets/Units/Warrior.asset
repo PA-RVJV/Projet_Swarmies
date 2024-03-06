@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccadda1e30310df4797c98cbf6e00aa0, type: 3}
   m_Name: Warrior
   m_EditorClassIdentifier: 
-  isPlayerUnit: 1
   type: 0
   name: 
   unitPrefab: {fileID: 2374471220910993860, guid: f9df890b18e4f044491c2c2e92c790a2, type: 3}
-  cost: 0
-  attack: 0
-  health: 0
-  armor: 0
+  cost: 75
+  attack: 50
+  attackRange: 1
+  health: 100
+  armor: 2

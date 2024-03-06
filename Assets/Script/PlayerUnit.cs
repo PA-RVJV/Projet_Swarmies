@@ -13,6 +13,8 @@ namespace PS.Player
         // Variable privée pour stocker la référence au composant NavMeshAgent de l'unité.
         private NavMeshAgent navAgent;
 
+        public int cost, attack, attackRange, health, armor;
+            
         // OnEnable est appelé quand le script est activé.
         public void OnEnable()
         {
