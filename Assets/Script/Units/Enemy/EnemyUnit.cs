@@ -17,24 +17,17 @@ namespace PS.Units.Enemy
         
         private Transform aggroTarget;
 
-        private Player.PlayerUnit aggroUnit;
+        private UnitStatDisplay aggroUnit;
         
         private bool hasAggro = false;
         
         private float distance;
-        
-        public GameObject unitStatDisplay;
-        
-        public Image healthBarAmount;
 
-        public float currentHealth;
-
-        private float attackCooldown;
+        public float attackCooldown;
         
         private void Start()
         {
             navAgent1 = gameObject.GetComponent<NavMeshAgent>();
-            currentHealth = baseStats.health;
         }
 
         private void Update()
@@ -51,11 +44,6 @@ namespace PS.Units.Enemy
                 MoveToAggroTarget();
             }
         }
-
-        private void LateUpdate()
-        {
-            HandleHealth();
-        }
         
         private void CheckForEnemyTarget()
         {
@@ -66,7 +54,7 @@ namespace PS.Units.Enemy
                 if (rangeColliders[i].gameObject.layer == UnitHandler.instance.pUnitLayer)
                 {
                     aggroTarget = rangeColliders[i].gameObject.transform;
-                    aggroUnit = aggroTarget.gameObject.GetComponent<Player.PlayerUnit>();
+                    aggroUnit = aggroTarget.gameObject.GetComponentInChildren<UnitStatDisplay>();
                     hasAggro = true;
                     break;
                 }
@@ -81,11 +69,7 @@ namespace PS.Units.Enemy
                 attackCooldown = baseStats.attackSpeed;
             }
         }
-        public void TakeDamage(float damage)
-        {
-            float totalDamage = damage - baseStats.armor;
-            currentHealth -= totalDamage;
-        }
+        
         
         private void MoveToAggroTarget()
         {
@@ -104,26 +88,6 @@ namespace PS.Units.Enemy
                     navAgent1.SetDestination(aggroTarget.position);
                 }
             }
-        }
-        
-        private void HandleHealth()
-        {
-            Camera camera = Camera.main;
-            unitStatDisplay.transform.LookAt(unitStatDisplay.transform.position + 
-                                             camera.transform.rotation * Vector3.forward, 
-                camera.transform.rotation * Vector3.up);
-            
-            healthBarAmount.fillAmount = currentHealth / baseStats.health;
-
-            if (currentHealth <= 0)
-            {
-                Die();
-            }
-        }
-
-        private void Die()
-        {
-            Destroy(gameObject);
         }
     }
 }
