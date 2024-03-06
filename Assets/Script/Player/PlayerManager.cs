@@ -4,7 +4,7 @@ using UnityEngine;
 
 using PS.InputHandlers;
 
-namespace PS.Units.Player
+namespace PS.Player
 {
     // Déclare la classe PlayerManager comme un composant MonoBehaviour qui peut être attaché à un GameObject.
     public class PlayerManager : MonoBehaviour
@@ -23,8 +23,8 @@ namespace PS.Units.Player
         
         private void Start()
         {
-            UnitHandler.instance.SetUnitStats(playerUnits);
-            UnitHandler.instance.SetUnitStats(enemyUnits);
+            Units.UnitHandler.instance.SetUnitStats(playerUnits);
+            Units.UnitHandler.instance.SetUnitStats(enemyUnits);
         }
         
         private void Update()

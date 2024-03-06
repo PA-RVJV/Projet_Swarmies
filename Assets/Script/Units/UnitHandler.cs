@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-using PS.Units;
+using PS.Player;
 
 namespace PS.Units
 {
@@ -54,8 +54,8 @@ namespace PS.Units
 
         public void SetUnitStats(Transform type)
         {
-            Transform pUnits = Player.PlayerManager.instance.playerUnits;
-            Transform eUnits = Player.PlayerManager.instance.enemyUnits;
+            Transform pUnits = PlayerManager.instance.playerUnits;
+            Transform eUnits = PlayerManager.instance.enemyUnits;
             
             foreach (Transform child in type)
             {

@@ -52,7 +52,7 @@ namespace PS.Units.Enemy
         private void MoveToAggroTarget()
         {
             distance = Vector3.Distance(aggroTarget.position, transform.position);
-            navAgent1.stoppingDistance = baseStats.attackRange + 1;
+            navAgent1.stoppingDistance = baseStats.attackRange + 1/4;
 
             if (distance <= baseStats.aggroRange)
             {

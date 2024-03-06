@@ -88,7 +88,7 @@ namespace PS.InputHandlers
             if (Input.GetMouseButtonUp(0))
             {
                 // Vérifie chaque unité pour voir si elle est dans les bornes de sélection.
-                foreach (Transform child in PlayerManager.instance.playerUnits)
+                foreach (Transform child in Player.PlayerManager.instance.playerUnits)
                 {
                     foreach (Transform unit in child)
                     {
