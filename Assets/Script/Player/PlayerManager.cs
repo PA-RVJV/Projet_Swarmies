@@ -19,12 +19,13 @@ namespace PS.Player
         private void Awake()
         {
             instance = this;
+            Units.UnitHandler.instance.SetUnitStats(playerUnits);
+            Units.UnitHandler.instance.SetUnitStats(enemyUnits);
         }
         
         private void Start()
         {
-            Units.UnitHandler.instance.SetUnitStats(playerUnits);
-            Units.UnitHandler.instance.SetUnitStats(enemyUnits);
+            
         }
         
         private void Update()

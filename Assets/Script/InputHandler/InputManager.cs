@@ -10,12 +10,8 @@ namespace PS.InputHandlers
         
         public static InputManager instance; // Instance statique d'InputManager
         private RaycastHit hit; // stocke l'information du raycast.
-        private List<Transform> selectedUnits = new List<Transform>(); // Liste des unités sélectionnées.
-
-        
+        public List<Transform> selectedUnits = new List<Transform>(); // Liste des unités sélectionnées.
         private bool isDragging = false; // Booléen de vérification sélection multiple en cour ou non.
-
-        
         private Vector3 mousePos; // Position initiale de la souris lors du début de select.
 
         private void Awake()

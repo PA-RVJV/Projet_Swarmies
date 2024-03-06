@@ -17,8 +17,9 @@ MonoBehaviour:
   unitPrefab: {fileID: 2374471220910993860, guid: f9df890b18e4f044491c2c2e92c790a2, type: 3}
   baseStats:
     cost: 75
-    attack: 50
+    attack: 25
     attackRange: 1
+    attackSpeed: 0.5
     aggroRange: 5
     health: 100
     armor: 2

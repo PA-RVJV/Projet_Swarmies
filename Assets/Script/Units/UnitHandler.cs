@@ -27,7 +27,7 @@ namespace PS.Units
             eUnitLayer = LayerMask.NameToLayer("EnemyUnits");
         }
 
-        public (float cost, float attack, float attackRange, float aggroRange, float health, float armor) GetUnitStats(string type)
+        public UnitStatTypes.Base GetUnitStats(string type)
         {
             Unit unit;
             switch (type)
@@ -46,10 +46,10 @@ namespace PS.Units
                     break;
                 default:
                     Debug.Log($"Unit Type : {type} not found");
-                    return (0, 0, 0, 0, 0, 0);
+                    return null;
             }
 
-            return (unit.baseStats.cost, unit.baseStats.attack, unit.baseStats.attackRange, unit.baseStats.aggroRange, unit.baseStats.health, unit.baseStats.armor);
+            return unit.baseStats;
         }
 
         public void SetUnitStats(Transform type)
@@ -67,28 +67,14 @@ namespace PS.Units
                     if (type == pUnits)
                     {
                         Player.PlayerUnit pU = unit.GetComponent<Player.PlayerUnit>();
-                        // set unit stats in each unit
-                        pU.baseStats.cost = stats.cost;
-                        pU.baseStats.attack = stats.attack;
-                        pU.baseStats.attackRange = stats.attackRange;
-                        pU.baseStats.aggroRange = stats.aggroRange;
-                        pU.baseStats.health = stats.health;
-                        pU.baseStats.armor = stats.armor;
+                        pU.baseStats = GetUnitStats(unitName);
                     }
                     else if (type == eUnits)
                     {
                         Enemy.EnemyUnits eU = unit.GetComponent<Enemy.EnemyUnits>();
                         // set unit stats in each unit
-                        eU.baseStats.cost = stats.cost;
-                        eU.baseStats.attack = stats.attack;
-                        eU.baseStats.attackRange = stats.attackRange;
-                        eU.baseStats.aggroRange = stats.aggroRange;
-                        eU.baseStats.health = stats.health;
-                        eU.baseStats.armor = stats.armor;
+                        eU.baseStats = GetUnitStats(unitName);
                     }
-                    
-                    // if we have any upgrade add them now
-                    // add upgrades to unit stats
                 }
             }
         }

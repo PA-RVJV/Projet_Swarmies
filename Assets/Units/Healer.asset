@@ -19,6 +19,7 @@ MonoBehaviour:
     cost: 50
     attack: 25
     attackRange: 10
+    attackSpeed: 2
     aggroRange: 10
     health: 50
     armor: 0
