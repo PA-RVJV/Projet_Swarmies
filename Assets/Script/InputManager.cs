@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using PS.Player;
+using PS.Units.Player;
 
 namespace PS.InputHandlers
 {
@@ -17,10 +17,15 @@ namespace PS.InputHandlers
 
         
         private Vector3 mousePos; // Position initiale de la souris lors du début de select.
+
+        private void Awake()
+        {
+            instance = this;
+        }
         
         void Start()
         {
-            instance = this;
+            
         }
 
         // Dessine le rectangle de sélection sur l'interface a l'aide de la classe MultiSelect

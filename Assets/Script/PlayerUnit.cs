@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace PS.Player
+namespace PS.Units.Player
 {
     // Assure que le GameObject auquel ce script est attaché possède un composant NavMeshAgent.
     // Le déplacement est assuré par le package AI Navigation 
@@ -13,7 +13,7 @@ namespace PS.Player
         // Variable privée pour stocker la référence au composant NavMeshAgent de l'unité.
         private NavMeshAgent navAgent;
 
-        public int cost, attack, attackRange, health, armor;
+        public UnitStatTypes.Base baseStats;
             
         // OnEnable est appelé quand le script est activé.
         public void OnEnable()
