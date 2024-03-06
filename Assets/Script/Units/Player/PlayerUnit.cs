@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using PS.InputHandlers;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
-namespace PS.Player
+namespace PS.Units.Player
 {
-    // Assure que le GameObject auquel ce script est attaché possède un composant NavMeshAgent.
     // Le déplacement est assuré par le package AI Navigation 
     [RequireComponent(typeof(NavMeshAgent))]
     public class PlayerUnit : MonoBehaviour
@@ -13,13 +14,15 @@ namespace PS.Player
         // Variable privée pour stocker la référence au composant NavMeshAgent de l'unité.
         private NavMeshAgent navAgent;
 
+        public UnitStatTypes.Base baseStats;
+        
         // OnEnable est appelé quand le script est activé.
-        public void OnEnable()
+        private void OnEnable()
         {
             // Initialise la référence au composant NavMeshAgent.
             navAgent = GetComponent<NavMeshAgent>();
         }
-
+        
         // Méthode pour déplacer l'unité vers une destination spécifique.
         public void MoveUnit(Vector3 _destination)
         {

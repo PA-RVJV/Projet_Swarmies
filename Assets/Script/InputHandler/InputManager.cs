@@ -1,44 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using PS.Player;
+using PS.Units.Player;
 
 namespace PS.InputHandlers
 {
     public class InputManager : MonoBehaviour
     {
-        // Instance statique pour accéder facilement à l'InputManager depuis d'autres scripts.
-        public static InputManager instance;
-
-        // Variable pour stocker l'information du raycast.
-        private RaycastHit hit;
-
-        // Liste pour garder une trace des unités sélectionnées.
-        private List<Transform> selectedUnits = new List<Transform>();
-
-        // Booléen pour vérifier si l'utilisateur est en train de faire une sélection multiple.
-        private bool isDragging = false;
-
-        // Position initiale de la souris lors du début du glissement.
-        private Vector3 mousePos;
         
-        void Start()
+        public static InputManager instance; // Instance statique d'InputManager
+        private RaycastHit hit; // stocke l'information du raycast.
+        public List<Transform> selectedUnits = new List<Transform>(); // Liste des unités sélectionnées.
+        private bool isDragging = false; // Booléen de vérification sélection multiple en cour ou non.
+        private Vector3 mousePos; // Position initiale de la souris lors du début de select.
+
+        private void Awake()
         {
             instance = this;
         }
+        
+        void Start()
+        {
+            
+        }
 
-        // Dessine le rectangle de sélection sur l'interface.
+        // Dessine le rectangle de sélection sur l'interface a l'aide de la classe MultiSelect
         private void OnGUI()
         {
-            // Vérifie si l'utilisateur est en train de glisser pour la sélection multiple.
             if (isDragging)
             {
-                // Crée un rectangle de sélection à partir de la position initiale de la souris et la position actuelle.
+                // Crée et dessine le rectangle de sélection.un rectangle de sélection à partir de la position
+                // initiale de la souris et la position actuelle.
                 Rect rect = MultiSelect.GetScreenRect(mousePos, Input.mousePosition);
-                // Dessine le rectangle de sélection.
                 MultiSelect.DrawScreenRect(rect, new Color(0f, 0f, 0f, 0.25f));
+                
                 // Dessine la bordure du rectangle de sélection.
-                MultiSelect.DrawScreenRectBorder(rect, 3, Color.blue);
+                MultiSelect.DrawScreenRectBorder(rect, 3, Color.blue); 
             }
         }
         
@@ -47,16 +44,17 @@ namespace PS.InputHandlers
             
         }
 
-        // Gère le mouvement des unités basé sur les entrées de l'utilisateur.
+        // Gère la séléction et le mouvement des unités basé sur les entrées de l'utilisateur.
         public void HandleUnitMovement()
         {
             // Vérifie si le bouton gauche de la souris est pressé.
             if (Input.GetMouseButtonDown(0))
             {
-                // Enregistre la position initiale de la souris.
                 mousePos = Input.mousePosition;
+                
                 // Crée un rayon partant de la caméra vers la position de la souris.
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                
                 // Vérifie si le rayon touche quelque chose.
                 if (Physics.Raycast(ray, out hit))
                 {
@@ -86,7 +84,7 @@ namespace PS.InputHandlers
             if (Input.GetMouseButtonUp(0))
             {
                 // Vérifie chaque unité pour voir si elle est dans les bornes de sélection.
-                foreach (Transform child in PlayerManager.instance.playerUnits)
+                foreach (Transform child in Player.PlayerManager.instance.playerUnits)
                 {
                     foreach (Transform unit in child)
                     {
@@ -163,10 +161,10 @@ namespace PS.InputHandlers
             {
                 return false;
             }
-
             // Calcule les bornes de sélection en espace de vue.
             Camera cam = Camera.main;
             Bounds vpBounds = MultiSelect.GetVPBounds(cam, mousePos, Input.mousePosition);
+            
             // Vérifie si la position de l'unité est à l'intérieur des bornes de sélection.
             return vpBounds.Contains(cam.WorldToViewportPoint(tf.position));
         }

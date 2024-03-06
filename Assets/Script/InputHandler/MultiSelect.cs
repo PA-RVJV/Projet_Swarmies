@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PS.InputHandlers
 {
-    // Classe statique MultiSelect pour aider avec la sélection multiple dans l'interface utilisateur.
+    // Classe statique MultiSelect de génération d'une box pour selection par selectBox -> clic and drag.
     public static class MultiSelect
     {
         // Variable statique privée pour stocker une texture blanche utilisée pour dessiner les rectangles et les bordures.

@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9df03d59-959a-4ed0-b1f4-d7932a3f623b" name="Changes" comment="ajout d'un clamp sur le terrain sur la cam, groupé la cam et le script de cam en un seul objet">
-      <change beforePath="$PROJECT_DIR$/Assets/Script/InputManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/InputManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Projet_Swarmies/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Projet_Swarmies/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Script/Units/Enemy/EnemyUnit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/Units/Enemy/EnemyUnit.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Script/Units/Player/PlayerUnit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/Units/Player/PlayerUnit.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/UnitStatDisplay.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/UnitStatDisplay.prefab" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,8 +19,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Script/MultiSelect.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Script/PlayerUnit.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Script/InputHandler/CameraController.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -114,7 +116,8 @@
       <workItem from="1709583801524" duration="2042000" />
       <workItem from="1709585989518" duration="5526000" />
       <workItem from="1709668543345" duration="9799000" />
-      <workItem from="1709679015589" duration="1408000" />
+      <workItem from="1709679015589" duration="1428000" />
+      <workItem from="1709745945526" duration="17117000" />
     </task>
     <task id="LOCAL-00001" summary="ajout d'un clamp sur le terrain sur la cam, groupé la cam et le script de cam en un seul objet">
       <option name="closed" value="true" />
