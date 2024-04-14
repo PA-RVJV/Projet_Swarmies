@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PS.Units.Player;
+using System;
 
 namespace PS.InputHandlers
 {
@@ -10,7 +11,7 @@ namespace PS.InputHandlers
         
         public static InputManager instance; // Instance statique d'InputManager
         private RaycastHit hit; // stocke l'information du raycast.
-        public List<Transform> selectedUnits = new List<Transform>(); // Liste des unités sélectionnées.
+        public List<WeakReference<Transform>> selectedUnits = new(); // Liste des unités sélectionnées.
         private bool isDragging = false; // Booléen de vérification sélection multiple en cour ou non.
         private Vector3 mousePos; // Position initiale de la souris lors du début de select.
 
@@ -117,10 +118,12 @@ namespace PS.InputHandlers
                             break;
                         default: // Si l'objet touché n'appartient à aucun des layers spécifiés.
                             // Déplace les unités sélectionnées vers le point touché.
-                            foreach (Transform unit in selectedUnits)
+                            foreach (var weakUnit in selectedUnits)
                             {
-                                PlayerUnit pU = unit.gameObject.GetComponent<PlayerUnit>();
-                                pU.MoveUnit(hit.point);
+                                if(weakUnit.TryGetTarget(out Transform unit)) {
+                                    PlayerUnit pU = unit.gameObject.GetComponent<PlayerUnit>();
+                                    pU.MoveUnit(hit.point);
+                                }
                             }
                             break;
                     }
@@ -137,17 +140,21 @@ namespace PS.InputHandlers
                 DeselectUnits();
             }
             // Ajoute l'unité à la liste des unités sélectionnées.
-            selectedUnits.Add(unit);
+            selectedUnits.Add(new WeakReference<Transform>(unit));
             // Active un objet enfant spécifié de l'unité pour indiquer la sélection.
             unit.Find("Hightlight").gameObject.SetActive(true); // Attention à l'erreur de frappe : "Highlight".
         }
 
         // Désélectionne toutes les unités sélectionnées et désactive l'indicateur de sélection.
         private void DeselectUnits()
-        {
+        { 
             for (int i = 0; i < selectedUnits.Count; i++)
             {
-                selectedUnits[i].Find("Hightlight").gameObject.SetActive(false); // Attention à l'erreur de frappe : "Highlight".
+                var sel = selectedUnits[i];
+                if(sel.TryGetTarget(out Transform trans) && trans) {
+                    trans.Find("Hightlight").gameObject.SetActive(false); // Attention à l'erreur de frappe : "Highlight".
+                }
+                
             }
             // Efface la liste des unités sélectionnées.
             selectedUnits.Clear();
