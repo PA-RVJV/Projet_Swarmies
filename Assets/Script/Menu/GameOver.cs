@@ -12,6 +12,8 @@ namespace PS.Player
         private int playerUnitsCount;
     
         private int enemyUnitsCount;
+        
+        private int StartEnemyUnitsCount;
 
         public PlayerManager PlayerManager;
         
@@ -20,21 +22,22 @@ namespace PS.Player
         {
             // lance CheckUnits a intervalle régulier
             InvokeRepeating("CheckUnits", 2.0f, 5.0f);
+            StartEnemyUnitsCount = GameObject.FindGameObjectsWithTag("EnemyUnit").Length;
         }
         
-        void  CheckUnits() 
+        void  CheckUnits()
         {
             playerUnitsCount = GameObject.FindGameObjectsWithTag("PlayerUnit").Length;
             enemyUnitsCount = GameObject.FindGameObjectsWithTag("EnemyUnit").Length;
             if (playerUnitsCount == 0)
             {
                 // affiche Screen GameOver : défaite
-                PlayerManager.GameOver("Game Over","Vos unités sont toutes anéantis",2);
+                PlayerManager.GameOver("Game Over","Vos unités sont toutes anéantis",StartEnemyUnitsCount);
             }
             else if (enemyUnitsCount == 0)
             {
                 // affichje screen GameOver : Victoire
-                PlayerManager.GameOver("Victoire", "Toutes les unités ennemies ont été détruites", 2);
+                PlayerManager.GameOver("Victoire", "Toutes les unités ennemies ont été détruites", StartEnemyUnitsCount);
             }
         }
     }
