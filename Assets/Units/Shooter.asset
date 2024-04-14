@@ -18,8 +18,8 @@ MonoBehaviour:
   baseStats:
     cost: 50
     attack: 10
-    attackRange: 10
+    attackRange: 0.1
     attackSpeed: 1
-    aggroRange: 15
+    aggroRange: 5
     health: 50
     armor: 0
