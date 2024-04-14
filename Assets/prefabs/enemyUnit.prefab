@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -3686170303816337813}
   m_Layer: 9
   m_Name: enemyUnit
-  m_TagString: Untagged
+  m_TagString: EnemyUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -148,12 +148,11 @@ MonoBehaviour:
     cost: 0
     attack: 0
     attackRange: 0
+    attackSpeed: 0
     aggroRange: 0
     health: 0
     armor: 0
-  unitStatDisplay: {fileID: 8370096749565111113}
-  healthBarAmount: {fileID: 3209441520218786807}
-  currentHealth: 0
+  attackCooldown: 0
 --- !u!1001 &1190610541527715460
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -263,24 +262,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 404902d003f90f6428c5d765c06675d9, type: 3}
---- !u!114 &3209441520218786807 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4327924007427868019, guid: 404902d003f90f6428c5d765c06675d9, type: 3}
-  m_PrefabInstance: {fileID: 1190610541527715460}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &7868520081928058597 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9058846245044435041, guid: 404902d003f90f6428c5d765c06675d9, type: 3}
-  m_PrefabInstance: {fileID: 1190610541527715460}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8370096749565111113 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7254572631014417869, guid: 404902d003f90f6428c5d765c06675d9, type: 3}
   m_PrefabInstance: {fileID: 1190610541527715460}
   m_PrefabAsset: {fileID: 0}

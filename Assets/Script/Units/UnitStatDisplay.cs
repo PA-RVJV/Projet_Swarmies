@@ -69,9 +69,11 @@ namespace PS.Units
         private void Die()
         {
             if (isPlayerUnit)
-            {
+            {   
+                
                 //InputHandlers.InputManager.instance.selectedUnits.Remove(gameObject.transform);
                 Destroy(gameObject.transform.parent.gameObject);
+                
             }
             else
             {
