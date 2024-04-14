@@ -21,7 +21,6 @@ namespace PS.Units
                 maxHealth = gameObject.GetComponentInParent<Player.PlayerUnit>().baseStats.health;
                 armor = gameObject.GetComponentInParent<Player.PlayerUnit>().baseStats.armor;
                 isPlayerUnit = true;
-
             }
             catch (Exception)
             {
@@ -71,7 +70,7 @@ namespace PS.Units
         {
             if (isPlayerUnit)
             {
-                InputHandlers.InputManager.instance.selectedUnits.Remove(gameObject.transform);
+                //InputHandlers.InputManager.instance.selectedUnits.Remove(gameObject.transform);
                 Destroy(gameObject.transform.parent.gameObject);
             }
             else
