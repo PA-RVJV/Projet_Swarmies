@@ -120,7 +120,7 @@ namespace PS.InputHandlers
                             // Déplace les unités sélectionnées vers le point touché.
                             foreach (var weakUnit in selectedUnits)
                             {
-                                if(weakUnit.TryGetTarget(out Transform unit)) {
+                                if(weakUnit.TryGetTarget(out Transform unit) && unit) {
                                     PlayerUnit pU = unit.gameObject.GetComponent<PlayerUnit>();
                                     pU.MoveUnit(hit.point);
                                 }
