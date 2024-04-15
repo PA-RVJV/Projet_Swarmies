@@ -9,6 +9,8 @@ namespace PS.Player
     // Déclare la classe PlayerManager comme un composant MonoBehaviour qui peut être attaché à un GameObject.
     public class PlayerManager : MonoBehaviour
     {
+
+        public GameOverScreen gameOverScreen;
         // Déclare une variable statique 'instance' de type PlayerManager
         public static PlayerManager instance;
 
@@ -16,6 +18,10 @@ namespace PS.Player
         public Transform playerUnits;
         public Transform enemyUnits;
 
+        public void GameOver(string title, string underTitle, int stat)
+        {
+            gameOverScreen.SetupEndGame(title, underTitle, stat);
+        }
         private void Awake()
         {
             instance = this;

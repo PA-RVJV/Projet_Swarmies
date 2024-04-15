@@ -225,7 +225,7 @@ GameObject:
   - component: {fileID: 6744776351322126271}
   m_Layer: 8
   m_Name: playerUnit
-  m_TagString: Untagged
+  m_TagString: PlayerUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
