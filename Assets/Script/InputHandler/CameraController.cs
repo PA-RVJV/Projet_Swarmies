@@ -132,18 +132,32 @@ namespace PS.InputHandlers
             // du coup tangente. un angle de zero est une camera horizontale, un angle de 90
             // est une camera braquee sur le sol
             var zPadding = Mathf.Tan(Mathf.Deg2Rad * (90 - xAngle)) * camPosition.y; 
-            var xPadding = Mathf.Tan(Mathf.Deg2Rad * (zAngle)) * camPosition.y;
+            var xPadding = Mathf.Tan(Mathf.Deg2Rad * zAngle) * camPosition.y;
             
             _topLeftClamp = new Vector3(
-                x: (terrainTransform.position.x) * terrainScale.x * -1 - xPadding, 
+                x: terrainTransform.position.x * terrainScale.x * -1 - xPadding, 
                 y: 0,
-                z: (meshHeight) * terrainScale.z - zPadding
+                z: meshHeight * terrainScale.z - zPadding
             );
+
             _bottomRightClamp = new Vector3(
-                x: (meshWidth) * terrainScale.x + xPadding,
+                x: meshWidth * terrainScale.x + xPadding,
                 y: 0,
-                z: ((terrainTransform.position.z) * terrainScale.z + zPadding )* -1 
+                z: (terrainTransform.position.z * terrainScale.z + zPadding )* -1 
             );
+        }
+
+        public static Vector3 ProjectedPosition(Transform camera){
+            var camRotation = camera.eulerAngles;
+            var camPosition = camera.position;
+
+            var zAngle = camRotation.z;
+            var xAngle = camRotation.x;
+
+            var zPadding = Mathf.Tan(Mathf.Deg2Rad * xAngle) * camPosition.y; 
+            var xPadding = Mathf.Tan(Mathf.Deg2Rad * zAngle) * camPosition.y;
+
+            return new Vector3(xPadding * 2, camPosition.y, zPadding);
         }
     }
 }
