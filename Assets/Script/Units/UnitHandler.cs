@@ -71,7 +71,7 @@ namespace PS.Units
                     }
                     else if (type == eUnits)
                     {
-                        Enemy.EnemyUnits eU = unit.GetComponent<Enemy.EnemyUnits>();
+                        Enemy.EnemyUnit eU = unit.GetComponent<Enemy.EnemyUnit>();
                         // set unit stats in each unit
                         eU.baseStats = GetUnitStats(unitName);
                     }
