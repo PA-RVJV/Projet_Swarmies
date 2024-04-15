@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using PS.InputHandlers;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ using UnityEngine.UI;
 public class Minimap : MonoBehaviour
 {
     public bool showMinimapMarkers = true;
-    public Camera camera_;
+    public Camera minimapCamera;
     public List<WeakReference<GameObject>> playerUnitsOnMinimap;
     public List<WeakReference<GameObject>> allyUnitsOnMinimap;
     public List<WeakReference<GameObject>> enemyUnitsOnMinimap;
@@ -53,6 +54,6 @@ public class Minimap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        camera_.transform.position = Camera.main.transform.position;
+        minimapCamera.transform.position = Camera.main.transform.position + CameraController.ProjectedPosition(Camera.main.transform);
     }
 }
