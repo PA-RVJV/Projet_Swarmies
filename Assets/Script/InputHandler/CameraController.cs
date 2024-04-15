@@ -157,7 +157,7 @@ namespace PS.InputHandlers
             var zPadding = Mathf.Tan(Mathf.Deg2Rad * xAngle) * camPosition.y; 
             var xPadding = Mathf.Tan(Mathf.Deg2Rad * zAngle) * camPosition.y;
 
-            return new Vector3(xPadding * 2, camPosition.y, zPadding);
+            return new Vector3(xPadding, camPosition.y, zPadding);
         }
     }
 }
