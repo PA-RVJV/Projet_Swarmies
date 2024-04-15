@@ -79,4 +79,6 @@ mono_crash*
 
 .vscode*
 
-.idea
+# Specific to JetBrains Rider
+.idea/workspace.xml
+.idea/
