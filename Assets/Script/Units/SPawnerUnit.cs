@@ -6,7 +6,7 @@ public class SPawnerUnit : MonoBehaviour
 {
 
     public GameObject spawnMairie;
-    public Vectors3 spawnPiont;
+    public Vector3 spawnPiont;
     public int MaxN = 20;
     public int timeTilNextSpawn = 5;
     int x = 0;
