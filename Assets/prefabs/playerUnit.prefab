@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 3317891833387840773}
   - component: {fileID: 1193011070846933927}
   - component: {fileID: 8115896851836624483}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: PastilleMinimap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -223,6 +223,7 @@ GameObject:
   - component: {fileID: 6961604062593442287}
   - component: {fileID: 6486362490931570892}
   - component: {fileID: 6744776351322126271}
+  - component: {fileID: 3016412925953614170}
   m_Layer: 8
   m_Name: playerUnit
   m_TagString: PlayerUnit
@@ -355,6 +356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63681f04534ab7846bd48e4b2a960491, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitHandler: {fileID: 0}
   baseStats:
     cost: 0
     attack: 0
@@ -364,6 +366,29 @@ MonoBehaviour:
     health: 0
     armor: 0
   attackCooldown: 0
+--- !u!114 &3016412925953614170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2374471220910993860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96441bc3d5f3f6745b54c5e1a4d712bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerManager: {fileID: 0}
+  warrior: {fileID: 0}
+  shooter: {fileID: 0}
+  healer: {fileID: 0}
+  worker: {fileID: 0}
+  pUnitLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  eUnitLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &3751000377910866985
 GameObject:
   m_ObjectHideFlags: 0
@@ -375,7 +400,7 @@ GameObject:
   - component: {fileID: 4528732738496106994}
   - component: {fileID: 3864718394099027078}
   - component: {fileID: 5318323951498150462}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: Pastille
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -391,8 +416,8 @@ RectTransform:
   m_GameObject: {fileID: 3751000377910866985}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 26.8}
-  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5930333425162289153}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -423,7 +448,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0.04085064, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -447,6 +472,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4153630322016571008}
     m_Modifications:
+    - target: {fileID: 4327924007427868019, guid: 404902d003f90f6428c5d765c06675d9, type: 3}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4532914601458466908, guid: 404902d003f90f6428c5d765c06675d9, type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 1

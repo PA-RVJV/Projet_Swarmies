@@ -27,8 +27,8 @@ namespace PS.Units
                 Debug.Log("No player Unit. Trying Enemy Unit...");
                 try
                 {
-                    maxHealth = gameObject.GetComponentInParent<Enemy.EnemyUnits>().baseStats.health;
-                    armor = gameObject.GetComponentInParent<Enemy.EnemyUnits>().baseStats.armor;
+                    maxHealth = gameObject.GetComponentInParent<Enemy.EnemyUnit>().baseStats.health;
+                    armor = gameObject.GetComponentInParent<Enemy.EnemyUnit>().baseStats.armor;
                     isPlayerUnit = false;
                 }
                 catch (Exception)
