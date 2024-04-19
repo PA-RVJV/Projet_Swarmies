@@ -11,6 +11,7 @@ namespace PS.Units.Player
     [RequireComponent(typeof(NavMeshAgent))]
     public class PlayerUnit : MonoBehaviour
     {
+        public UnitHandler unitHandler;
         // Variable privée pour stocker la référence au composant NavMeshAgent de l'unité.
         private NavMeshAgent navAgent;
 
@@ -75,7 +76,7 @@ namespace PS.Units.Player
 
             for (int i = 0; i < rangeColliders.Length; i++)
             {
-                if (rangeColliders[i].gameObject.layer == UnitHandler.instance.eUnitLayer)
+                if (rangeColliders[i].gameObject.layer == unitHandler.eUnitLayer)
                 {
                     aggroTarget = rangeColliders[i].gameObject.transform;
                     aggroUnit = aggroTarget.gameObject.GetComponentInChildren<UnitStatDisplay>();

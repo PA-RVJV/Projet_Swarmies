@@ -8,19 +8,14 @@ using PS.Player;
 namespace PS.Units
 {
     public class UnitHandler : MonoBehaviour
-    {
-        public static UnitHandler instance;
-        
+    {        
+        public PlayerManager playerManager;
         [SerializeField]
         private Unit warrior, shooter, healer, worker;
 
         public LayerMask pUnitLayer;
         public LayerMask eUnitLayer;
 
-        private void Awake()
-        {
-            instance = this;
-        }
         void Start()
         {
             pUnitLayer = LayerMask.NameToLayer("PlayerUnits");
@@ -54,8 +49,8 @@ namespace PS.Units
 
         public void SetUnitStats(Transform type)
         {
-            Transform pUnits = PlayerManager.instance.playerUnits;
-            Transform eUnits = PlayerManager.instance.enemyUnits;
+            Transform pUnits = playerManager.playerUnits;
+            Transform eUnits = playerManager.enemyUnits;
             
             foreach (Transform child in type)
             {
