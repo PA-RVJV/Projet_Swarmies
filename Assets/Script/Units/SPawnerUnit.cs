@@ -39,10 +39,10 @@ public class SPawnerUnit : MonoBehaviour
   ///      Spawn();
   ///  }
 
-    private IEnumerator Spawner(float interval, GameObject unité, int numberUnit)
+    private IEnumerator Spawner(float interval, GameObject unit, int numberUnit)
     {
         yield return new WaitForSeconds(interval);
-        GameObject newUnit = Instantiate(unité, spawnPiont, Quaternion.identity);
+        GameObject newUnit = Instantiate(unit, spawnPiont, Quaternion.identity);
         StartCoroutine(Spawner(interval, newUnit, numberUnit));
     }
 
