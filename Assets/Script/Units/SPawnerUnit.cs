@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class SPawnerUnit : MonoBehaviour
 {
-
-    public GameObject spawnMairie;
+    [SerializeField]
+    private GameObject spawnWorker;
+    [SerializeField]
+    private int NumberMax = 5;
     public Vector3 spawnPiont;
     public int MaxN = 20;
     public int timeTilNextSpawn = 5;
@@ -17,25 +20,45 @@ public class SPawnerUnit : MonoBehaviour
     void Start()
     {
         timer = 0;
-        spawnPiont.x = x;
+        int i = 0;
+        if (i < NumberMax)
+        {
+            StartCoroutine(Spawner(timeTilNextSpawn, spawnWorker, NumberMax));
+            i++;
+        }
+        
     }
 
 
     // Update is called once per frame
-    void Update()
+  ///  void Update()
+  ///  {
+  /// <summary>
+  ///  void Update()
+  /// </summary>Time.deltaTime;
+  ///      Spawn();
+  ///  }
+
+    private IEnumerator Spawner(float interval, GameObject unité, int numberUnit)
     {
-        timer += Time.deltaTime;
-        Spawn();
+        yield return new WaitForSeconds(interval);
+        GameObject newUnit = Instantiate(unité, spawnPiont, Quaternion.identity);
+        StartCoroutine(Spawner(interval, newUnit, numberUnit));
     }
 
-        void Spawn()
-    {
-        if (timer >= timeTilNextSpawn)
-        {
-            x = Random.Range(0,MaxN);
-            spawnPiont.x = x;
-            Instantiate(spawnMairie,spawnPiont,Quaternion.identity);
-            timer = 0;
-        }
-    }
+  ///      void Spawn()
+   /// {
+    ///    if (timer >= timeTilNextSpawn)
+   ///     {
+   ///         x = Random.Range(0,MaxN);
+   /// <summary>
+  ///      void Spawn()
+  /// </summary>
+  /// <param name=""></param>
+  /// <param name=""></param>
+  /// <param name=""></param>t.x = x;
+  ////          Instantiate(spawnWorker,spawnPiont,Quaternion.identity);
+  ///          timer = 0;
+   ////     }
+  ///  }
 }
