@@ -2,19 +2,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 
 public class menuController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    // Volume Setting
+    [Header("Volume Setting")]
+    [SerializeField] private TMP_Text volumeTextValue = null;
+    [SerializeField] private Slider volumeSlider = null;
+    
+    [Header("Confirmation")]
+    [SerializeField] private GameObject confirmationPrompt = null;
+    
+    // Level to load
+    [Header("Levels To Load")]
+    public string newGameLevel;
+    private string levelToLoad;
+    [SerializeField] private GameObject noSavedGameDialog = null;
+    
+    // Méthode pour charcher la scene de base
+    public void NewGameDialogYes()
     {
-        
+        SceneManager.LoadScene(newGameLevel);
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    // méthode pour chaquer la scene sauvegarder si il y en a une
+    public void LoadGameDialogYes()
     {
-        
+        if (PlayerPrefs.HasKey("SavedLevel"))
+        {
+            levelToLoad = PlayerPrefs.GetString("SavecLevel");
+            SceneManager.LoadScene(levelToLoad);
+        }
+        else
+        {
+            noSavedGameDialog.SetActive(true);
+        }
     }
     
     // méthode pour quitter l'apli appeller lors d'un clic sur le bouton quiter du menu (gerer sur unity)
@@ -22,10 +46,23 @@ public class menuController : MonoBehaviour
     {
         Application.Quit();
     }
-    
-    // méthode de changement de scène appeler lors d'un clic sur le bouton jouer du menu (gerer sur unity)
-    public void SwitchScene(string sceneName)
+
+    public void SetVolume(float volume)
     {
-        SceneManager.LoadScene(sceneName);
+        AudioListener.volume = volume;
+        volumeTextValue.text = volume.ToString("0.0");
+    }
+
+    public void VolumeApply()
+    {
+        PlayerPrefs.SetFloat("masterVolume", AudioListener.volume);
+        StartCoroutine(ConfirmationBox());
+    }
+
+    public IEnumerator ConfirmationBox()
+    {
+        confirmationPrompt.SetActive(true);
+        yield return new WaitForSeconds(2);
+        confirmationPrompt.SetActive(false);
     }
 }   
