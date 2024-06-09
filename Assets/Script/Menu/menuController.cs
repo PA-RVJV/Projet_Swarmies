@@ -199,4 +199,15 @@ public class menuController : MonoBehaviour
         yield return new WaitForSeconds(2);
         confirmationPrompt.SetActive(false);
     }
+    
+    // méthode de changement de scène appeler lors d'un clic sur le bouton jouer du menu (gerer sur unity)
+    public void SwitchScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+        Scene scene = SceneManager.GetSceneByName(sceneName);
+        if (!SceneManager.SetActiveScene(scene))
+        {
+            throw new Exception("cant set active scene");
+        }
+    }
 }   
