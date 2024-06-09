@@ -3,27 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using PS.Units.Player;
 using System;
+using PS.Player;
 
 namespace PS.InputHandlers
 {
     public class InputManager : MonoBehaviour
     {
-        
-        public static InputManager instance; // Instance statique d'InputManager
+        public PlayerManager playerManager;
         private RaycastHit hit; // stocke l'information du raycast.
         public List<WeakReference<Transform>> selectedUnits = new(); // Liste des unités sélectionnées.
         private bool isDragging = false; // Booléen de vérification sélection multiple en cour ou non.
         private Vector3 mousePos; // Position initiale de la souris lors du début de select.
 
-        private void Awake()
-        {
-            instance = this;
-        }
-        
-        void Start()
-        {
-            
-        }
 
         // Dessine le rectangle de sélection sur l'interface a l'aide de la classe MultiSelect
         private void OnGUI()
@@ -85,7 +76,7 @@ namespace PS.InputHandlers
             if (Input.GetMouseButtonUp(0))
             {
                 // Vérifie chaque unité pour voir si elle est dans les bornes de sélection.
-                foreach (Transform child in Player.PlayerManager.instance.playerUnits)
+                foreach (Transform child in playerManager.playerUnits)
                 {
                     foreach (Transform unit in child)
                     {
@@ -120,7 +111,8 @@ namespace PS.InputHandlers
                             // Déplace les unités sélectionnées vers le point touché.
                             foreach (var weakUnit in selectedUnits)
                             {
-                                if(weakUnit.TryGetTarget(out Transform unit) && unit) {
+                                if(weakUnit.TryGetTarget(out Transform unit) && unit) 
+                                {
                                     PlayerUnit pU = unit.gameObject.GetComponent<PlayerUnit>();
                                     pU.MoveUnit(hit.point);
                                 }

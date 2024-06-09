@@ -7,9 +7,10 @@ using UnityEngine.UI;
 namespace PS.Units.Enemy
 {
     [RequireComponent(typeof(NavMeshAgent))]
-    public class EnemyUnits : MonoBehaviour
+    public class EnemyUnit : MonoBehaviour
     {
-        private NavMeshAgent navAgent1;
+        public UnitHandler unitHandler;
+        private NavMeshAgent navAgent;
         
         public UnitStatTypes.Base baseStats;
         
@@ -25,23 +26,24 @@ namespace PS.Units.Enemy
 
         public float attackCooldown;
         
-        private void Start()
+        // OnEnable est appelé quand le script est activé.
+        private void OnEnable()
         {
-            navAgent1 = gameObject.GetComponent<NavMeshAgent>();
+            // Initialise la référence au composant NavMeshAgent.
+            navAgent = GetComponent<NavMeshAgent>();
         }
 
         private void Update()
         {
-            attackCooldown -= Time.deltaTime;
-            
             if (!hasAggro)
             {
                 CheckForEnemyTarget();
             }
             else
             {
-                Attack();
                 MoveToAggroTarget();
+                Attack();
+                attackCooldown -= Time.deltaTime;
             }
         }
         
@@ -51,7 +53,7 @@ namespace PS.Units.Enemy
 
             for (int i = 0; i < rangeColliders.Length; i++)
             {
-                if (rangeColliders[i].gameObject.layer == UnitHandler.instance.pUnitLayer)
+                if (rangeColliders[i].gameObject.layer == unitHandler.pUnitLayer)
                 {
                     aggroTarget = rangeColliders[i].gameObject.transform;
                     aggroUnit = aggroTarget.gameObject.GetComponentInChildren<UnitStatDisplay>();
@@ -63,7 +65,7 @@ namespace PS.Units.Enemy
 
         private void Attack()
         {
-            if (attackCooldown <= 0 && distance <= baseStats.attackRange)
+            if (attackCooldown <= 0 && distance < baseStats.attackRange)
             {
                 aggroUnit.TakeDamage(baseStats.attack);
                 attackCooldown = baseStats.attackSpeed;
@@ -75,17 +77,17 @@ namespace PS.Units.Enemy
         {
             if (aggroTarget == null)
             {
-                navAgent1.SetDestination(transform.position);
+                navAgent.SetDestination(transform.position);
                 hasAggro = false;
             }
             else
             {
                 distance = Vector3.Distance(aggroTarget.position, transform.position);
-                navAgent1.stoppingDistance = baseStats.attackRange;
+                navAgent.stoppingDistance = baseStats.attackRange;
 
                 if (distance <= baseStats.aggroRange)
                 {
-                    navAgent1.SetDestination(aggroTarget.position);
+                    navAgent.SetDestination(aggroTarget.position);
                 }
             }
         }
