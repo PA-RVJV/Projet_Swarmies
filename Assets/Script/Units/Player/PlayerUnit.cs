@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using PS.InputHandlers;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -36,6 +33,11 @@ namespace PS.Units.Player
         {
             // Initialise la référence au composant NavMeshAgent.
             navAgent = GetComponent<NavMeshAgent>();
+        }
+
+        private void OnDestroy()
+        {
+            Debug.Log("destroyed");
         }
         
         // Méthode pour déplacer l'unité vers une destination spécifique.

@@ -15,12 +15,7 @@ package utilisé:
 - package autorisé ?!
   
 TODO :
-- positionement des troupes lors de déplacement en groupe
-- implémenter la class unit1 pour une gestion de la vie et des dégat
-- créer une faction ennemies
-- script pour l'attaque entre unité (attaque a distance ?)
-- définir des condition de victoire (plus d'unité joueur en vie ou plus d'unité ennemies en vie)
-- 
-- QUOI AJOUTER A LA BOUCLE DE GAMEPLAY principale?
+- fix déplacement et attaque unité
+- gestion unité et construction
 
 
