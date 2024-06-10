@@ -19,7 +19,7 @@ public class LoadMesh : MonoBehaviour
 
     public SelectionRectangleBehavior selectionRectangleBehavior;
 
-    public string folderPath = "Assets/GameAssets"; // Default to the Assets folder
+    public string folderPath = "NativeLevel/Assets/GameAssets"; // Default to the Assets folder
 
     [DllImport("UnityGlue")]
     private static extern float SayHello();
