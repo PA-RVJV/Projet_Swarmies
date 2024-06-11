@@ -25,7 +25,7 @@ namespace PS.Player
             StartEnemyUnitsCount = GameObject.FindGameObjectsWithTag("EnemyUnit").Length;
         }
         
-        void  CheckUnits()
+        void CheckUnits()
         {
             playerUnitsCount = GameObject.FindGameObjectsWithTag("PlayerUnit").Length;
             enemyUnitsCount = GameObject.FindGameObjectsWithTag("EnemyUnit").Length;
