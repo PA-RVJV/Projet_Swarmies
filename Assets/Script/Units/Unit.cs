@@ -11,7 +11,8 @@ namespace PS.Units
             Warrior,
             Shooter,
             Healer,
-            Worker
+            Worker,
+            Mairie
         };
         
         [Header("Unit Settings")] [Space(15)]
