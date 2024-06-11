@@ -123,7 +123,7 @@ namespace PS.Units
                         go=Instantiate(_MinimapPastillePrefab, unit.position, Quaternion.Euler(270, 0, 0));
                         go.transform.SetParent(unit, false);
                         go.transform.localPosition = new Vector3(0, 15, 0);
-                        //go.transform.rotation = 
+
                         if (type == pUnits)
                         {
                             go.GetComponentInChildren<Image>().color = Color.blue;

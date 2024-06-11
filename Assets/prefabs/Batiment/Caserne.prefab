@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8600848415692352174}
   - component: {fileID: 4685967752780826888}
   m_Layer: 0
-  m_Name: Mairie
+  m_Name: Caserne
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
