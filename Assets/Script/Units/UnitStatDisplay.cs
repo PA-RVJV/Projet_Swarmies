@@ -11,9 +11,7 @@ namespace PS.Units
         public float maxHealth, armor, currentHealth;
 
         [SerializeField] private Image healthBarAmount;
-
-        private bool isPlayerUnit = false;
-
+        
         private Camera _camera;
         
         private void Start()
@@ -24,7 +22,6 @@ namespace PS.Units
             {
                 maxHealth = gameObject.GetComponentInParent<Player.PlayerUnit>().baseStats.health;
                 armor = gameObject.GetComponentInParent<Player.PlayerUnit>().baseStats.armor;
-                isPlayerUnit = true;
             }
             catch (Exception)
             {
@@ -33,7 +30,6 @@ namespace PS.Units
                 {
                     maxHealth = gameObject.GetComponentInParent<Enemy.EnemyUnit>().baseStats.health;
                     armor = gameObject.GetComponentInParent<Enemy.EnemyUnit>().baseStats.armor;
-                    isPlayerUnit = false;
                 }
                 catch (Exception)
                 {
@@ -41,7 +37,6 @@ namespace PS.Units
                     {
                         maxHealth = gameObject.GetComponentInParent<Building>().baseStats.health;
                         armor = gameObject.GetComponentInParent<Building>().baseStats.armor;
-                        isPlayerUnit = false;
                     }
                     catch (Exception)
                     {
@@ -80,17 +75,7 @@ namespace PS.Units
 
         private void Die()
         {
-            if (isPlayerUnit)
-            {   
-                
-                //InputHandlers.InputManager.instance.selectedUnits.Remove(gameObject.transform);
-                Destroy(gameObject.transform.parent.gameObject);
-                
-            }
-            else
-            {
-                Destroy(gameObject.transform.parent.gameObject);
-            }
+            Destroy(gameObject.transform.parent.gameObject);
         }
     }
 

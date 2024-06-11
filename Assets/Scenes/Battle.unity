@@ -6634,7 +6634,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerManager: {fileID: 1289930306}
-  warrior: {fileID: 11400000, guid: 0a9d7429d97d0d94f8c1a7edf520f35b, type: 2}
+  warrior: {fileID: 11400000, guid: 594c1e6459e97764b8881c00f8d4d062, type: 2}
   shooter: {fileID: 11400000, guid: 1e90ffaac3bc46644ab60fc46462e5f5, type: 2}
   healer: {fileID: 11400000, guid: 0a9d7429d97d0d94f8c1a7edf520f35b, type: 2}
   worker: {fileID: 11400000, guid: daf650753240afa4a8667ba351eb7a57, type: 2}
