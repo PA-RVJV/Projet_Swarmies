@@ -3,62 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class SPawnerUnit : MonoBehaviour
+public class SpawnerUnit : MonoBehaviour
 {
     [SerializeField]
     private GameObject spawnWorker;
     [SerializeField]
-    private int NumberMax = 5;
-    public Vector3 spawnPiont;
-    public int MaxN = 20;
-    public int timeTilNextSpawn = 5;
-    int x = 0;
+    private int numberMax = 5;
+    public Vector3 spawnPoint;
+    public float timeTilNextSpawn = 5f;
 
-    float timer = 0;
+    private int currentCount = 0;
 
     // Start is called before the first frame update
+
     void Start()
     {
-        timer = 0;
-        int i = 0;
-        if (i < NumberMax)
-        {
-            StartCoroutine(Spawner(timeTilNextSpawn, spawnWorker, NumberMax));
-            i++;
-        }
-        
+        StartCoroutine(Spawner());
     }
 
-
-    // Update is called once per frame
-  ///  void Update()
-  ///  {
-  /// <summary>
-  ///  void Update()
-  /// </summary>Time.deltaTime;
-  ///      Spawn();
-  ///  }
-
-    private IEnumerator Spawner(float interval, GameObject unit, int numberUnit)
+    private IEnumerator Spawner()
     {
-        yield return new WaitForSeconds(interval);
-        GameObject newUnit = Instantiate(unit, spawnPiont, Quaternion.identity);
-        StartCoroutine(Spawner(interval, newUnit, numberUnit));
+        while (currentCount < numberMax)
+        {
+            yield return new WaitForSeconds(timeTilNextSpawn);
+            Instantiate(spawnWorker, spawnPoint, Quaternion.identity);
+            currentCount++;
+        }
     }
-
-  ///      void Spawn()
-   /// {
-    ///    if (timer >= timeTilNextSpawn)
-   ///     {
-   ///         x = Random.Range(0,MaxN);
-   /// <summary>
-  ///      void Spawn()
-  /// </summary>
-  /// <param name=""></param>
-  /// <param name=""></param>
-  /// <param name=""></param>t.x = x;
-  ////          Instantiate(spawnWorker,spawnPiont,Quaternion.identity);
-  ///          timer = 0;
-   ////     }
-  ///  }
 }
