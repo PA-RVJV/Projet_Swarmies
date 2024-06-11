@@ -7758,6 +7758,14 @@ PrefabInstance:
       propertyPath: m_PresetInfoIsWorld
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3511163165358811674, guid: 7fc420ec9f790f2428a28c18eed03dba, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3511163165358811674, guid: 7fc420ec9f790f2428a28c18eed03dba, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 6101472357226904362, guid: 7fc420ec9f790f2428a28c18eed03dba, type: 3}
       propertyPath: m_Color.b
       value: 0
@@ -11160,6 +11168,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1374903001}
     m_Modifications:
+    - target: {fileID: -2369599261099290442, guid: 63cbff5b22c2c4640b4cccaa21af163e, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 622191276071255409, guid: 63cbff5b22c2c4640b4cccaa21af163e, type: 3}
+      propertyPath: unitHandler
+      value: 
+      objectReference: {fileID: 1061530867}
+    - target: {fileID: 917519451926623656, guid: 63cbff5b22c2c4640b4cccaa21af163e, type: 3}
+      propertyPath: unitHandler
+      value: 
+      objectReference: {fileID: 1061530867}
     - target: {fileID: 4099872294602062012, guid: 63cbff5b22c2c4640b4cccaa21af163e, type: 3}
       propertyPath: m_Layer
       value: 9
@@ -13205,6 +13225,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 141592323}
     m_Modifications:
+    - target: {fileID: -3450590976854296071, guid: 575a90038371340a9a89084858114091, type: 3}
+      propertyPath: unitHandler
+      value: 
+      objectReference: {fileID: 1061530867}
     - target: {fileID: 6926249834230053253, guid: 575a90038371340a9a89084858114091, type: 3}
       propertyPath: m_LocalPosition.x
       value: -39.792633
@@ -13249,6 +13273,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mairie (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8189485394063155501, guid: 575a90038371340a9a89084858114091, type: 3}
+      propertyPath: unitHandler
+      value: 
+      objectReference: {fileID: 1061530867}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

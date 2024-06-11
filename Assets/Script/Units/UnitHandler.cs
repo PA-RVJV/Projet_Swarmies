@@ -29,6 +29,8 @@ namespace PS.Units
             Assert.IsNotNull(healer);
             Assert.IsNotNull(shooter);
             Assert.IsNotNull(warrior);
+            
+            Assert.IsNotNull(playerManager);
         }
 
         public UnitStatTypes.Base GetUnitStats(string type)
@@ -76,19 +78,34 @@ namespace PS.Units
                     if (type == pUnits)
                     {
                         Player.PlayerUnit pU = unit.GetComponent<Player.PlayerUnit>();
-                        pU.baseStats = GetUnitStats(unitName);
+                        
+                        if (pU == null)
+                        {
+                            Building building = unit.GetComponent<Building>();
+                            //pU = unit.GetComponent<Building>();
+                            building.baseStats = GetUnitStats(unitName);
+                        } else
+                            pU.baseStats = GetUnitStats(unitName);
                     }
                     else if (type == eUnits)
                     {
                         Enemy.EnemyUnit eU = unit.GetComponent<Enemy.EnemyUnit>();
                         // set unit stats in each unit
-                        eU.baseStats = GetUnitStats(unitName);
+                        if (eU == null)
+                        {
+                            Building building = unit.GetComponent<Building>();
+                            //pU = unit.GetComponent<Building>();
+                            building.baseStats = GetUnitStats(unitName);
+                        }
+                        else
+                            eU.baseStats = GetUnitStats(unitName);
+
                     }
                     else
                     {
                         Assert.IsTrue(false);
                     }
-                    
+
                     // ajoute une barre de vie et une pastille de minimap si elle est absente
                     if (unit.GetComponentInChildren<HealthBarTrait>() == null)
                     {

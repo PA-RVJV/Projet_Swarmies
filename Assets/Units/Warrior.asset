@@ -18,7 +18,7 @@ MonoBehaviour:
   baseStats:
     cost: 75
     attack: 25
-    attackRange: 1
+    attackRange: 2
     attackSpeed: 1
     aggroRange: 5
     health: 100
