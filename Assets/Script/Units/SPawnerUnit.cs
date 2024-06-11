@@ -26,7 +26,9 @@ public class SpawnerUnit : MonoBehaviour
         while (currentCount < numberMax)
         {
             yield return new WaitForSeconds(timeTilNextSpawn);
-            Instantiate(spawnWorker, spawnPoint, Quaternion.identity);
+            GameObject GO = Instantiate(spawnWorker, transform.position, Quaternion.identity) as GameObject;
+            GO.name = "Cible";
+            GO.transform.parent = transform;
             currentCount++;
         }
     }
