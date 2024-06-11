@@ -14,7 +14,16 @@ public class PauseMenu : MonoBehaviour
 {
     public static bool isPause = false;
     public GameObject pauseMenuUI;
-        
+    public GameObject mainPauseMenu;
+    public GameObject optionPauseMenu;
+    public GameObject popoutLoadGameMenu;
+    public GameObject popoutNoGameMenu;
+    public GameObject soundGameMenu;
+    public GameObject gameplayGameMenu;
+    public GameObject graphicGameMenu;
+    
+    // TODO Lors de l'appuis sur echap : verification si on se trouve dans les popout option. SI c'est le cas : popout de confirmation si on doit appliquer ou annuler les modif en cours
+    
     // Update is called once per frame
     void Update()
     {
@@ -33,6 +42,16 @@ public class PauseMenu : MonoBehaviour
 
     public void ResumeGame()
     {
+        // on remet à default le menu
+        mainPauseMenu.SetActive(true);
+        optionPauseMenu.SetActive(false);
+        popoutLoadGameMenu.SetActive(false);
+        popoutNoGameMenu.SetActive(false);
+        soundGameMenu.SetActive(false);
+        gameplayGameMenu.SetActive(false);
+        graphicGameMenu.SetActive(false);
+        
+        // on desactive le menu Pause et on remet le temps en route
         pauseMenuUI.SetActive(false);
         isPause = false;
         Time.timeScale = 1f;
@@ -40,6 +59,7 @@ public class PauseMenu : MonoBehaviour
 
     void PauseGame()
     {
+        // on active le menu pause et on met le temps en pause
         pauseMenuUI.SetActive(true);
         isPause = true;
         Time.timeScale = 0f;
@@ -82,7 +102,7 @@ public class PauseMenu : MonoBehaviour
 
     }
     
-    // Méthode pour charcher la scene de base
+    // Méthode pour charger la scene de base
     public void NewGameDialogYes()
     {
         SceneManager.LoadScene(newGameLevel);
@@ -92,7 +112,7 @@ public class PauseMenu : MonoBehaviour
     {
         SceneManager.LoadScene(menuScene);
     }
-    // méthode pour chaquer la scene sauvegarder si il y en a une
+    // méthode pour charguer la scene sauvegarder si il y en a une
     public void LoadGameDialogYes()
     {
         if (PlayerPrefs.HasKey("SavedLevel"))
@@ -106,30 +126,34 @@ public class PauseMenu : MonoBehaviour
         }
     }
     
-    // méthode pour quitter l'apli appeller lors d'un clic sur le bouton quiter du menu (gerer sur unity)
+    // méthode pour quitter l'application
     public void Quit()
     {
         Application.Quit();
     }
 
+    // méthode pour set le volume en fonction du float définis par un slider
     public void SetVolume(float volume)
     {
         AudioListener.volume = volume;
         volumeTextValue.text = volume.ToString("0.0");
     }
 
+    // appliquer les modification faite au paramètre de son
     public void VolumeApply()
     {
         PlayerPrefs.SetFloat("masterVolume", AudioListener.volume);
         StartCoroutine(ConfirmationBox());
     }
 
+    // méthode pour set le sensibilité en fonction du float définis par un slider
     public void SetControllerSen(float sensitivity)
     {
         mainControllerSen = Mathf.RoundToInt(sensitivity);
         ControllerSenTextValue.text = sensitivity.ToString("0");
     }
 
+    // appliquer les modification faite au paramètre de gameplay
     public void GameplayApply()
     {
         if (InvertYToggle.isOn)
@@ -145,16 +169,19 @@ public class PauseMenu : MonoBehaviour
         StartCoroutine(ConfirmationBox());
     }
 
+    // méthode pour set le paramètre fullscreen en fonction du bool définis par un toggle
     public void SetFullScreen(bool isFullscreen)
     {
         _isFullScreen = isFullscreen;
     }
 
+    // méthode pour set le paramètre de qualité définis par un int dans un dropdown (liste de choix)
     public void SetQuality(int qualityIndex)
     {
         _qualityLevel = qualityIndex;
     }
 
+    // applique les modification faite au paramètre graphique
     public void GraphicsApply()
     {
         PlayerPrefs.SetInt("masterQuality", _qualityLevel);
@@ -165,6 +192,8 @@ public class PauseMenu : MonoBehaviour
 
         StartCoroutine(ConfirmationBox());
     }
+    
+    // permet de reset les paramètre par défault en fonction du menu d'option dans lequel on se trouve
     public void ResetButton(string MenuType)
     {
         if (MenuType == "Audio")
