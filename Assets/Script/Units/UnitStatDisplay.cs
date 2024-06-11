@@ -13,13 +13,9 @@ namespace PS.Units
         [SerializeField] private Image healthBarAmount;
 
         private bool isPlayerUnit = false;
-
-        private Camera _camera;
         
         private void Start()
         {
-            _camera = Camera.main;
-            
             try
             {
                 maxHealth = gameObject.GetComponentInParent<Player.PlayerUnit>().baseStats.health;
@@ -37,16 +33,7 @@ namespace PS.Units
                 }
                 catch (Exception)
                 {
-                    try
-                    {
-                        maxHealth = gameObject.GetComponentInParent<Building>().baseStats.health;
-                        armor = gameObject.GetComponentInParent<Building>().baseStats.armor;
-                        isPlayerUnit = false;
-                    }
-                    catch (Exception)
-                    {
-                        Debug.Log("No Unit Scripts found!");
-                    }
+                    Debug.Log("No Unit Scripts found!");
                 }
             }
 
@@ -66,9 +53,10 @@ namespace PS.Units
         
         private void HandleHealth()
         {
+            Camera camera = Camera.main;
             gameObject.transform.LookAt(gameObject.transform.position + 
-                                             _camera.transform.rotation * Vector3.forward, 
-                _camera.transform.rotation * Vector3.up);
+                                             camera.transform.rotation * Vector3.forward, 
+                camera.transform.rotation * Vector3.up);
             
             healthBarAmount.fillAmount = currentHealth / maxHealth;
 

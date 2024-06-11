@@ -78,7 +78,7 @@ namespace PS.Units.Player
 
             for (int i = 0; i < rangeColliders.Length; i++)
             {
-                if (rangeColliders[i]?.gameObject.layer == unitHandler.eUnitLayer)
+                if (rangeColliders[i].gameObject.layer == unitHandler.eUnitLayer)
                 {
                     aggroTarget = rangeColliders[i].gameObject.transform;
                     aggroUnit = aggroTarget.gameObject.GetComponentInChildren<UnitStatDisplay>();

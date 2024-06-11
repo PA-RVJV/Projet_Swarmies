@@ -53,7 +53,7 @@ namespace PS.Units.Enemy
 
             for (int i = 0; i < rangeColliders.Length; i++)
             {
-                if (rangeColliders[i]?.gameObject.layer == unitHandler.pUnitLayer)
+                if (rangeColliders[i].gameObject.layer == unitHandler.pUnitLayer)
                 {
                     aggroTarget = rangeColliders[i].gameObject.transform;
                     aggroUnit = aggroTarget.gameObject.GetComponentInChildren<UnitStatDisplay>();
