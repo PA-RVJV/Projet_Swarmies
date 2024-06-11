@@ -6,8 +6,6 @@ TagManager:
   tags:
   - PlayerUnit
   - EnemyUnit
-  - HealthBar
-  - PastilleMinimap
   layers:
   - Default
   - TransparentFX
