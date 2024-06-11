@@ -24,6 +24,7 @@ namespace PS.Player
         {
             gameOverScreen.SetupEndGame(title, underTitle, stat);
         }
+        
         private void Awake()
         {
             unitHandler.SetUnitStats(playerUnits);
