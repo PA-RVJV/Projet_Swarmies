@@ -11,17 +11,16 @@ namespace PS.Units
         public float maxHealth, armor, currentHealth;
 
         [SerializeField] private Image healthBarAmount;
-        
-        private Camera _camera;
+
+        private bool isPlayerUnit = false;
         
         private void Start()
         {
-            _camera = Camera.main;
-            
             try
             {
                 maxHealth = gameObject.GetComponentInParent<Player.PlayerUnit>().baseStats.health;
                 armor = gameObject.GetComponentInParent<Player.PlayerUnit>().baseStats.armor;
+                isPlayerUnit = true;
             }
             catch (Exception)
             {
@@ -30,18 +29,11 @@ namespace PS.Units
                 {
                     maxHealth = gameObject.GetComponentInParent<Enemy.EnemyUnit>().baseStats.health;
                     armor = gameObject.GetComponentInParent<Enemy.EnemyUnit>().baseStats.armor;
+                    isPlayerUnit = false;
                 }
                 catch (Exception)
                 {
-                    try
-                    {
-                        maxHealth = gameObject.GetComponentInParent<Building>().baseStats.health;
-                        armor = gameObject.GetComponentInParent<Building>().baseStats.armor;
-                    }
-                    catch (Exception)
-                    {
-                        Debug.Log("No Unit Scripts found!");
-                    }
+                    Debug.Log("No Unit Scripts found!");
                 }
             }
 
@@ -61,9 +53,10 @@ namespace PS.Units
         
         private void HandleHealth()
         {
+            Camera camera = Camera.main;
             gameObject.transform.LookAt(gameObject.transform.position + 
-                                             _camera.transform.rotation * Vector3.forward, 
-                _camera.transform.rotation * Vector3.up);
+                                             camera.transform.rotation * Vector3.forward, 
+                camera.transform.rotation * Vector3.up);
             
             healthBarAmount.fillAmount = currentHealth / maxHealth;
 
@@ -75,7 +68,17 @@ namespace PS.Units
 
         private void Die()
         {
-            Destroy(gameObject.transform.parent.gameObject);
+            if (isPlayerUnit)
+            {   
+                
+                //InputHandlers.InputManager.instance.selectedUnits.Remove(gameObject.transform);
+                Destroy(gameObject.transform.parent.gameObject);
+                
+            }
+            else
+            {
+                Destroy(gameObject.transform.parent.gameObject);
+            }
         }
     }
 
