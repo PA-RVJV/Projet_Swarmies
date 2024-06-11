@@ -94,7 +94,6 @@ public class PauseMenu : MonoBehaviour
     public string newGameLevel;
     public string menuScene;
     private string levelToLoad;
-    [SerializeField] private GameObject noSavedGameDialog = null;
     
     // récupération des resolution
     void Start()
@@ -122,7 +121,7 @@ public class PauseMenu : MonoBehaviour
         }
         else
         {
-            noSavedGameDialog.SetActive(true);
+            popoutNoGameMenu.SetActive(true);
         }
     }
     
