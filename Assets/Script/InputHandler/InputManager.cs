@@ -4,6 +4,8 @@ using PS.Units.Player;
 using System;
 using PS.Player;
 using Script;
+using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 namespace PS.InputHandlers
 {
@@ -11,11 +13,19 @@ namespace PS.InputHandlers
     {
         public PlayerManager playerManager;
         public readonly List<WeakReference<Transform>> SelectedUnits = new(); // Liste des unités sélectionnées.
-        public UIButtons uiButtons; 
+        public UIButtons uiButtons;
+        public LayerMask layerMask;
         
         private RaycastHit _hit; // stocke l'information du raycast.
         private bool _isDragging = false; // Booléen de vérification sélection multiple en cour ou non.
         private Vector3 _mousePos; // Position initiale de la souris lors du début de select.
+        private Camera _cam;
+
+
+        private void Awake()
+        {
+            _cam = Camera.main;
+        }
 
         // Dessine le rectangle de sélection sur l'interface a l'aide de la classe MultiSelect
         private void OnGUI()
@@ -61,10 +71,10 @@ namespace PS.InputHandlers
                 _mousePos = Input.mousePosition;
                 
                 // Crée un rayon partant de la caméra vers la position de la souris.
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
                 
                 // Vérifie si le rayon touche quelque chose.
-                if (Physics.Raycast(ray, out _hit))
+                if (Physics.Raycast(ray, out _hit, Mathf.Infinity, layerMask: layerMask))
                 {
                     // Récupère le layer de l'objet touché.
                     int layerHit = _hit.transform.gameObject.layer;
@@ -96,7 +106,7 @@ namespace PS.InputHandlers
                 {
                     foreach (Transform unit in child)
                     {
-                        if (isWithinSelectionBounds(unit))
+                        if (IsWithinSelectionBounds(unit))
                         {
                             // Sélectionne l'unité si elle est dans la zone de sélection.
                             SelectUnit(unit, true);
@@ -111,7 +121,7 @@ namespace PS.InputHandlers
             if (Input.GetMouseButtonDown(1) && HaveSelectedUnits())
             {
                 // Crée un rayon partant de la caméra vers la position de la souris.
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
                 // Vérifie si le rayon touche quelque chose.
                 if (Physics.Raycast(ray, out _hit))
                 {
@@ -162,14 +172,13 @@ namespace PS.InputHandlers
                 if(sel.TryGetTarget(out Transform trans) && trans) {
                     trans.Find("Hightlight").gameObject.SetActive(false); // Attention à l'erreur de frappe : "Highlight".
                 }
-                
             }
             // Efface la liste des unités sélectionnées.
             SelectedUnits.Clear();
         }
 
         // Vérifie si une unité se trouve dans les bornes de sélection.
-        private bool isWithinSelectionBounds(Transform tf)
+        private bool IsWithinSelectionBounds(Transform tf)
         {
             // Retourne faux si l'utilisateur n'est pas en train de faire une sélection multiple.
             if (!_isDragging)
@@ -177,11 +186,10 @@ namespace PS.InputHandlers
                 return false;
             }
             // Calcule les bornes de sélection en espace de vue.
-            Camera cam = Camera.main;
-            Bounds vpBounds = MultiSelect.GetVPBounds(cam, _mousePos, Input.mousePosition);
+            Bounds vpBounds = MultiSelect.GetVPBounds(_cam, _mousePos, Input.mousePosition);
             
             // Vérifie si la position de l'unité est à l'intérieur des bornes de sélection.
-            return vpBounds.Contains(cam.WorldToViewportPoint(tf.position));
+            return vpBounds.Contains(_cam.WorldToViewportPoint(tf.position));
         }
 
         // Vérifie si des unités ont été sélectionnées.

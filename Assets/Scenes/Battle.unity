@@ -6528,6 +6528,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerManager: {fileID: 1289930306}
   uiButtons: {fileID: 1656244403}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 832
 --- !u!114 &1061530867
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Script;
 using Unity.Assertions;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class UIButtons : MonoBehaviour
 {
     //public VisualTreeAsset uxmlVisualTree;
     public UIDocument uiDocument;
+    private List<UnitActionsEnum> _currentActions = new();
     
     // Start is called before the first frame update
     private void Start()
@@ -29,7 +31,7 @@ public class UIButtons : MonoBehaviour
     {
         var button = new Button() { text = GetText.Get(action) };
         button.AddToClassList("swarmies-button");
-        button.clicked += () => ButtonOnclicked(action);
+        button.clickable.clicked += () => ButtonOnclicked(action);
 
         return button;
     }
@@ -41,8 +43,10 @@ public class UIButtons : MonoBehaviour
 
     public void SetButtons(List<UnitActionsEnum> actions)
     {
-        var root = uiDocument.rootVisualElement;
+        if (_currentActions.SequenceEqual(actions))
+            return;
         
+        var root = uiDocument.rootVisualElement;
         var container = root.Q<VisualElement>("SwarmiesActions");
         
         Assert.IsNotNull(container);
@@ -52,5 +56,7 @@ public class UIButtons : MonoBehaviour
         {
             container.Add(AddButton(action));
         }
+
+        _currentActions = actions;
     }
 }
