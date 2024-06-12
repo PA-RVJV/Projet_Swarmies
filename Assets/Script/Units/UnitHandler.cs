@@ -8,7 +8,7 @@ using UnityEngine.UI;
 namespace PS.Units
 {
     public class UnitHandler : MonoBehaviour
-    {        
+    {
         public PlayerManager playerManager;
         [SerializeField]
         private Unit warrior, shooter, healer, worker, mairie;
@@ -55,27 +55,28 @@ namespace PS.Units
                     break;
                 default:
                     Debug.Log($"Unit Type : {type} not found");
+                    Assert.IsTrue(false);
                     return null;
             }
 
             return unit.baseStats;
         }
 
-        public void SetUnitStats(Transform type)
+        public void SetUnitStats(Transform side)
         {
             Transform pUnits = playerManager.playerUnits;
             Transform eUnits = playerManager.enemyUnits;
             
-            foreach (Transform child in type)
+            foreach (Transform category in side)
             {
-                foreach (Transform unit in child)
+                string unitName = category.name.Substring(0, category.name.Length - 1).ToLower();
+                var stats = GetUnitStats(unitName);
+                
+                Assert.IsNotNull(stats);
+
+                foreach (Transform unit in category)
                 {
-                    string unitName = child.name.Substring(0, child.name.Length - 1).ToLower();
-                    var stats = GetUnitStats(unitName);
-                    
-                    Unity.Assertions.Assert.IsNotNull(stats);
-                    
-                    if (type == pUnits)
+                    if (side == pUnits)
                     {
                         Player.PlayerUnit pU = unit.GetComponent<Player.PlayerUnit>();
                         
@@ -87,7 +88,7 @@ namespace PS.Units
                         } else
                             pU.baseStats = GetUnitStats(unitName);
                     }
-                    else if (type == eUnits)
+                    else if (side == eUnits)
                     {
                         Enemy.EnemyUnit eU = unit.GetComponent<Enemy.EnemyUnit>();
                         // set unit stats in each unit
@@ -124,11 +125,11 @@ namespace PS.Units
                         go.transform.SetParent(unit, false);
                         go.transform.localPosition = new Vector3(0, 15, 0);
 
-                        if (type == pUnits)
+                        if (side == pUnits)
                         {
                             go.GetComponentInChildren<Image>().color = Color.blue;
                         }
-                        else if(type == eUnits)
+                        else if(side == eUnits)
                         {
                             go.GetComponentInChildren<Image>().color = Color.red;
                         }

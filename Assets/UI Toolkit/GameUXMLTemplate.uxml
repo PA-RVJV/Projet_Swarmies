@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/Game.uss?fileID=7433441132597879392&amp;guid=18fc841ced8524d80b36ae556450d479&amp;type=3#Game" />
+    <ui:VisualElement name="SwarmiesActions" style="flex-grow: 1; flex-direction: column-reverse;">
+        <ui:Button text="Construire" parse-escape-sequences="true" display-tooltip-when-elided="true" class="swarmies-button" />
+        <ui:Button text="Button" parse-escape-sequences="true" display-tooltip-when-elided="true" class="swarmies-button" />
+    </ui:VisualElement>
+</ui:UXML>

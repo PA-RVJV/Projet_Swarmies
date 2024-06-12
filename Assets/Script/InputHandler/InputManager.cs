@@ -1,29 +1,30 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PS.Units.Player;
 using System;
 using PS.Player;
+using Script;
 
 namespace PS.InputHandlers
 {
     public class InputManager : MonoBehaviour
     {
         public PlayerManager playerManager;
-        private RaycastHit hit; // stocke l'information du raycast.
-        public List<WeakReference<Transform>> selectedUnits = new(); // Liste des unités sélectionnées.
-        private bool isDragging = false; // Booléen de vérification sélection multiple en cour ou non.
-        private Vector3 mousePos; // Position initiale de la souris lors du début de select.
-
+        public readonly List<WeakReference<Transform>> SelectedUnits = new(); // Liste des unités sélectionnées.
+        public UIButtons uiButtons; 
+        
+        private RaycastHit _hit; // stocke l'information du raycast.
+        private bool _isDragging = false; // Booléen de vérification sélection multiple en cour ou non.
+        private Vector3 _mousePos; // Position initiale de la souris lors du début de select.
 
         // Dessine le rectangle de sélection sur l'interface a l'aide de la classe MultiSelect
         private void OnGUI()
         {
-            if (isDragging)
+            if (_isDragging)
             {
                 // Crée et dessine le rectangle de sélection.un rectangle de sélection à partir de la position
                 // initiale de la souris et la position actuelle.
-                Rect rect = MultiSelect.GetScreenRect(mousePos, Input.mousePosition);
+                Rect rect = MultiSelect.GetScreenRect(_mousePos, Input.mousePosition);
                 MultiSelect.DrawScreenRect(rect, new Color(0f, 0f, 0f, 0.25f));
                 
                 // Dessine la bordure du rectangle de sélection.
@@ -33,7 +34,22 @@ namespace PS.InputHandlers
         
         void Update()
         {
-            
+            if (SelectedUnits.Count == 1)
+            {
+                Transform unit;
+                if (SelectedUnits[0].TryGetTarget(out unit))
+                {
+                    //Debug.Log(unit);
+                    if (unit.name == "Cible")
+                    {
+                        uiButtons.SetButtons(new List<UnitActionsEnum>{UnitActionsEnum.Construire});
+                    }
+                }
+            }
+            else
+            {
+                uiButtons.SetButtons(new List<UnitActionsEnum>());
+            }
         }
 
         // Gère la séléction et le mouvement des unités basé sur les entrées de l'utilisateur.
@@ -42,30 +58,30 @@ namespace PS.InputHandlers
             // Vérifie si le bouton gauche de la souris est pressé.
             if (Input.GetMouseButtonDown(0))
             {
-                mousePos = Input.mousePosition;
+                _mousePos = Input.mousePosition;
                 
                 // Crée un rayon partant de la caméra vers la position de la souris.
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 
                 // Vérifie si le rayon touche quelque chose.
-                if (Physics.Raycast(ray, out hit))
+                if (Physics.Raycast(ray, out _hit))
                 {
                     // Récupère le layer de l'objet touché.
-                    int layerHit = hit.transform.gameObject.layer;
+                    int layerHit = _hit.transform.gameObject.layer;
 
                     // Traite différemment selon le layer de l'objet touché.
                     switch (layerHit)
                     {
                         case 8: // Couche des unités amies.
                             // Sélectionne l'unité.
-                            SelectUnit(hit.transform, Input.GetKey(KeyCode.LeftShift));
+                            SelectUnit(_hit.transform, Input.GetKey(KeyCode.LeftShift));
                             break;
                         case 9: // Couche des unités ennemies.
                             // Pourrait être utilisé pour attaquer ou cibler.
                             break;
                         default: // Si l'objet touché n'appartient à aucun des layers spécifiés.
                             // Commence une sélection multiple.
-                            isDragging = true;
+                            _isDragging = true;
                             DeselectUnits();
                             break;
                     }
@@ -88,7 +104,7 @@ namespace PS.InputHandlers
                     }
                 }
                 // Termine la sélection multiple.
-                isDragging = false;
+                _isDragging = false;
             }
 
             // Vérifie si le bouton droit de la souris est pressé et si des unités sont sélectionnées.
@@ -97,10 +113,10 @@ namespace PS.InputHandlers
                 // Crée un rayon partant de la caméra vers la position de la souris.
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 // Vérifie si le rayon touche quelque chose.
-                if (Physics.Raycast(ray, out hit))
+                if (Physics.Raycast(ray, out _hit))
                 {
                     // Traite différemment selon le layer de l'objet touché.
-                    switch (hit.transform.gameObject.layer)
+                    switch (_hit.transform.gameObject.layer)
                     {
                         case 8: // layer des unités amies.
                             break;
@@ -109,12 +125,12 @@ namespace PS.InputHandlers
                             break;
                         default: // Si l'objet touché n'appartient à aucun des layers spécifiés.
                             // Déplace les unités sélectionnées vers le point touché.
-                            foreach (var weakUnit in selectedUnits)
+                            foreach (var weakUnit in SelectedUnits)
                             {
                                 if(weakUnit.TryGetTarget(out Transform unit) && unit) 
                                 {
                                     PlayerUnit pU = unit.gameObject.GetComponent<PlayerUnit>();
-                                    pU.MoveUnit(hit.point);
+                                    pU.MoveUnit(_hit.point);
                                 }
                             }
                             break;
@@ -132,7 +148,7 @@ namespace PS.InputHandlers
                 DeselectUnits();
             }
             // Ajoute l'unité à la liste des unités sélectionnées.
-            selectedUnits.Add(new WeakReference<Transform>(unit));
+            SelectedUnits.Add(new WeakReference<Transform>(unit));
             // Active un objet enfant spécifié de l'unité pour indiquer la sélection.
             unit.Find("Hightlight").gameObject.SetActive(true); // Attention à l'erreur de frappe : "Highlight".
         }
@@ -140,29 +156,29 @@ namespace PS.InputHandlers
         // Désélectionne toutes les unités sélectionnées et désactive l'indicateur de sélection.
         private void DeselectUnits()
         { 
-            for (int i = 0; i < selectedUnits.Count; i++)
+            for (int i = 0; i < SelectedUnits.Count; i++)
             {
-                var sel = selectedUnits[i];
+                var sel = SelectedUnits[i];
                 if(sel.TryGetTarget(out Transform trans) && trans) {
                     trans.Find("Hightlight").gameObject.SetActive(false); // Attention à l'erreur de frappe : "Highlight".
                 }
                 
             }
             // Efface la liste des unités sélectionnées.
-            selectedUnits.Clear();
+            SelectedUnits.Clear();
         }
 
         // Vérifie si une unité se trouve dans les bornes de sélection.
         private bool isWithinSelectionBounds(Transform tf)
         {
             // Retourne faux si l'utilisateur n'est pas en train de faire une sélection multiple.
-            if (!isDragging)
+            if (!_isDragging)
             {
                 return false;
             }
             // Calcule les bornes de sélection en espace de vue.
             Camera cam = Camera.main;
-            Bounds vpBounds = MultiSelect.GetVPBounds(cam, mousePos, Input.mousePosition);
+            Bounds vpBounds = MultiSelect.GetVPBounds(cam, _mousePos, Input.mousePosition);
             
             // Vérifie si la position de l'unité est à l'intérieur des bornes de sélection.
             return vpBounds.Contains(cam.WorldToViewportPoint(tf.position));
@@ -172,7 +188,7 @@ namespace PS.InputHandlers
         private bool HaveSelectedUnits()
         {
             // Retourne vrai si la liste des unités sélectionnées n'est pas vide.
-            return selectedUnits.Count > 0;
+            return SelectedUnits.Count > 0;
         }
     }
 }
