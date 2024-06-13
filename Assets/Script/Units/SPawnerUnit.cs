@@ -23,13 +23,29 @@ public class SpawnerUnit : MonoBehaviour
 
     private IEnumerator Spawner()
     {
-        while (currentCount < numberMax)
+        while (true) // Change the condition to always run the coroutine
         {
-            yield return new WaitForSeconds(timeTilNextSpawn);
-            GameObject GO = Instantiate(spawnWorker, transform.position, Quaternion.identity) as GameObject;
-            GO.name = "Cible";
-            GO.transform.parent = transform;
-            currentCount++;
+            if (currentCount < numberMax)
+            {
+                yield return new WaitForSeconds(timeTilNextSpawn);
+                GameObject GO = Instantiate(spawnWorker, spawnPoint, Quaternion.identity);
+                GO.name = "HellTaker";
+                GO.transform.parent = transform;
+                GO.GetComponent<UnitSpawnCount>().SetSpawner(this); // Set the spawner reference
+                currentCount++;
+                Debug.Log("Spawned unit. Current count: " + currentCount);
+            }
+            else
+            {
+                yield return null;
+            }
         }
+    }
+
+    // Method to decrement the unit count
+    public void DecrementCount()
+    {
+        currentCount--;
+        Debug.Log("Unit destroyed. Current count: " + currentCount);
     }
 }
