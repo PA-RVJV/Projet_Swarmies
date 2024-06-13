@@ -50,7 +50,7 @@ namespace PS.InputHandlers
                 if (SelectedUnits[0].TryGetTarget(out unit))
                 {
                     //Debug.Log(unit);
-                    if (unit.name == "Cible")
+                    if (unit.parent.name == "Workers")
                     {
                         uiButtons.SetButtons(new List<UnitActionsEnum>{UnitActionsEnum.Construire});
                     }

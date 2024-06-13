@@ -2196,7 +2196,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!224 &431692246
 RectTransform:
@@ -3200,7 +3200,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!224 &604920169
 RectTransform:
@@ -8773,7 +8773,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1341358028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8789,7 +8789,7 @@ MonoBehaviour:
   m_PanelSettings: {fileID: 11400000, guid: b2bdc38b376094ee6b3ec307e3c02cb1, type: 2}
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: 6260aca40b5ce4c8bb67200d776a8836, type: 3}
-  m_SortingOrder: 0
+  m_SortingOrder: 1
 --- !u!4 &1341358029
 Transform:
   m_ObjectHideFlags: 0
