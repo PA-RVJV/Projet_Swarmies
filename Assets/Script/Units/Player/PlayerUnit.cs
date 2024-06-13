@@ -93,7 +93,7 @@ namespace PS.Units.Player
             if (attackCooldown <= 0 && distance < baseStats.attackRange)
             {
                 aggroUnit.TakeDamage(baseStats.attack);
-                attackCooldown = baseStats.attackSpeed;
+                attackCooldown = baseStats.attackCooldown;
             }
         }
 
