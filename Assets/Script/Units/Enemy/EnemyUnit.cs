@@ -31,6 +31,7 @@ namespace PS.Units.Enemy
         {
             // Initialise la référence au composant NavMeshAgent.
             navAgent = GetComponent<NavMeshAgent>();
+            attackCooldown = baseStats.attackCooldown;
         }
 
         private void Update()
@@ -44,6 +45,11 @@ namespace PS.Units.Enemy
                 MoveToAggroTarget();
                 Attack();
                 attackCooldown -= Time.deltaTime;
+            }
+            
+            if (attackCooldown <= -0.3)
+            {
+                attackCooldown = baseStats.attackCooldown;
             }
         }
         
@@ -65,10 +71,10 @@ namespace PS.Units.Enemy
 
         private void Attack()
         {
-            if (attackCooldown <= 0 && distance < baseStats.attackRange)
+            if (distance < baseStats.attackRange && attackCooldown <= 0)
             {
-                aggroUnit.TakeDamage(baseStats.attack);
                 attackCooldown = baseStats.attackCooldown;
+                aggroUnit.TakeDamage(baseStats.attack);
             }
         }
         

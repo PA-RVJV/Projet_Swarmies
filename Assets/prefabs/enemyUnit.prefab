@@ -150,7 +150,7 @@ MonoBehaviour:
     cost: 0
     attack: 0
     attackRange: 0
-    attackSpeed: 0
+    attackCooldown: 0
     aggroRange: 0
     health: 0
     armor: 0
@@ -198,18 +198,6 @@ PrefabInstance:
     - target: {fileID: 9058846245044435041, guid: 404902d003f90f6428c5d765c06675d9, type: 3}
       propertyPath: m_SizeDelta.y
       value: 1080
-      objectReference: {fileID: 0}
-    - target: {fileID: 9058846245044435041, guid: 404902d003f90f6428c5d765c06675d9, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.0009869671
-      objectReference: {fileID: 0}
-    - target: {fileID: 9058846245044435041, guid: 404902d003f90f6428c5d765c06675d9, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.001749686
-      objectReference: {fileID: 0}
-    - target: {fileID: 9058846245044435041, guid: 404902d003f90f6428c5d765c06675d9, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.002793416
       objectReference: {fileID: 0}
     - target: {fileID: 9058846245044435041, guid: 404902d003f90f6428c5d765c06675d9, type: 3}
       propertyPath: m_LocalPosition.x

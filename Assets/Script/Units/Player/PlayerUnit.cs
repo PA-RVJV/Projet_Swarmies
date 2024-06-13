@@ -33,6 +33,7 @@ namespace PS.Units.Player
         {
             // Initialise la référence au composant NavMeshAgent.
             navAgent = GetComponent<NavMeshAgent>();
+            attackCooldown = baseStats.attackCooldown;
         }
 
         private void OnDestroy()
@@ -57,6 +58,7 @@ namespace PS.Units.Player
             {
                 MoveToAggroTarget();
                 Attack();
+                CheckAggroDistance();
                 attackCooldown -= Time.deltaTime;
             }
 
@@ -69,6 +71,11 @@ namespace PS.Units.Player
                         isDeplaced = false;
                     }
                 }
+            }
+
+            if (attackCooldown <= -0.3)
+            {
+                attackCooldown = baseStats.attackCooldown;
             }
         }
 
@@ -87,13 +94,28 @@ namespace PS.Units.Player
                 }
             }
         }
+        
+        private void CheckAggroDistance()
+        {
+            if (aggroTarget != null)
+            {
+                distance = Vector3.Distance(aggroTarget.position, transform.position);
+                if (distance >= baseStats.attackRange)
+                {
+                    hasAggro = false;
+                    aggroTarget = null;
+                    aggroUnit = null;
+                }
+            }
+        }
+
 
         private void Attack()
         {
-            if (attackCooldown <= 0 && distance < baseStats.attackRange)
+            if (distance < baseStats.attackRange && attackCooldown <= 0)
             {
-                aggroUnit.TakeDamage(baseStats.attack);
                 attackCooldown = baseStats.attackCooldown;
+                aggroUnit.TakeDamage(baseStats.attack);
             }
         }
 
@@ -106,9 +128,9 @@ namespace PS.Units.Player
             }
             else
             {
+                distance = Vector3.Distance(aggroTarget.position, transform.position);
                 if (isDeplaced != true)
                 {
-                    distance = Vector3.Distance(aggroTarget.position, transform.position);
                     navAgent.stoppingDistance = baseStats.attackRange;
 
                     if (distance <= baseStats.aggroRange)

@@ -20,6 +20,6 @@ MonoBehaviour:
     attack: 0
     attackRange: 1
     attackCooldown: 2
-    aggroRange: 0
+    aggroRange: 1
     health: 1250
     armor: 0
