@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using PS.Units.Player;
 using System;
+using System.Collections;
 using PS.Player;
 using Script;
 using UnityEngine.EventSystems;
@@ -23,10 +24,15 @@ namespace PS.InputHandlers
         private bool _isDragging = false; // Booléen de vérification sélection multiple en cour ou non.
         private Vector3 _mousePos; // Position initiale de la souris lors du début de select.
         private Camera _cam;
-
+        private CameraController camController;
         private GraphicRaycaster _graphicRaycaster;
         private EventSystem _eventSystem;
 
+        private float firstLeftClickTime;
+        private float timeBetweenLeftClick = 0.5f;
+        private bool isTimeCheckAllowed = true;
+        private int leftClickNum = 0;
+        Transform unit;
 
         private void Awake()
         {
@@ -35,6 +41,11 @@ namespace PS.InputHandlers
             _eventSystem = FindObjectOfType<EventSystem>();
         }
 
+        private void Start()
+        {
+            camController = _cam.GetComponent<CameraController>();
+        }
+        
         // Dessine le rectangle de sélection sur l'interface a l'aide de la classe MultiSelect
         private void OnGUI()
         {
@@ -54,7 +65,7 @@ namespace PS.InputHandlers
         {
             if (SelectedUnits.Count == 1)
             {
-                Transform unit;
+                
                 if (SelectedUnits[0].TryGetTarget(out unit))
                 {
                     //Debug.Log(unit);
@@ -70,8 +81,44 @@ namespace PS.InputHandlers
                 buildInterface.SetActive(false);
                 //uiButtons.SetButtons(new List<UnitActionsEnum>());
             }
+            
+            // double click
+            if (Input.GetMouseButtonUp(0))
+            {
+                leftClickNum += 1;
+            }
+
+            if (leftClickNum == 1 && isTimeCheckAllowed && SelectedUnits.Count == 1)
+            {
+                if (SelectedUnits[0].TryGetTarget(out unit))
+                {
+                    firstLeftClickTime = Time.time;
+                    StartCoroutine(DetectDoubleLeftClick(unit));
+                }
+                
+            }
         }
 
+        private IEnumerator DetectDoubleLeftClick(Transform unitToFollow)
+        {
+            isTimeCheckAllowed = false;
+            while (Time.time < firstLeftClickTime + timeBetweenLeftClick)
+            {
+                if (leftClickNum == 2)
+                {
+                    Debug.Log("Double click");
+                    camController.SetTarget(transform);
+                    break;
+                    
+                }
+
+                yield return new WaitForEndOfFrame();
+            }
+
+            leftClickNum = 0;
+            isTimeCheckAllowed = true;
+        }
+        
         // Gère la séléction et le mouvement des unités basé sur les entrées de l'utilisateur.
         public void HandleUnitMovement()
         {
@@ -113,8 +160,6 @@ namespace PS.InputHandlers
                             break;
                         default: // Si l'objet touché n'appartient à aucun des layers spécifiés.
                             // Commence une sélection multiple.
-                            _isDragging = true;
-                            DeselectUnits();
                             break;
                     }
                 }
