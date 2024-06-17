@@ -6,6 +6,7 @@ using PS.Player;
 using Script;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace PS.InputHandlers
 {
@@ -15,16 +16,23 @@ namespace PS.InputHandlers
         public readonly List<WeakReference<Transform>> SelectedUnits = new(); // Liste des unités sélectionnées.
         public UIButtons uiButtons;
         public LayerMask layerMask;
+        public GameObject buildButton;
+        public GameObject buildInterface;
         
         private RaycastHit _hit; // stocke l'information du raycast.
         private bool _isDragging = false; // Booléen de vérification sélection multiple en cour ou non.
         private Vector3 _mousePos; // Position initiale de la souris lors du début de select.
         private Camera _cam;
 
+        private GraphicRaycaster _graphicRaycaster;
+        private EventSystem _eventSystem;
+
 
         private void Awake()
         {
             _cam = Camera.main;
+            _graphicRaycaster = FindObjectOfType<GraphicRaycaster>();
+            _eventSystem = FindObjectOfType<EventSystem>();
         }
 
         // Dessine le rectangle de sélection sur l'interface a l'aide de la classe MultiSelect
@@ -52,13 +60,15 @@ namespace PS.InputHandlers
                     //Debug.Log(unit);
                     if (unit.parent.name == "Workers")
                     {
-                        uiButtons.SetButtons(new List<UnitActionsEnum>{UnitActionsEnum.Construire});
+                        //uiButtons.SetButtons(new List<UnitActionsEnum>{UnitActionsEnum.Construire});
+                        buildInterface.SetActive(true);
                     }
                 }
             }
             else
             {
-                uiButtons.SetButtons(new List<UnitActionsEnum>());
+                buildInterface.SetActive(false);
+                //uiButtons.SetButtons(new List<UnitActionsEnum>());
             }
         }
 
@@ -69,6 +79,11 @@ namespace PS.InputHandlers
             if (Input.GetMouseButtonDown(0))
             {
                 _mousePos = Input.mousePosition;
+                
+                if (IsPointerOverUIButton())
+                {
+                    return;
+                }
                 
                 // Crée un rayon partant de la caméra vers la position de la souris.
                 Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
@@ -82,6 +97,13 @@ namespace PS.InputHandlers
                     // Traite différemment selon le layer de l'objet touché.
                     switch (layerHit)
                     {
+                        case 5:
+                            //layer de UI 
+                            break;
+                        case 6:
+                            _isDragging = true;
+                            DeselectUnits();
+                            break;
                         case 8: // Couche des unités amies.
                             // Sélectionne l'unité.
                             SelectUnit(_hit.transform, Input.GetKey(KeyCode.LeftShift));
@@ -128,6 +150,8 @@ namespace PS.InputHandlers
                     // Traite différemment selon le layer de l'objet touché.
                     switch (_hit.transform.gameObject.layer)
                     {
+                        case 5:
+                            break;
                         case 8: // layer des unités amies.
                             break;
                         case 9: // layer des unités ennemies.
@@ -197,6 +221,26 @@ namespace PS.InputHandlers
         {
             // Retourne vrai si la liste des unités sélectionnées n'est pas vide.
             return SelectedUnits.Count > 0;
+        }
+        
+        private bool IsPointerOverUIButton()
+        {
+            PointerEventData eventData = new PointerEventData(_eventSystem)
+            {
+                position = Input.mousePosition
+            };
+
+            List<RaycastResult> results = new List<RaycastResult>();
+            _graphicRaycaster.Raycast(eventData, results);
+
+            foreach (var result in results)
+            {
+                if (result.gameObject.GetComponent<Button>() != null)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
