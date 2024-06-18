@@ -2158,13 +2158,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 418770594}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 369.48, y: 31, z: 126.33}
+  m_LocalRotation: {x: 0.46174863, y: 0, z: 0, w: 0.8870109}
+  m_LocalPosition: {x: 369.48, y: 35, z: 131.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 55, y: 0, z: 0}
 --- !u!20 &418770597
 Camera:
   m_ObjectHideFlags: 0
@@ -2228,11 +2228,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c410a04423f6514192ebb017238eb30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.006
-  zoomSpeed: 5
-  rotateSpeed: 0.1
-  maxHeight: 40
-  minHeight: 8
+  keyboardSpeed: 20
+  dragSpeed: 30
+  screenEdgeSpeed: 5
+  screenEdgeBorderSize: 40
+  mouseRotationSpeed: 0.5
+  followMoveSpeed: 5
+  followRotationSpeed: 1
+  minHeight: 10
+  maxHeight: 35
+  zoomSensitivity: 10
+  zoomSmoothing: 5
+  mapLimitSmoothing: 10
+  mapLimits: {x: 0, y: 0}
+  rotationLimits: {x: 15, y: 60}
+  followOffset: {x: 0.1, y: 0, z: 0.1}
   clampTo: {fileID: 1206788135}
 --- !u!1 &425134937
 GameObject:
@@ -11494,8 +11504,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_PressedColor: {r: 1, g: 0, b: 0.11302805, a: 1}
+    m_HighlightedColor: {r: 0, g: 0.54663897, b: 1, a: 1}
+    m_PressedColor: {r: 0, g: 0, b: 1, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -15213,7 +15223,6 @@ SceneRoots:
   - {fileID: 705507995}
   - {fileID: 418770596}
   - {fileID: 55844422}
-  - {fileID: 1206788136}
   - {fileID: 1061530865}
   - {fileID: 604920169}
   - {fileID: 431692246}
@@ -15226,3 +15235,4 @@ SceneRoots:
   - {fileID: 1341358029}
   - {fileID: 1656244404}
   - {fileID: 1127625165}
+  - {fileID: 1206788136}

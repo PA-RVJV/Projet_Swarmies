@@ -1,110 +1,217 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace PS.InputHandlers
 {
     public class CameraController : MonoBehaviour
     {
-        public float speed = 0.06f; // Vitesse de déplacement de la caméra
-        public float zoomSpeed = 10.0f; // Vitesse de zoom de la caméra
-        public float rotateSpeed= 0.1f; // Vitesse de rotation de la caméra
-     
-        public float maxHeight= 40f; // Hauteur maximale de la caméra
-        public float minHeight= 8f; // Hauteur minimale de la caméra
+        public float keyboardSpeed,
+            dragSpeed,
+            screenEdgeSpeed,
+            screenEdgeBorderSize,
+            mouseRotationSpeed,
+            followMoveSpeed,
+            followRotationSpeed,
+            minHeight, 
+            maxHeight,
+            zoomSensitivity,
+            zoomSmoothing,
+            mapLimitSmoothing;
 
-        private Vector2 p1; // Position initiale du curseur pour la rotation
-        private Vector2 p2; // Position finale du curseur pour la rotation
-
-        private Camera _cam; // Référence à l'objet Camera
+        public Vector2 mapLimits, rotationLimits;
+        public Vector3 followOffset;
         
         public Terrain clampTo; // Terrain utilisé pour limiter le déplacement de la caméra
         private Vector3 _topLeftClamp; // Limite supérieure gauche pour le déplacement de la caméra
         private Vector3 _bottomRightClamp; // Limite inférieure droite pour le déplacement de la caméra
         
+        private Transform targetToFollow;
+        private float zoomAmount = 1, yaw, pitch;
+        KeyCode dragKey = KeyCode.Mouse2;
+        KeyCode rotationKey = KeyCode.Mouse1;
+        private Transform mainTransform;
+        LayerMask groundMask;
+        
+        private bool isRotating = false;
+        private float rotationKeyHeldTime = 0f;
+        private float rotationDelay = 0.2f; // Délai de 0.5 seconde
+
+        private Camera _cam; // Référence à l'objet Camera
+        
         void Start()
         {
-            _cam = GetComponent<Camera>(); // Obtient le composant Camera de cet objet
-            ComputeCameraBounds(); // Calcule les limites de déplacement de la caméra en fonction du terrain
+            mainTransform = transform;
+            groundMask = LayerMask.GetMask("Ground");
+            pitch = mainTransform.eulerAngles.x;
+            _cam = GetComponent<Camera>();
         }
 
         void Update()
         {
-            var speed = this.speed; // Utilise la vitesse de déplacement définie
-            if(Input.GetKey(KeyCode.LeftShift))
+            if (!targetToFollow)
             {
-                speed = 0.06f; // Augmente la vitesse de déplacement si LeftShift est pressé
-                zoomSpeed = 20.0f; // Augmente la vitesse de zoom si LeftShift est pressé
+                Move();
             }
-            
-            // Calcule le déplacement horizontal et vertical basé sur les entrées de l'utilisateur
-            float hsp = transform.position.y * speed * Input.GetAxis("Horizontal");
-            float vsp = transform.position.y * speed * Input.GetAxis("Vertical");
-            
-            // Calcule le déplacement de zoom basé sur la molette de la souris
-            float scrollSp = Mathf.Log(transform.position.y) * -zoomSpeed * Input.GetAxis("Mouse ScrollWheel");
-
-            // Limite le zoom pour ne pas dépasser les hauteurs maximale et minimale
-            if ((transform.position.y >= maxHeight) && (scrollSp > 0))
+            else
             {
-                scrollSp = 0;
+                FollowTarget();
             }
-            else if ((transform.position.y <= minHeight) && (scrollSp < 0))
+
+            Rotation();
+            HeightCalculation();
+            ComputeCameraBounds();
+            LimitPosition();
+
+            if (Input.GetKey(KeyCode.Space))
             {
-                scrollSp = 0;
+                ResetTarget();
             }
-            
-            // Assure que le zoom ne dépasse pas les limites définies
-            if((transform.position.y + scrollSp) > maxHeight)
-            {
-                scrollSp = maxHeight - transform.position.y;
-            }
-            else if((transform.position.y + scrollSp) < minHeight)
-            {
-                scrollSp = minHeight - transform.position.y;
-            }
-            
-            // Calcule le déplacement total de la caméra
-            Vector3 verticalMove = new Vector3(0, scrollSp, 0);
-            Vector3 lateralMove = hsp * transform.right;
-            Vector3 forwardMove = transform.forward;
-            forwardMove.y = 0;
-            forwardMove.Normalize();
-            forwardMove *= vsp;
-
-            Vector3 move = verticalMove + lateralMove + forwardMove;
-
-            // Applique le déplacement en tenant compte des limites du terrain
-            var camPos = transform.position;
-            
-            camPos += move;
-            camPos.x = Mathf.Clamp(camPos.x, _topLeftClamp.x, _bottomRightClamp.x);
-            camPos.z = Mathf.Clamp(camPos.z, _bottomRightClamp.z, _topLeftClamp.z); 
-
-            transform.position = camPos;
-
-            // Appelle la méthode de rotation de la caméra (actuellement non appelée dans Update)
         }
 
-        private void getCameraRotation()
+        void Move()
         {
-            // Gère la rotation de la caméra avec le bouton du milieu de la souris
-            if (Input.GetMouseButtonDown(2))
+            if (Input.GetKey(dragKey))
             {
-                p1 = Input.mousePosition;
+                // clic et drag
+                Vector3 desiredDragMove =
+                    new Vector3(-Input.GetAxis("Mouse X"), 0, -Input.GetAxis("Mouse Y")) * dragSpeed;
+                desiredDragMove = Quaternion.Euler(new Vector3(0, mainTransform.eulerAngles.y, 0)) * desiredDragMove *
+                                  Time.deltaTime;
+                desiredDragMove = mainTransform.InverseTransformDirection(desiredDragMove);
+                
+                mainTransform.Translate(desiredDragMove, Space.Self);
+                ResetTarget();
+                
+            }
+            else
+            {
+                // touche du clavier
+                Vector3 desiredMove = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+
+                desiredMove *= keyboardSpeed;
+                desiredMove = Quaternion.Euler(new Vector3(0, mainTransform.eulerAngles.y, 0)) * desiredMove *
+                              Time.deltaTime;
+                desiredMove = mainTransform.InverseTransformDirection(desiredMove);
+                
+                mainTransform.Translate(desiredMove, Space.Self);
+                
+                // souris sur les bord de l'écran
+                Vector3 desiredEdgeMove = new Vector3();
+                Vector3 mousePos = Input.mousePosition;
+
+                Rect leftRect = new Rect(0, 0, screenEdgeBorderSize, Screen.height);
+                Rect rightRect = new Rect(Screen.width - screenEdgeBorderSize, 0, screenEdgeBorderSize, Screen.height);
+                Rect upRect = new Rect(0, Screen.height - screenEdgeBorderSize, Screen.width, screenEdgeBorderSize);
+                Rect downRect = new Rect(0, 0, Screen.width, screenEdgeBorderSize);
+                
+                desiredEdgeMove.x = leftRect.Contains(mousePos) ? -1 : rightRect.Contains(mousePos) ? 1 : 0;
+                desiredEdgeMove.z = upRect.Contains(mousePos) ? 1 : downRect.Contains(mousePos) ? -1 : 0;
+
+                desiredEdgeMove *= screenEdgeSpeed;
+                desiredEdgeMove *= Time.deltaTime;
+                desiredEdgeMove = Quaternion.Euler(new Vector3(0, mainTransform.eulerAngles.y, 0)) * desiredEdgeMove;
+                desiredEdgeMove = mainTransform.InverseTransformDirection(desiredEdgeMove);
+                
+                mainTransform.Translate(desiredEdgeMove, Space.Self);
+                ResetTarget();
+            }
+        }
+
+        void Rotation()
+        {
+            if (Input.GetKey(rotationKey))
+            {
+                rotationKeyHeldTime += Time.deltaTime;
+
+                if (rotationKeyHeldTime >= rotationDelay)
+                {
+                    isRotating = true;
+                }
+
+                if (isRotating)
+                {
+                    yaw += mouseRotationSpeed * Input.GetAxis("Mouse X");
+                    pitch -= mouseRotationSpeed * Input.GetAxis("Mouse Y");
+
+                    pitch = Mathf.Clamp(pitch, rotationLimits.x, rotationLimits.y);
+
+                    mainTransform.eulerAngles = new Vector3(pitch, yaw, 0);
+                    ResetTarget();
+                }
+            }
+            else
+            {
+                rotationKeyHeldTime = 0f;
+                isRotating = false;
+            }
+        }
+
+        void LimitPosition()
+        {
+            mainTransform.position = Vector3.Lerp(mainTransform.position, new Vector3(
+                    Mathf.Clamp(mainTransform.position.x, _topLeftClamp.x, _bottomRightClamp.x), mainTransform.position.y,
+                    Mathf.Clamp(mainTransform.position.z, _bottomRightClamp.z, _topLeftClamp.z)),
+                    Time.deltaTime * mapLimitSmoothing);
+
+        }
+
+        void HeightCalculation()
+        {
+            zoomAmount += -Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime * zoomSensitivity;
+            zoomAmount = Mathf.Clamp01(zoomAmount);
+
+            float distanceToGround = DistanceToGround();
+            float targetHeight = Mathf.Lerp(minHeight, maxHeight, zoomAmount);
+
+            mainTransform.position = Vector3.Lerp(mainTransform.position,
+                new Vector3(mainTransform.position.x, targetHeight + distanceToGround, mainTransform.position.z),
+                Time.deltaTime * zoomSmoothing);
+        }
+
+        private float DistanceToGround()
+        {
+            Ray ray = new Ray(mainTransform.position, Vector3.down);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, groundMask))
+            {
+                return hit.point.y; 
             }
 
-            if (Input.GetMouseButton(2))
+            return 0;
+        }
+
+        
+        void FollowTarget() // TODO besoin de setup un radius pour que la camera reste a distance de la cible et n'aille pas se foutre juste au dessus
+        {
+            // partie déplacement
+            Vector3 targetPos =
+                new Vector3(targetToFollow.position.x, mainTransform.position.y, targetToFollow.position.z) +
+                followOffset;
+            mainTransform.position =
+                Vector3.MoveTowards(mainTransform.position, targetPos, Time.deltaTime * followMoveSpeed);
+            
+            // partie rotation
+            if (followRotationSpeed > 0 && !Input.GetKey(rotationKey))
             {
-                p2 = Input.mousePosition;
+                Vector3 targetDirection = (targetToFollow.position - mainTransform.position).normalized;
+                Quaternion targetRotation = Quaternion.Lerp(mainTransform.rotation, Quaternion.LookRotation(targetDirection), followRotationSpeed * Time.deltaTime);
+                mainTransform.rotation = targetRotation;
 
-                float dx = (p2 - p1).x * rotateSpeed;
-                float dy = (p2 - p1).y * rotateSpeed;
-
-                transform.rotation *= Quaternion.Euler(new Vector3(0, dx, 0));
-                transform.transform.rotation *= Quaternion.Euler(new Vector3(-dy, 0, 0));
-                p1 = p2;
+                pitch = mainTransform.eulerAngles.x;
+                yaw = mainTransform.eulerAngles.y;
             }
+        }
+
+        public void SetTarget(Transform target)
+        {
+            targetToFollow = target;
+        }
+
+        public void ResetTarget()
+        {
+            targetToFollow = null;
         }
 
         private void ComputeCameraBounds()
@@ -113,7 +220,7 @@ namespace PS.InputHandlers
             // et de la position et de la rotation de la caméra pour éviter que la vue ne sorte du terrain
             
             var terrainTransform = clampTo.transform;
-            var camTransform = _cam.transform;
+            var camTransform = mainTransform;
             var camPosition = camTransform.position;
             var camRotation = camTransform.eulerAngles;
             var terrainScale = terrainTransform.lossyScale;
