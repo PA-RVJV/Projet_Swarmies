@@ -107,7 +107,7 @@ namespace PS.InputHandlers
                 if (leftClickNum == 2)
                 {
                     Debug.Log("Double click");
-                    camController.SetTarget(transform);
+                    camController.SetTarget(unitToFollow);
                     break;
                     
                 }

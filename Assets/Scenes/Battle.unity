@@ -2233,15 +2233,15 @@ MonoBehaviour:
   screenEdgeSpeed: 5
   screenEdgeBorderSize: 40
   mouseRotationSpeed: 0.5
-  followMoveSpeed: 0.1
-  followRotationSpeed: 0.1
+  followMoveSpeed: 5
+  followRotationSpeed: 1
   minHeight: 10
-  maxHeight: 50
+  maxHeight: 35
   zoomSensitivity: 10
   zoomSmoothing: 5
   mapLimitSmoothing: 10
   mapLimits: {x: 0, y: 0}
-  rotationLimits: {x: 15, y: 90}
+  rotationLimits: {x: 15, y: 60}
   followOffset: {x: 0.1, y: 0, z: 0.1}
   clampTo: {fileID: 1206788135}
 --- !u!1 &425134937

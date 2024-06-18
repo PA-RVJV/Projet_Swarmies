@@ -33,6 +33,10 @@ namespace PS.InputHandlers
         KeyCode rotationKey = KeyCode.Mouse1;
         private Transform mainTransform;
         LayerMask groundMask;
+        
+        private bool isRotating = false;
+        private float rotationKeyHeldTime = 0f;
+        private float rotationDelay = 0.2f; // Délai de 0.5 seconde
 
         private Camera _cam; // Référence à l'objet Camera
         
@@ -119,13 +123,28 @@ namespace PS.InputHandlers
         {
             if (Input.GetKey(rotationKey))
             {
-                yaw += mouseRotationSpeed * Input.GetAxis("Mouse X");
-                pitch -= mouseRotationSpeed * Input.GetAxis("Mouse Y");
+                rotationKeyHeldTime += Time.deltaTime;
 
-                pitch = Mathf.Clamp(pitch, rotationLimits.x, rotationLimits.y);
+                if (rotationKeyHeldTime >= rotationDelay)
+                {
+                    isRotating = true;
+                }
 
-                mainTransform.eulerAngles = new Vector3(pitch, yaw, 0);
-                ResetTarget();
+                if (isRotating)
+                {
+                    yaw += mouseRotationSpeed * Input.GetAxis("Mouse X");
+                    pitch -= mouseRotationSpeed * Input.GetAxis("Mouse Y");
+
+                    pitch = Mathf.Clamp(pitch, rotationLimits.x, rotationLimits.y);
+
+                    mainTransform.eulerAngles = new Vector3(pitch, yaw, 0);
+                    ResetTarget();
+                }
+            }
+            else
+            {
+                rotationKeyHeldTime = 0f;
+                isRotating = false;
             }
         }
 
@@ -163,15 +182,17 @@ namespace PS.InputHandlers
             return 0;
         }
 
-        void FollowTarget()
+        
+        void FollowTarget() // TODO besoin de setup un radius pour que la camera reste a distance de la cible et n'aille pas se foutre juste au dessus
         {
-            // NON FONCTIONNELLE !!!!!!!!!!!!!
+            // partie déplacement
             Vector3 targetPos =
                 new Vector3(targetToFollow.position.x, mainTransform.position.y, targetToFollow.position.z) +
                 followOffset;
             mainTransform.position =
                 Vector3.MoveTowards(mainTransform.position, targetPos, Time.deltaTime * followMoveSpeed);
-
+            
+            // partie rotation
             if (followRotationSpeed > 0 && !Input.GetKey(rotationKey))
             {
                 Vector3 targetDirection = (targetToFollow.position - mainTransform.position).normalized;
