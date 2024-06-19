@@ -2,10 +2,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using PS.Units.Player;
 using System;
+using System.Collections;
 using PS.Player;
 using Script;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 namespace PS.InputHandlers
 {
@@ -15,18 +17,35 @@ namespace PS.InputHandlers
         public readonly List<WeakReference<Transform>> SelectedUnits = new(); // Liste des unités sélectionnées.
         public UIButtons uiButtons;
         public LayerMask layerMask;
+        public GameObject buildButton;
+        public GameObject buildInterface;
         
         private RaycastHit _hit; // stocke l'information du raycast.
         private bool _isDragging = false; // Booléen de vérification sélection multiple en cour ou non.
         private Vector3 _mousePos; // Position initiale de la souris lors du début de select.
         private Camera _cam;
+        private CameraController camController;
+        private GraphicRaycaster _graphicRaycaster;
+        private EventSystem _eventSystem;
 
-        
+        private float firstLeftClickTime;
+        private float timeBetweenLeftClick = 0.5f;
+        private bool isTimeCheckAllowed = true;
+        private int leftClickNum = 0;
+        Transform unit;
+
         private void Awake()
         {
             _cam = Camera.main;
+            _graphicRaycaster = FindObjectOfType<GraphicRaycaster>();
+            _eventSystem = FindObjectOfType<EventSystem>();
         }
 
+        private void Start()
+        {
+            camController = _cam.GetComponent<CameraController>();
+        }
+        
         // Dessine le rectangle de sélection sur l'interface a l'aide de la classe MultiSelect
         private void OnGUI()
         {
@@ -46,22 +65,60 @@ namespace PS.InputHandlers
         {
             if (SelectedUnits.Count == 1)
             {
-                Transform unit;
+                
                 if (SelectedUnits[0].TryGetTarget(out unit))
                 {
                     //Debug.Log(unit);
                     if (unit.parent.name == "Workers")
                     {
-                        uiButtons.SetButtons(new List<UnitActionsEnum>{UnitActionsEnum.Construire});
+                        //uiButtons.SetButtons(new List<UnitActionsEnum>{UnitActionsEnum.Construire});
+                        buildInterface.SetActive(true);
                     }
                 }
             }
             else
             {
-                uiButtons.SetButtons(new List<UnitActionsEnum>());
+                buildInterface.SetActive(false);
+                //uiButtons.SetButtons(new List<UnitActionsEnum>());
+            }
+            
+            // double click
+            if (Input.GetMouseButtonUp(0))
+            {
+                leftClickNum += 1;
+            }
+
+            if (leftClickNum == 1 && isTimeCheckAllowed && SelectedUnits.Count == 1)
+            {
+                if (SelectedUnits[0].TryGetTarget(out unit))
+                {
+                    firstLeftClickTime = Time.time;
+                    StartCoroutine(DetectDoubleLeftClick(unit));
+                }
+                
             }
         }
 
+        private IEnumerator DetectDoubleLeftClick(Transform unitToFollow)
+        {
+            isTimeCheckAllowed = false;
+            while (Time.time < firstLeftClickTime + timeBetweenLeftClick)
+            {
+                if (leftClickNum == 2)
+                {
+                    Debug.Log("Double click");
+                    camController.SetTarget(unitToFollow);
+                    break;
+                    
+                }
+
+                yield return new WaitForEndOfFrame();
+            }
+
+            leftClickNum = 0;
+            isTimeCheckAllowed = true;
+        }
+        
         // Gère la séléction et le mouvement des unités basé sur les entrées de l'utilisateur.
         public void HandleUnitMovement()
         {
@@ -76,6 +133,11 @@ namespace PS.InputHandlers
                 }
 
                 _mousePos = Input.mousePosition;
+                
+                if (IsPointerOverUIButton())
+                {
+                    return;
+                }
                 
                 // Crée un rayon partant de la caméra vers la position de la souris.
                 Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
@@ -92,6 +154,10 @@ namespace PS.InputHandlers
                     // Traite différemment selon le layer de l'objet touché.
                     switch (layerName)
                     {
+                        case "Ground":
+                            _isDragging = true;
+                            DeselectUnits();
+                            break;
                         case "PlayerUnits": // Couche des unités amies.
                             // Sélectionne l'unité.
                             SelectUnit(_hit.transform, Input.GetKey(KeyCode.LeftShift));
@@ -101,8 +167,6 @@ namespace PS.InputHandlers
                             break;
                         default: // Si l'objet touché n'appartient à aucun des layers spécifiés.
                             // Commence une sélection multiple.
-                            _isDragging = true;
-                            DeselectUnits();
                             break;
                     }
                 }
@@ -138,6 +202,8 @@ namespace PS.InputHandlers
                     // Traite différemment selon le layer de l'objet touché.
                     switch (_hit.transform.gameObject.layer)
                     {
+                        case 5:
+                            break;
                         case 8: // layer des unités amies.
                             break;
                         case 9: // layer des unités ennemies.
@@ -216,5 +282,25 @@ namespace PS.InputHandlers
 
         }
 
+        
+        private bool IsPointerOverUIButton()
+        {
+            PointerEventData eventData = new PointerEventData(_eventSystem)
+            {
+                position = Input.mousePosition
+            };
+
+            List<RaycastResult> results = new List<RaycastResult>();
+            _graphicRaycaster.Raycast(eventData, results);
+
+            foreach (var result in results)
+            {
+                if (result.gameObject.GetComponent<Button>() != null)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
