@@ -7,7 +7,6 @@ using PS.Player;
 using Script;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
-using UnityEngine.UI;
 
 namespace PS.InputHandlers
 {
@@ -25,19 +24,17 @@ namespace PS.InputHandlers
         private Vector3 _mousePos; // Position initiale de la souris lors du début de select.
         private Camera _cam;
         private CameraController camController;
-        private GraphicRaycaster _graphicRaycaster;
+        private UnityEngine.UI.GraphicRaycaster _graphicRaycaster;
         private EventSystem _eventSystem;
 
-        private float firstLeftClickTime;
-        private float timeBetweenLeftClick = 0.5f;
-        private bool isTimeCheckAllowed = true;
-        private int leftClickNum = 0;
+        private float doubleClickTime = .2f;
+        private float lastClickTime; 
         Transform unit;
 
         private void Awake()
         {
             _cam = Camera.main;
-            _graphicRaycaster = FindObjectOfType<GraphicRaycaster>();
+            _graphicRaycaster = FindObjectOfType<UnityEngine.UI.GraphicRaycaster>();
             _eventSystem = FindObjectOfType<EventSystem>();
         }
 
@@ -71,52 +68,33 @@ namespace PS.InputHandlers
                     //Debug.Log(unit);
                     if (unit.parent.name == "Workers")
                     {
-                        //uiButtons.SetButtons(new List<UnitActionsEnum>{UnitActionsEnum.Construire});
-                        buildInterface.SetActive(true);
+                        uiButtons.SetButtons(new List<UnitActionsEnum>{UnitActionsEnum.Construire});
                     }
                 }
             }
             else
             {
-                buildInterface.SetActive(false);
-                //uiButtons.SetButtons(new List<UnitActionsEnum>());
-            }
-            
-            // double click
-            if (Input.GetMouseButtonUp(0))
-            {
-                leftClickNum += 1;
+                uiButtons.SetButtons(new List<UnitActionsEnum>());
             }
 
-            if (leftClickNum == 1 && isTimeCheckAllowed && SelectedUnits.Count == 1)
+            if (Input.GetMouseButtonDown(0))
             {
-                if (SelectedUnits[0].TryGetTarget(out unit))
-                {
-                    firstLeftClickTime = Time.time;
-                    StartCoroutine(DetectDoubleLeftClick(unit));
-                }
-                
-            }
-        }
+                float timeSinceLastClick = Time.time - lastClickTime;
 
-        private IEnumerator DetectDoubleLeftClick(Transform unitToFollow)
-        {
-            isTimeCheckAllowed = false;
-            while (Time.time < firstLeftClickTime + timeBetweenLeftClick)
-            {
-                if (leftClickNum == 2)
+                if (timeSinceLastClick <= doubleClickTime)
                 {
-                    Debug.Log("Double click");
-                    camController.SetTarget(unitToFollow);
-                    break;
-                    
+                    if (SelectedUnits.Count == 1)
+                    {
+                        if (SelectedUnits[0].TryGetTarget(out unit))
+                        {
+                            Debug.Log("Double click");
+                            camController.SetTarget(unit);
+                        }
+                    }
                 }
 
-                yield return new WaitForEndOfFrame();
+                lastClickTime = Time.time;
             }
-
-            leftClickNum = 0;
-            isTimeCheckAllowed = true;
         }
         
         // Gère la séléction et le mouvement des unités basé sur les entrées de l'utilisateur.
@@ -133,11 +111,6 @@ namespace PS.InputHandlers
                 }
 
                 _mousePos = Input.mousePosition;
-                
-                if (IsPointerOverUIButton())
-                {
-                    return;
-                }
                 
                 // Crée un rayon partant de la caméra vers la position de la souris.
                 Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
