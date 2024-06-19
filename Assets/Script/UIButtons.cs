@@ -10,6 +10,7 @@ public class UIButtons : MonoBehaviour
     //public VisualTreeAsset uxmlVisualTree;
     public UIDocument uiDocument;
     private List<UnitActionsEnum> _currentActions = new();
+    public bool isOverSomeButton;
     
     // Start is called before the first frame update
     private void Start()
@@ -32,6 +33,8 @@ public class UIButtons : MonoBehaviour
         var button = new Button() { text = GetText.Get(action) };
         button.AddToClassList("swarmies-button");
         button.clickable.clicked += () => ButtonOnclicked(action);
+        button.RegisterCallback<MouseEnterEvent>(_ => isOverSomeButton = true);
+        button.RegisterCallback<MouseLeaveEvent>(_ => isOverSomeButton = false);
 
         return button;
     }

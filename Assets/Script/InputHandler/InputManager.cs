@@ -6,7 +6,7 @@ using System.Collections;
 using PS.Player;
 using Script;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
+using UnityEngine.UIElements;
 using UnityEngine.UI;
 
 namespace PS.InputHandlers
@@ -125,6 +125,13 @@ namespace PS.InputHandlers
             // Vérifie si le bouton gauche de la souris est pressé.
             if (Input.GetMouseButtonDown(0))
             {
+                // Check if the pointer is over a UI element
+                if (IsPointerOverInteractableUI())
+                {
+                    // If the pointer is over a UI element, skip the raycast
+                    return;
+                }
+
                 _mousePos = Input.mousePosition;
                 
                 if (IsPointerOverUIButton())
@@ -140,22 +147,22 @@ namespace PS.InputHandlers
                 {
                     // Récupère le layer de l'objet touché.
                     int layerHit = _hit.transform.gameObject.layer;
+                    Debug.Log("Hit object: " + _hit.collider.gameObject.name);
+                    Debug.Log("Hit object layer: " + LayerMask.LayerToName(layerHit));
 
+                    string layerName = LayerMask.LayerToName(layerHit);
                     // Traite différemment selon le layer de l'objet touché.
-                    switch (layerHit)
+                    switch (layerName)
                     {
-                        case 5:
-                            //layer de UI 
-                            break;
-                        case 6:
+                        case "Ground":
                             _isDragging = true;
                             DeselectUnits();
                             break;
-                        case 8: // Couche des unités amies.
+                        case "PlayerUnits": // Couche des unités amies.
                             // Sélectionne l'unité.
                             SelectUnit(_hit.transform, Input.GetKey(KeyCode.LeftShift));
                             break;
-                        case 9: // Couche des unités ennemies.
+                        case "EnemyUnits": // Couche des unités ennemies.
                             // Pourrait être utilisé pour attaquer ou cibler.
                             break;
                         default: // Si l'objet touché n'appartient à aucun des layers spécifiés.
@@ -267,6 +274,14 @@ namespace PS.InputHandlers
             // Retourne vrai si la liste des unités sélectionnées n'est pas vide.
             return SelectedUnits.Count > 0;
         }
+
+        // Custom method to check if the pointer is over an interactable UI element
+        private bool IsPointerOverInteractableUI()
+        {
+            return uiButtons.isOverSomeButton;
+
+        }
+
         
         private bool IsPointerOverUIButton()
         {
