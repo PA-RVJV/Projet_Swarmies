@@ -39,6 +39,8 @@ namespace PS.InputHandlers
         private float rotationDelay = 0.2f; // Délai de 0.5 seconde
 
         private Camera _cam; // Référence à l'objet Camera
+
+        private Quaternion originalRotation;
         
         void Start()
         {
@@ -46,6 +48,7 @@ namespace PS.InputHandlers
             groundMask = LayerMask.GetMask("Ground");
             pitch = mainTransform.eulerAngles.x;
             _cam = GetComponent<Camera>();
+            originalRotation = mainTransform.rotation;
         }
 
         void Update()
@@ -115,7 +118,6 @@ namespace PS.InputHandlers
                 desiredEdgeMove = mainTransform.InverseTransformDirection(desiredEdgeMove);
                 
                 mainTransform.Translate(desiredEdgeMove, Space.Self);
-                ResetTarget();
             }
         }
 
@@ -138,7 +140,6 @@ namespace PS.InputHandlers
                     pitch = Mathf.Clamp(pitch, rotationLimits.x, rotationLimits.y);
 
                     mainTransform.eulerAngles = new Vector3(pitch, yaw, 0);
-                    ResetTarget();
                 }
             }
             else
@@ -212,6 +213,7 @@ namespace PS.InputHandlers
         public void ResetTarget()
         {
             targetToFollow = null;
+            mainTransform.rotation = originalRotation;
         }
 
         private void ComputeCameraBounds()

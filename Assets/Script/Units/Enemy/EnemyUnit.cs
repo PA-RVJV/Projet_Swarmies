@@ -26,6 +26,10 @@ namespace PS.Units.Enemy
 
         public float attackCooldown;
         
+        public UnitConfigManager unitConfig;
+        
+        private bool isPlayerUnit;
+        
         // OnEnable est appelé quand le script est activé.
         private void OnEnable()
         {
@@ -34,6 +38,11 @@ namespace PS.Units.Enemy
             attackCooldown = baseStats.attackCooldown;
         }
 
+        private void Start()
+        {
+            ApplyConfig(transform.parent);
+        }
+        
         private void Update()
         {
             if (!hasAggro)
@@ -50,6 +59,25 @@ namespace PS.Units.Enemy
             if (attackCooldown <= -0.3)
             {
                 attackCooldown = baseStats.attackCooldown;
+            }
+        }
+        
+        public void ApplyConfig(Transform parent)
+        {
+            isPlayerUnit = false;
+            UnitConfig config = unitConfig.GetConfig(parent.name);
+            if (config != null)
+            {
+                transform.localScale = config.scale;
+                Renderer renderer = GetComponent<Renderer>();
+                if (renderer != null)
+                {
+                    renderer.material = isPlayerUnit ? config.playerMaterial : config.enemyMaterial;
+                }
+            }
+            else
+            {
+                Debug.LogWarning("No config found for unit type: " + parent.name);
             }
         }
         

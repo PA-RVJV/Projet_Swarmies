@@ -24,9 +24,13 @@ namespace PS.Units.Player
 
         private bool isDeplaced = false;
         
+        private bool isPlayerUnit;
+        
         private float distance;
 
         public float attackCooldown;
+
+        public UnitConfigManager unitConfig;
         
         // OnEnable est appelé quand le script est activé.
         private void OnEnable()
@@ -36,6 +40,11 @@ namespace PS.Units.Player
             attackCooldown = baseStats.attackCooldown;
         }
 
+        private void Start()
+        {
+            ApplyConfig(transform.parent);
+        }
+        
         private void OnDestroy()
         {
             Debug.Log("destroyed");
@@ -62,7 +71,7 @@ namespace PS.Units.Player
                 attackCooldown -= Time.deltaTime;
             }
 
-            if (isDeplaced == true)
+            if (isDeplaced)
             {
                 if (navAgent.remainingDistance <= navAgent.stoppingDistance) // Vérifie si l'agent est assez proche de la destination
                 {
@@ -77,8 +86,42 @@ namespace PS.Units.Player
             {
                 attackCooldown = baseStats.attackCooldown;
             }
+
+            // introduire une condition avec les batiment de production d'unité pour le changement d'apparence
+            //if ()
+            //{
+            //    unitConfig.ApplyConfig(gameObject, currentParentName);
+            //
+            //}
         }
 
+        public void ApplyConfig(Transform parent)
+        {
+            if (parent.parent.name == "Player Units")
+            {
+                isPlayerUnit = true;
+            }
+            else
+            {
+                isPlayerUnit = false;
+            }
+            
+            UnitConfig config = unitConfig.GetConfig(parent.name);
+            if (config != null)
+            {
+                transform.localScale = config.scale;
+                Renderer renderer = GetComponent<Renderer>();
+                if (renderer != null)
+                {
+                    renderer.material = isPlayerUnit ? config.playerMaterial : config.enemyMaterial;
+                }
+            }
+            else
+            {
+                Debug.LogWarning("No config found for unit type: " + parent.name);
+            }
+        }
+        
         private void CheckForEnemyTarget()
         {
             rangeColliders = Physics.OverlapSphere(transform.position, baseStats.aggroRange);
