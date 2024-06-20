@@ -95,7 +95,7 @@ namespace PS.Units.Player
             //}
         }
 
-        public void ApplyConfig(Transform parent)
+        private void ApplyConfig(Transform parent)
         {
             if (parent.parent.name == "Player Units")
             {
