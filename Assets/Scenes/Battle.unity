@@ -255,12 +255,12 @@ MonoBehaviour:
     enemyMaterial: {fileID: 2100000, guid: 43d1fc6316da9da4ca17c2dc6d9b4948, type: 2}
   - unitType: Shooters
     scale: {x: 0.2, y: 0.2, z: 0.2}
-    playerMaterial: {fileID: 2100000, guid: 6b0dc7600a781e140b67762fabda494f, type: 2}
-    enemyMaterial: {fileID: 2100000, guid: 43d1fc6316da9da4ca17c2dc6d9b4948, type: 2}
+    playerMaterial: {fileID: 2100000, guid: f0d9509a46fc1784c9a3d94d92af127b, type: 2}
+    enemyMaterial: {fileID: 2100000, guid: 864282e4bafa7ec42854e979e4a57d53, type: 2}
   - unitType: Healers
     scale: {x: 0.2, y: 0.2, z: 0.2}
-    playerMaterial: {fileID: 2100000, guid: 6b0dc7600a781e140b67762fabda494f, type: 2}
-    enemyMaterial: {fileID: 2100000, guid: 43d1fc6316da9da4ca17c2dc6d9b4948, type: 2}
+    playerMaterial: {fileID: 2100000, guid: d2f0dc1f35c981242a5b9ad163d5bd43, type: 2}
+    enemyMaterial: {fileID: 2100000, guid: 919187ffa2e4fd542a9a4903d91c6fc6, type: 2}
   - unitType: Workers
     scale: {x: 0.15, y: 0.15, z: 0.15}
     playerMaterial: {fileID: 2100000, guid: 6b0dc7600a781e140b67762fabda494f, type: 2}
