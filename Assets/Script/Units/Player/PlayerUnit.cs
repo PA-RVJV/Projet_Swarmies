@@ -9,30 +9,25 @@ namespace PS.Units.Player
     public class PlayerUnit : MonoBehaviour
     {
         public UnitHandler unitHandler;
-        // Variable privée pour stocker la référence au composant NavMeshAgent de l'unité.
-        private NavMeshAgent navAgent;
-
         public UnitStatTypes.Base baseStats;
-        
-        private Collider[] rangeColliders;
-        
-        private Transform aggroTarget;
-        
-        private UnitStatDisplay aggroUnit;
-        
-        private bool hasAggro = false;
-
-        private bool isDeplaced = false;
-        
-        private float distance;
-
         public float attackCooldown;
+        
+        // Variable privée pour stocker la référence au composant NavMeshAgent de l'unité.
+        private NavMeshAgent _navAgent;
+        private Collider[] _rangeColliders = {};
+        private Transform _aggroTarget;
+        private UnitStatDisplay _aggroUnit;
+        
+        private bool _hasAggro;
+        private bool _isDeplaced;
+        private float _distance;
+
         
         // OnEnable est appelé quand le script est activé.
         private void OnEnable()
         {
             // Initialise la référence au composant NavMeshAgent.
-            navAgent = GetComponent<NavMeshAgent>();
+            _navAgent = GetComponent<NavMeshAgent>();
             attackCooldown = baseStats.attackCooldown;
         }
 
@@ -42,15 +37,15 @@ namespace PS.Units.Player
         }
         
         // Méthode pour déplacer l'unité vers une destination spécifique.
-        public void MoveUnit(Vector3 _destination)
+        public void MoveUnit(Vector3 destination)
         {
             // Utilise le NavMeshAgent pour définir la destination de l'unité.
-            isDeplaced = true;
-            navAgent.SetDestination(_destination);
+            _isDeplaced = true;
+            _navAgent.SetDestination(destination);
         }
         private void Update()
         {
-            if (!hasAggro)
+            if (!_hasAggro)
             {
                 CheckForEnemyTarget();
             }
@@ -62,13 +57,13 @@ namespace PS.Units.Player
                 attackCooldown -= Time.deltaTime;
             }
 
-            if (isDeplaced == true)
+            if (_isDeplaced == true)
             {
-                if (navAgent.remainingDistance <= navAgent.stoppingDistance) // Vérifie si l'agent est assez proche de la destination
+                if (_navAgent.remainingDistance <= _navAgent.stoppingDistance) // Vérifie si l'agent est assez proche de la destination
                 {
-                    if (!navAgent.hasPath || navAgent.velocity.sqrMagnitude == 0f) // Vérifie si l'agent est arrêté
+                    if (!_navAgent.hasPath || _navAgent.velocity.sqrMagnitude == 0f) // Vérifie si l'agent est arrêté
                     {
-                        isDeplaced = false;
+                        _isDeplaced = false;
                     }
                 }
             }
@@ -81,15 +76,15 @@ namespace PS.Units.Player
 
         private void CheckForEnemyTarget()
         {
-            rangeColliders = Physics.OverlapSphere(transform.position, baseStats.aggroRange);
+            Physics.OverlapSphereNonAlloc(transform.position, baseStats.aggroRange, _rangeColliders);
 
-            for (int i = 0; i < rangeColliders.Length; i++)
+            for (int i = 0; i < _rangeColliders.Length; i++)
             {
-                if (rangeColliders[i]?.gameObject.layer == unitHandler.eUnitLayer)
+                if (_rangeColliders[i]?.gameObject.layer == unitHandler.eUnitLayer)
                 {
-                    aggroTarget = rangeColliders[i].gameObject.transform;
-                    aggroUnit = aggroTarget.gameObject.GetComponentInChildren<UnitStatDisplay>();
-                    hasAggro = true;
+                    _aggroTarget = _rangeColliders[i].gameObject.transform;
+                    _aggroUnit = _aggroTarget.gameObject.GetComponentInChildren<UnitStatDisplay>();
+                    _hasAggro = true;
                     break; 
                 }
             }
@@ -97,14 +92,14 @@ namespace PS.Units.Player
         
         private void CheckAggroDistance()
         {
-            if (aggroTarget != null)
+            if (_aggroTarget != null)
             {
-                distance = Vector3.Distance(aggroTarget.position, transform.position);
-                if (distance >= baseStats.attackRange)
+                _distance = Vector3.Distance(_aggroTarget.position, transform.position);
+                if (_distance >= baseStats.attackRange)
                 {
-                    hasAggro = false;
-                    aggroTarget = null;
-                    aggroUnit = null;
+                    _hasAggro = false;
+                    _aggroTarget = null;
+                    _aggroUnit = null;
                 }
             }
         }
@@ -112,30 +107,30 @@ namespace PS.Units.Player
 
         private void Attack()
         {
-            if (distance < baseStats.attackRange && attackCooldown <= 0)
+            if (_distance < baseStats.attackRange && attackCooldown <= 0)
             {
                 attackCooldown = baseStats.attackCooldown;
-                aggroUnit.TakeDamage(baseStats.attack);
+                _aggroUnit.TakeDamage(baseStats.attack);
             }
         }
 
         private void MoveToAggroTarget()
         {
-            if (aggroTarget == null)
+            if (_aggroTarget == null)
             {
-                navAgent.SetDestination(transform.position);
-                hasAggro = false;
+                _navAgent.SetDestination(transform.position);
+                _hasAggro = false;
             }
             else
             {
-                distance = Vector3.Distance(aggroTarget.position, transform.position);
-                if (isDeplaced != true)
+                _distance = Vector3.Distance(_aggroTarget.position, transform.position);
+                if (_isDeplaced != true)
                 {
-                    navAgent.stoppingDistance = baseStats.attackRange;
+                    _navAgent.stoppingDistance = baseStats.attackRange;
 
-                    if (distance <= baseStats.aggroRange)
+                    if (_distance <= baseStats.aggroRange)
                     {
-                        navAgent.SetDestination(aggroTarget.position);
+                        _navAgent.SetDestination(_aggroTarget.position);
                     }
                 }
             }

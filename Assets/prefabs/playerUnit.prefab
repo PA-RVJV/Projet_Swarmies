@@ -121,6 +121,8 @@ GameObject:
   - component: {fileID: 6961604062593442287}
   - component: {fileID: 6486362490931570892}
   - component: {fileID: 6744776351322126271}
+  - component: {fileID: 4108484332071745694}
+  - component: {fileID: 3650704415699554748}
   m_Layer: 8
   m_Name: playerUnit
   m_TagString: PlayerUnit
@@ -263,6 +265,33 @@ MonoBehaviour:
     health: 0
     armor: 0
   attackCooldown: 0
+--- !u!114 &4108484332071745694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2374471220910993860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdeb7fae16ed1447ea95af973038a945, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3650704415699554748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2374471220910993860}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33706eb49e9fa4aab877555cec42e0ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  separationWeight: 1
+  alignmentWeight: 1
+  cohesionWeight: 1
 --- !u!1001 &1912543690301757148
 PrefabInstance:
   m_ObjectHideFlags: 0
