@@ -2,6 +2,8 @@ using System;
 using System.Data;
 using UnityEngine;
 using Script;
+using UnityEngine.AI;
+
 #nullable enable
 
 namespace Script.Systems
@@ -24,8 +26,11 @@ namespace Script.Systems
                     {
                         if(!unit)
                             continue;
-                        var go = Instantiate(casernePrefab, unit?.transform);
+                        var go = Instantiate(casernePrefab, unit.transform.position, unit.transform.rotation);
                         go.transform.parent = terrain.transform;
+                        var nvo = go.AddComponent<NavMeshObstacle>();
+                        nvo.carving = true;
+                        
                         Destroy(unit);
                     }
                     break;
