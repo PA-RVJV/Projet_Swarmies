@@ -35,7 +35,8 @@ namespace Script.Display
             button.clickable.clicked += () => ButtonOnclicked(action, sObjects);
             button.RegisterCallback<MouseEnterEvent>(_OnUI);
             button.RegisterCallback<MouseLeaveEvent>(_OutUI);
-    
+            button.RegisterCallback<DetachFromPanelEvent>(_ => IsOverSomeButton = false);
+            
             return button;
         }
     
