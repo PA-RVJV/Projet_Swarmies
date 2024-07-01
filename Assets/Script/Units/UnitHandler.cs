@@ -11,7 +11,7 @@ namespace PS.Units
     {
         public PlayerManager playerManager;
         [SerializeField]
-        private Unit warrior, shooter, healer, worker, mairie;
+        private Unit warrior, shooter, healer, worker, mairie, caserne;
 
         public LayerMask pUnitLayer;
         public LayerMask eUnitLayer;
@@ -52,6 +52,9 @@ namespace PS.Units
                     break;
                 case "mairie":
                     unit = mairie;
+                    break;
+                case "caserne":
+                    unit = caserne;
                     break;
                 default:
                     Debug.Log($"Unit Type : {type} not found");

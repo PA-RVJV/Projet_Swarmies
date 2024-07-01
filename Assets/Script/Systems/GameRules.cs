@@ -12,7 +12,7 @@ namespace Script.Systems
     {
         public GameObject? casernePrefab;
         public GameObject? terrain;
-        
+        public GameObject casernesAlliees;
 
         public void DealWithAction(UnitActionsEnum action, GameObject?[] source)
         {
@@ -27,7 +27,7 @@ namespace Script.Systems
                         if(!unit)
                             continue;
                         var go = Instantiate(casernePrefab, unit.transform.position, unit.transform.rotation);
-                        go.transform.parent = terrain.transform;
+                        go.transform.parent = casernesAlliees.transform;
                         var nvo = go.AddComponent<NavMeshObstacle>();
                         nvo.carving = true;
                         
