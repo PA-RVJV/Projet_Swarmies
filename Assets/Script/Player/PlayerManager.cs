@@ -30,7 +30,6 @@ namespace PS.Player
             unitHandler.SetUnitStats(playerUnits);
             unitHandler.SetUnitStats(enemyUnits);
         }
-
         
         private void Update()
         {

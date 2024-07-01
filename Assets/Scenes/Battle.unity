@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6699,6 +6699,7 @@ GameObject:
   - component: {fileID: 1061530865}
   - component: {fileID: 1061530867}
   - component: {fileID: 1061530866}
+  - component: {fileID: 1061530868}
   m_Layer: 0
   m_Name: Game Controller
   m_TagString: Untagged
@@ -6770,6 +6771,20 @@ MonoBehaviour:
     m_Bits: 512
   _HealthPrefab: {fileID: 7254572631014417869, guid: 404902d003f90f6428c5d765c06675d9, type: 3}
   _MinimapPastillePrefab: {fileID: 6125455789580105139, guid: f91a1fa76255549e4b01d7db00179fd2, type: 3}
+--- !u!114 &1061530868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1061530864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ed199770fb1e4d8ca7f92326169e24a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  casernePrefab: {fileID: 5203104378639932418, guid: 9bcea32406784c846a269c94011938b4, type: 3}
+  terrain: {fileID: 1206788133}
 --- !u!1001 &1064652884
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10827,7 +10842,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiDocument: {fileID: 1341358028}
-  isOverSomeButton: 0
+  gameRules: {fileID: 1061530868}
 --- !u!4 &1656244404
 Transform:
   m_ObjectHideFlags: 0
@@ -11920,6 +11935,10 @@ PrefabInstance:
       propertyPath: unitHandler
       value: 
       objectReference: {fileID: 1061530867}
+    - target: {fileID: 3505199758663385287, guid: 63cbff5b22c2c4640b4cccaa21af163e, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4099872294602062012, guid: 63cbff5b22c2c4640b4cccaa21af163e, type: 3}
       propertyPath: m_Layer
       value: 9

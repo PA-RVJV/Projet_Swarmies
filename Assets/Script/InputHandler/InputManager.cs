@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using PS.Units.Player;
 using System;
-using System.Collections;
 using PS.Player;
 using Script;
+using Script.Display;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 
@@ -23,7 +23,7 @@ namespace PS.InputHandlers
         private bool _isDragging = false; // Booléen de vérification sélection multiple en cour ou non.
         private Vector3 _mousePos; // Position initiale de la souris lors du début de select.
         private Camera _cam;
-        private CameraController camController;
+        private CameraController _camController;
         private UnityEngine.UI.GraphicRaycaster _graphicRaycaster;
         private EventSystem _eventSystem;
 
@@ -40,7 +40,7 @@ namespace PS.InputHandlers
 
         private void Start()
         {
-            camController = _cam.GetComponent<CameraController>();
+            _camController = _cam.GetComponent<CameraController>();
         }
         
         // Dessine le rectangle de sélection sur l'interface a l'aide de la classe MultiSelect
@@ -60,21 +60,29 @@ namespace PS.InputHandlers
         
         void Update()
         {
-            if (SelectedUnits.Count == 1)
+            if (SelectedUnits.Count >= 1)
             {
-                
-                if (SelectedUnits[0].TryGetTarget(out unit))
+                var dico = new Dictionary<GameObject, UnitActionsEnum>();
+                foreach (var selectedUnit in SelectedUnits)
                 {
-                    //Debug.Log(unit);
-                    if (unit.parent.name == "Workers")
+                    if (selectedUnit.TryGetTarget(out unit))
                     {
-                        uiButtons.SetButtons(new List<UnitActionsEnum>{UnitActionsEnum.Construire});
+                        if(!unit)
+                            continue;
+                        
+                        //Debug.Log(unit);
+                        if (unit.parent.name == "Workers")
+                        {
+                            dico.Add(unit.gameObject, UnitActionsEnum.Construire);
+                        }
                     }
                 }
+                
+                uiButtons.SetButtons(dico);
             }
             else
             {
-                uiButtons.SetButtons(new List<UnitActionsEnum>());
+                uiButtons.SetButtons(new ());
             }
 
             if (Input.GetMouseButtonDown(0))
@@ -88,7 +96,7 @@ namespace PS.InputHandlers
                         if (SelectedUnits[0].TryGetTarget(out unit))
                         {
                             Debug.Log("Double click");
-                            camController.SetTarget(unit);
+                            _camController.SetTarget(unit);
                         }
                     }
                 }
@@ -251,8 +259,7 @@ namespace PS.InputHandlers
         // Custom method to check if the pointer is over an interactable UI element
         private bool IsPointerOverInteractableUI()
         {
-            return uiButtons.isOverSomeButton;
-
+            return uiButtons.IsOverSomeButton;
         }
 
         
