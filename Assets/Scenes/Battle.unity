@@ -6786,6 +6786,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   casernePrefab: {fileID: 5203104378639932418, guid: 9bcea32406784c846a269c94011938b4, type: 3}
   terrain: {fileID: 1206788133}
+  casernesAlliees: {fileID: 1558499165}
 --- !u!1001 &1064652884
 PrefabInstance:
   m_ObjectHideFlags: 0
