@@ -257,16 +257,16 @@ namespace PS.InputHandlers
         }
 
         public static Vector3 ProjectedPosition(Transform camera){
-            var camRotation = camera.eulerAngles;
-            var camPosition = camera.position;
+            var camRot = camera.eulerAngles;
+            var camPos = camera.position;
 
-            var zAngle = camRotation.z;
-            var xAngle = camRotation.x;
+            var zAngle = camRot.z;
+            var xAngle = camRot.x;
 
-            var zPadding = Mathf.Tan(Mathf.Deg2Rad * xAngle) * camPosition.y; 
-            var xPadding = Mathf.Tan(Mathf.Deg2Rad * zAngle) * camPosition.y;
+            var zPadding = Mathf.Tan(Mathf.Deg2Rad * xAngle) * camPos.y;
+            var xPadding = Mathf.Tan(Mathf.Deg2Rad * zAngle) * camPos.y;
 
-            return new Vector3(xPadding, camPosition.y, zPadding);
+            return new Vector3(xPadding, camPos.y, zPadding);
         }
     }
 }
