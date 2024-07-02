@@ -18,6 +18,11 @@ public class SpawnerUnit : MonoBehaviour
 
     void Start()
     {
+        var t = transform.Find("Spawner");
+        if (t)
+        {
+            spawnPoint = t.position;
+        }
         StartCoroutine(Spawner());
     }
 
@@ -29,7 +34,8 @@ public class SpawnerUnit : MonoBehaviour
             {
                 yield return new WaitForSeconds(timeTilNextSpawn);
                 GameObject GO = Instantiate(spawnWorker, spawnPoint, Quaternion.identity);
-                GO.name = "HellTaker";
+                
+                GO.name = gameObject.name.Remove(gameObject.name.Length - 1);
                 GO.transform.parent = transform;
                 GO.GetComponent<UnitSpawnCount>().SetSpawner(this); // Set the spawner reference
                 currentCount++;
