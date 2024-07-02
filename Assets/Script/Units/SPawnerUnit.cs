@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class SpawnerUnit : MonoBehaviour
 {
@@ -18,7 +16,7 @@ public class SpawnerUnit : MonoBehaviour
 
     void Start()
     {
-        var t = transform.Find("Spawner");
+        var t = transform.Find("Spawn");
         if (t)
         {
             spawnPoint = t.position;

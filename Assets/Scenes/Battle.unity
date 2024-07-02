@@ -14383,6 +14383,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mairie
       objectReference: {fileID: 0}
+    - target: {fileID: 5203104378639932418, guid: 9bcea32406784c846a269c94011938b4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5435959878754354914, guid: 9bcea32406784c846a269c94011938b4, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
