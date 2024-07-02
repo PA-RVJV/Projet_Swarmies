@@ -59,6 +59,6 @@ public class Minimap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        minimapCamera.transform.position = Camera.main.transform.position + CameraController.ProjectedPosition(_cam.transform);
+        minimapCamera.transform.position = _cam.transform.position + CameraController.ProjectedPosition(_cam.transform);
     }
 }

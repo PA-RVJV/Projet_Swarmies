@@ -261,7 +261,7 @@ namespace PS.InputHandlers
             var camPos = camera.position;
 
             var zAngle = camRot.z;
-            var xAngle = camRot.x;
+            var xAngle = 90 - camRot.x;
 
             var zPadding = Mathf.Tan(Mathf.Deg2Rad * xAngle) * camPos.y;
             var xPadding = Mathf.Tan(Mathf.Deg2Rad * zAngle) * camPos.y;
