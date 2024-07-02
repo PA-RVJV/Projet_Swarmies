@@ -189,6 +189,15 @@ namespace PS.InputHandlers
                             break;
                         case 9: // layer des unités ennemies.
                             // Pourrait être utilisé pour attaquer ou cibler.
+                            foreach (var weakUnit in SelectedUnits)
+                            {
+                                if(weakUnit.TryGetTarget(out Transform unit) && unit) 
+                                {
+                                    PlayerUnit pU = unit.gameObject.GetComponent<PlayerUnit>();
+                                    pU.TargetEnemy(_hit.transform);
+                                }
+                            }
+                            
                             break;
                         default: // Si l'objet touché n'appartient à aucun des layers spécifiés.
                             // Déplace les unités sélectionnées vers le point touché.

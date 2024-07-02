@@ -265,6 +265,7 @@ MonoBehaviour:
     health: 0
     armor: 0
   attackCooldown: 0
+  unitConfig: {fileID: 0}
 --- !u!114 &4108484332071745694
 MonoBehaviour:
   m_ObjectHideFlags: 0
