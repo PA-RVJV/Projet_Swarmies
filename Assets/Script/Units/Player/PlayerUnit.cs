@@ -18,7 +18,7 @@ namespace PS.Units.Player
         private UnitStatDisplay aggroUnit;       
         
         private bool isPlayerUnit;
-       
+        
         public float attackCooldown;
 
         public UnitConfigManager unitConfig;

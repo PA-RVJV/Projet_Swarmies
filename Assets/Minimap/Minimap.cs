@@ -19,8 +19,13 @@ public class Minimap : MonoBehaviour
 
     public Sprite minimapMarkerSprite;
 
+    private Camera _cam;
+
     void Start()
     {
+        _cam = Camera.main;
+        
+        
         if(!showMinimapMarkers)
             return;
 
@@ -54,6 +59,6 @@ public class Minimap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        minimapCamera.transform.position = Camera.main.transform.position + CameraController.ProjectedPosition(Camera.main.transform);
+        minimapCamera.transform.position = Camera.main.transform.position + CameraController.ProjectedPosition(_cam.transform);
     }
 }

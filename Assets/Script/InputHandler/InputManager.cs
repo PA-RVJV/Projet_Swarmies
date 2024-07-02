@@ -5,6 +5,8 @@ using System;
 using PS.Player;
 using Script;
 using Script.Display;
+using UnityEngine.AI;
+using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 
@@ -132,6 +134,7 @@ namespace PS.InputHandlers
                     Debug.Log("Hit object layer: " + LayerMask.LayerToName(layerHit));
 
                     string layerName = LayerMask.LayerToName(layerHit);
+                    
                     // Traite différemment selon le layer de l'objet touché.
                     switch (layerName)
                     {
@@ -196,6 +199,8 @@ namespace PS.InputHandlers
                             {
                                 if(weakUnit.TryGetTarget(out Transform unit) && unit) 
                                 {
+                                    if(!this.unit.GetComponent<NavMeshAgent>())
+                                        break;
                                     PlayerUnit pU = unit.gameObject.GetComponent<PlayerUnit>();
                                     pU.MoveUnit(_hit.point);
                                 }
@@ -209,6 +214,8 @@ namespace PS.InputHandlers
         // Sélectionne une unité et active un objet enfant spécifié pour indiquer la sélection.
         private void SelectUnit(Transform unit, bool canMultiselect = false)
         {
+            Assert.IsNotNull(unit);
+            
             // Désélectionne toutes les unités si la multisélection n'est pas autorisée.
             if (!canMultiselect)
             {
