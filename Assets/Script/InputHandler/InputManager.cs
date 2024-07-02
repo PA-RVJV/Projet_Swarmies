@@ -134,6 +134,7 @@ namespace PS.InputHandlers
                     Debug.Log("Hit object layer: " + LayerMask.LayerToName(layerHit));
 
                     string layerName = LayerMask.LayerToName(layerHit);
+                    
                     // Traite différemment selon le layer de l'objet touché.
                     switch (layerName)
                     {
