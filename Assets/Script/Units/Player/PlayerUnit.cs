@@ -97,6 +97,13 @@ namespace PS.Units.Player
             //}
         }
 
+        public void TargetEnemy(Transform TargetedEnemy)
+        {
+            _aggroTarget = TargetedEnemy;
+            _aggroUnit = _aggroTarget.gameObject.GetComponentInChildren<UnitStatDisplay>();
+            _hasAggro = true;
+        }
+        
         private void ApplyConfig(Transform parent)
         {
             if (parent.parent.name == "Player Units")
@@ -126,7 +133,7 @@ namespace PS.Units.Player
         
         private void CheckForEnemyTarget()
         {
-            Physics.OverlapSphereNonAlloc(transform.position, baseStats.aggroRange, _rangeColliders);
+            _rangeColliders = Physics.OverlapSphere(transform.position, baseStats.aggroRange);
 
             for (int i = 0; i < _rangeColliders.Length; i++)
             {
@@ -178,10 +185,10 @@ namespace PS.Units.Player
                 {
                     _navAgent.stoppingDistance = baseStats.attackRange;
 
-                    if (_distance <= baseStats.aggroRange)
-                    {
-                        _navAgent.SetDestination(_aggroTarget.position);
-                    }
+                    //if (_distance <= baseStats.aggroRange)
+                    //{
+                    _navAgent.SetDestination(_aggroTarget.position);
+                    //}
                 }
             }
         }
