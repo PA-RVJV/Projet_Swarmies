@@ -5,6 +5,8 @@ using System;
 using PS.Player;
 using Script;
 using Script.Display;
+using Unity.VisualScripting;
+using UnityEditor.PackageManager;
 using UnityEngine.AI;
 using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
@@ -208,7 +210,7 @@ namespace PS.InputHandlers
                             {
                                 if(weakUnit.TryGetTarget(out Transform unit) && unit) 
                                 {
-                                    if(!this.unit.GetComponent<NavMeshAgent>())
+                                    if(!(this.unit.GetComponent<NavMeshAgent>() && this.unit.GetComponent<NavMeshAgent>().enabled))
                                         break;
                                     PlayerUnit pU = unit.gameObject.GetComponent<PlayerUnit>();
                                     pU.MoveUnit(_hit.point);
@@ -233,7 +235,13 @@ namespace PS.InputHandlers
             // Ajoute l'unité à la liste des unités sélectionnées.
             SelectedUnits.Add(new WeakReference<Transform>(unit));
             // Active un objet enfant spécifié de l'unité pour indiquer la sélection.
-            unit.Find("Hightlight").gameObject.SetActive(true); // Attention à l'erreur de frappe : "Highlight".
+            Transform t = unit.Find("Hightlight");
+            if (!t)
+            {
+                Debug.LogWarning("Le gameobject "+unit.name+" n'a pas de descendant Hightlight");
+                return;
+            }
+            t.gameObject.SetActive(true); // Attention à l'erreur de frappe : "Highlight".
         }
 
         // Désélectionne toutes les unités sélectionnées et désactive l'indicateur de sélection.
@@ -243,7 +251,14 @@ namespace PS.InputHandlers
             {
                 var sel = SelectedUnits[i];
                 if(sel.TryGetTarget(out Transform trans) && trans) {
-                    trans.Find("Hightlight").gameObject.SetActive(false); // Attention à l'erreur de frappe : "Highlight".
+                    Transform t = trans.Find("Hightlight"); // Attention à l'erreur de frappe : "Highlight".
+                    if (!t)
+                    {
+                        Debug.LogWarning("Le gameobject "+unit.name+" n'a pas de descendant Hightlight");
+                        continue;
+                    }
+
+                    t.gameObject.SetActive(false);
                 }
             }
             // Efface la liste des unités sélectionnées.
