@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using PS.Units;
+using PS.Units.Player;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -13,6 +15,7 @@ public class SpawnerUnit : MonoBehaviour
     public float timeTilNextSpawn = 5f;
 
     private int currentCount = 0;
+    public UnitConfigManager unitConfigManager;
 
     // Start is called before the first frame update
 
@@ -34,6 +37,8 @@ public class SpawnerUnit : MonoBehaviour
             {
                 yield return new WaitForSeconds(timeTilNextSpawn);
                 GameObject GO = Instantiate(spawnWorker, spawnPoint, Quaternion.identity);
+                PlayerUnit pu = GO.GetComponent<PlayerUnit>();
+                pu.unitConfig = unitConfigManager;
                 
                 GO.name = gameObject.name.Remove(gameObject.name.Length - 1);
                 GO.transform.parent = transform;

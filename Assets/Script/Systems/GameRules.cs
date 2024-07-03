@@ -4,16 +4,16 @@ using UnityEngine;
 using Script;
 using UnityEngine.AI;
 
-#nullable enable
-
 namespace Script.Systems
 {
     public class GameRules : MonoBehaviour
     {
-        public GameObject? casernePrefab;
+        public GameObject casernePrefab;
         public GameObject selectCirclePrefab;
-        public GameObject? terrain;
+        public GameObject terrain;
         public GameObject casernesAlliees;
+        public GameObject pastilleMinimap;
+        public GameObject unitStatsDisplay;
 
         public void DealWithAction(UnitActionsEnum action, GameObject?[] source)
         {
@@ -32,6 +32,7 @@ namespace Script.Systems
 
                         // pour pouvoir etre cliqué
                         go.layer = LayerMask.NameToLayer("PlayerUnits");
+                        go.name = "Titikaka";
                         
                         // bloqueuer de pqthfinding
                         var nvo = go.AddComponent<NavMeshObstacle>();
@@ -45,14 +46,20 @@ namespace Script.Systems
                         scpos.y = 0;
                         selectCircle.transform.position = scpos;
                         
+                        // pastille minimap
+                        var pastille = Instantiate(pastilleMinimap, go.transform);
+                        pastille.transform.parent = go.transform;
+                        
+                        // Barre de vie
+                        var usd = Instantiate(unitStatsDisplay, go.transform);
+                        usd.transform.parent = go.transform;
+                        
                         Destroy(unit);
                     }
                     break;
                 default:
                     throw new NotImplementedException(nameof(action));
             }
-            
-
         }
     }
 }
