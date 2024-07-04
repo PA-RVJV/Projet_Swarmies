@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using PS.Units;
 using PS.Units.Player;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class SpawnerUnit : MonoBehaviour
 {
@@ -15,13 +14,14 @@ public class SpawnerUnit : MonoBehaviour
     public float timeTilNextSpawn = 5f;
 
     private int currentCount = 0;
+    private string _unitToSpawn;
     public UnitConfigManager unitConfigManager;
 
     // Start is called before the first frame update
 
     void Start()
     {
-        var t = transform.Find("Spawner");
+        var t = transform.Find("Spawn");
         if (t)
         {
             spawnPoint = t.position;
@@ -40,8 +40,22 @@ public class SpawnerUnit : MonoBehaviour
                 PlayerUnit pu = GO.GetComponent<PlayerUnit>();
                 pu.unitConfig = unitConfigManager;
                 
-                GO.name = gameObject.name.Remove(gameObject.name.Length - 1);
+                //GO.name = gameObject.name.Remove(gameObject.name.Length - 1);
+                GO.name = _unitToSpawn;
+                
+                // place l'unité dans la bonne catégorie (un objet de coordonnée 0,0,0 de pref)
                 GO.transform.parent = transform;
+                
+                
+                PlayerUnit pus = GetComponent<PlayerUnit>();
+                //Transform ucf = transform.Find("UnitConfigManager");
+                if (pus)
+                {
+                    var GOpu = GO.GetComponent<PlayerUnit>();
+                    GOpu.unitConfig = pus.unitConfig;
+                    GOpu.unitHandler = pus.unitHandler;
+                }
+                
                 GO.GetComponent<UnitSpawnCount>().SetSpawner(this); // Set the spawner reference
                 currentCount++;
                 Debug.Log("Spawned unit. Current count: " + currentCount);
@@ -58,5 +72,10 @@ public class SpawnerUnit : MonoBehaviour
     {
         currentCount--;
         Debug.Log("Unit destroyed. Current count: " + currentCount);
+    }
+
+    public void SetUnitToSpawn(string unitName)
+    {
+        _unitToSpawn = unitName;
     }
 }

@@ -10,18 +10,13 @@ namespace PS.Units.Player
     {
         public UnitHandler unitHandler;
         public UnitStatTypes.Base baseStats;
-        
-        private Collider[] rangeColliders;
-        
-        private Transform aggroTarget;
-        
-        private UnitStatDisplay aggroUnit;       
-        
-        private bool isPlayerUnit;
-        
+        public UnitConfigManager unitConfig;
         public float attackCooldown;
 
-        public UnitConfigManager unitConfig;
+        private Collider[] rangeColliders;
+        private Transform aggroTarget;
+        private UnitStatDisplay aggroUnit;       
+        private bool isPlayerUnit;
         
         // Variable privée pour stocker la référence au composant NavMeshAgent de l'unité.
         private NavMeshAgent _navAgent;
@@ -32,6 +27,7 @@ namespace PS.Units.Player
         private bool _hasAggro;
         private bool _isDeplaced;
         private float _distance;
+        private bool _isAttacker;
 
         
         // OnEnable est appelé quand le script est activé.
@@ -40,6 +36,12 @@ namespace PS.Units.Player
             // Initialise la référence au composant NavMeshAgent.
             _navAgent = GetComponent<NavMeshAgent>();
             attackCooldown = baseStats.attackCooldown;
+
+            _isAttacker = GetComponent<NavMeshAgent>() && GetComponent<NavMeshAgent>().enabled;
+            if (unitConfig == null)
+            {
+                
+            }
         }
 
         private void Start()
@@ -61,6 +63,9 @@ namespace PS.Units.Player
         }
         private void Update()
         {
+            if (!_isAttacker)
+                return;
+            
             if (!_hasAggro)
             {
                 CheckForEnemyTarget();

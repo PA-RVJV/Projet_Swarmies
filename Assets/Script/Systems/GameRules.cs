@@ -1,5 +1,7 @@
 using System;
 using System.Data;
+using PS.Units;
+using PS.Units.Player;
 using UnityEngine;
 using Script;
 using UnityEngine.AI;
@@ -30,9 +32,13 @@ namespace Script.Systems
                         var go = Instantiate(casernePrefab, unit.transform.position, unit.transform.rotation);
                         go.transform.parent = casernesAlliees.transform;
 
+                        PlayerUnit pus = go.GetComponent<PlayerUnit>();
+                        pus.unitConfig = transform.Find("UnitConfigManager").GetComponent<UnitConfigManager>();
+                        pus.unitHandler = GetComponent<UnitHandler>();
+
                         // pour pouvoir etre cliqué
                         go.layer = LayerMask.NameToLayer("PlayerUnits");
-                        go.name = "Titikaka";
+
                         
                         // bloqueuer de pqthfinding
                         var nvo = go.AddComponent<NavMeshObstacle>();
