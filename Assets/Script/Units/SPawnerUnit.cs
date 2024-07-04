@@ -1,4 +1,6 @@
 using System.Collections;
+using PS.Units;
+using PS.Units.Player;
 using UnityEngine;
 
 public class SpawnerUnit : MonoBehaviour
@@ -11,6 +13,7 @@ public class SpawnerUnit : MonoBehaviour
     public float timeTilNextSpawn = 5f;
 
     private int currentCount = 0;
+    private string _unitToSpawn;
 
     // Start is called before the first frame update
 
@@ -33,8 +36,22 @@ public class SpawnerUnit : MonoBehaviour
                 yield return new WaitForSeconds(timeTilNextSpawn);
                 GameObject GO = Instantiate(spawnWorker, spawnPoint, Quaternion.identity);
                 
-                GO.name = gameObject.name.Remove(gameObject.name.Length - 1);
+                //GO.name = gameObject.name.Remove(gameObject.name.Length - 1);
+                GO.name = _unitToSpawn;
+                
+                // place l'unité dans la bonne catégorie (un objet de coordonnée 0,0,0 de pref)
                 GO.transform.parent = transform;
+                
+                
+                PlayerUnit pus = GetComponent<PlayerUnit>();
+                //Transform ucf = transform.Find("UnitConfigManager");
+                if (pus)
+                {
+                    var GOpu = GO.GetComponent<PlayerUnit>();
+                    GOpu.unitConfig = pus.unitConfig;
+                    GOpu.unitHandler = pus.unitHandler;
+                }
+                
                 GO.GetComponent<UnitSpawnCount>().SetSpawner(this); // Set the spawner reference
                 currentCount++;
                 Debug.Log("Spawned unit. Current count: " + currentCount);
@@ -51,5 +68,10 @@ public class SpawnerUnit : MonoBehaviour
     {
         currentCount--;
         Debug.Log("Unit destroyed. Current count: " + currentCount);
+    }
+
+    public void SetUnitToSpawn(string unitName)
+    {
+        _unitToSpawn = unitName;
     }
 }

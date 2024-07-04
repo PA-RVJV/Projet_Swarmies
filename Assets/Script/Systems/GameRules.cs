@@ -35,6 +35,7 @@ namespace Script.Systems
 
                         PlayerUnit pus = go.GetComponent<PlayerUnit>();
                         pus.unitConfig = transform.Find("UnitConfigManager").GetComponent<UnitConfigManager>();
+                        pus.unitHandler = GetComponent<UnitHandler>();
 
                         // pour pouvoir etre cliqué
                         go.layer = LayerMask.NameToLayer("PlayerUnits");
