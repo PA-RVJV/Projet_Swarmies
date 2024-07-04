@@ -1020,6 +1020,10 @@ PrefabInstance:
       propertyPath: m_PresetInfoIsWorld
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3345541388862574296, guid: 7fc420ec9f790f2428a28c18eed03dba, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6101472357226904362, guid: 7fc420ec9f790f2428a28c18eed03dba, type: 3}
       propertyPath: m_Color.b
       value: 0
@@ -6788,6 +6792,8 @@ MonoBehaviour:
   selectCirclePrefab: {fileID: 2887351354362772361, guid: e14a804724ae440d398fe38af842b43a, type: 3}
   terrain: {fileID: 1206788133}
   casernesAlliees: {fileID: 1558499165}
+  pastilleMinimap: {fileID: 0}
+  unitStatsDisplay: {fileID: 0}
 --- !u!1001 &1064652884
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12750,6 +12756,10 @@ PrefabInstance:
     - target: {fileID: 4153630322016571008, guid: f9df890b18e4f044491c2c2e92c790a2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6005811544664469627, guid: f9df890b18e4f044491c2c2e92c790a2, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6744776351322126271, guid: f9df890b18e4f044491c2c2e92c790a2, type: 3}
       propertyPath: unitConfig
