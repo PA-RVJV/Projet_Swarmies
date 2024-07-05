@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections;
 using System.Data;
 using PS.Units;
@@ -17,6 +18,11 @@ namespace Script.Systems
         public GameObject pastilleMinimap;
         public GameObject unitStatsDisplay;
         
+        public GameObject warriorsAllies;
+        public GameObject shootersAllies;
+        public GameObject healersAllies;
+        public GameObject workersAllies;
+
         public float closeRange; 
         
         private TreeInstance[] initialTreeInstances;
@@ -53,28 +59,32 @@ namespace Script.Systems
         {
             if (!terrain || !casernePrefab)
                 throw new ConstraintException();
-
-            switch (action)
+            foreach (var unit in source)
             {
-                case UnitActionsEnum.Construire:
-                    foreach (var unit in source)
-                    {
-                        if(!unit)
+                switch (action)
+                {
+                    case UnitActionsEnum.Construire:
+                        if (!unit)
                             continue;
                         var go = Instantiate(casernePrefab, unit.transform.position, unit.transform.rotation);
                         go.transform.parent = casernesAlliees.transform;
-                        
+                        go.name = casernePrefab.name;
+
                         PlayerUnit pus = go.GetComponent<PlayerUnit>();
-                        pus.unitConfig = transform.Find("UnitConfigManager").GetComponent<UnitConfigManager>();
+                        var ucf = transform.Find("UnitConfigManager").GetComponent<UnitConfigManager>();
+                        pus.unitConfig = ucf;
                         pus.unitHandler = GetComponent<UnitHandler>();
                         pus.baseStats = pus.unitHandler.GetUnitStats("caserne");
+
+                        // Le script de spawn attachée a la caserne
+                        var spaner = go.GetComponent<SpawnerUnit>();
+                        spaner.unitConfigManager = ucf;
 
                         checkForTreesIntersecting(go);
                             
                         // pour pouvoir etre cliqué
                         go.layer = LayerMask.NameToLayer("PlayerUnits");
 
-                        
                         // bloqueuer de pqthfinding
                         var nvo = go.AddComponent<NavMeshObstacle>();
                         nvo.carving = true;
@@ -86,22 +96,67 @@ namespace Script.Systems
                         var scpos = selectCircle.transform.position;
                         scpos.y = 0;
                         selectCircle.transform.position = scpos;
-                        
+
                         // pastille minimap
                         var pastille = Instantiate(pastilleMinimap, go.transform);
-                        //pastille.transform.parent = go.transform;
-                        pastille.transform.SetParent(go.transform);
-                        
+                        pastille.transform.SetParent(go.transform, false);
+
                         // Barre de vie
                         var usd = Instantiate(unitStatsDisplay, go.transform);
-                        //usd.transform.parent = go.transform;
-                        usd.transform.SetParent(go.transform);
-                        
+                        usd.transform.SetParent(go.transform, false);
+
                         Destroy(unit);
+
+                        break;
+
+                    case UnitActionsEnum.ConvertirEnWarriors:
+                    {
+                        var pu = unit.GetComponent<SpawnerUnit>();
+                        pu.unitToSpawn = "Warrior";
+                        pu.myparent = warriorsAllies.transform;
+
+                        break;
                     }
+                    case UnitActionsEnum.ConvertirEnShooters:
+                    {
+                        var pu = unit.GetComponent<SpawnerUnit>();
+                        pu.unitToSpawn = "Shooter";
+                        pu.myparent = shootersAllies.transform;
+                        
+                        break;
+                    }
+                    case UnitActionsEnum.ConvertirEnHealers:
+                    {
+                        var pu = unit.GetComponent<SpawnerUnit>();
+                        pu.unitToSpawn = "Healer";
+                        pu.myparent = healersAllies.transform;
+
+                        break;
+                    }
+                    default:
+                        throw new NotImplementedException(nameof(action));
+                }
+            }
+        }
+        
+        /**
+         * A partir d'une unité sur le terrain, sort toutes les actions
+         * que cette unité peut faire
+         */
+        public IEnumerable<UnitActionsEnum> yieldActions(Transform unit)
+        {
+            switch (unit.parent.name)
+            {
+                case "Workers":
+                    yield return UnitActionsEnum.Construire;
                     break;
-                default:
-                    throw new NotImplementedException(nameof(action));
+                case "Casernes":
+                {
+                    yield return UnitActionsEnum.ConvertirEnWarriors;
+                    yield return UnitActionsEnum.ConvertirEnShooters;
+                    yield return UnitActionsEnum.ConvertirEnHealers;
+                    break;
+                }
             }
         }
 
