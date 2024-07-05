@@ -14,9 +14,11 @@ public class SpawnerUnit : MonoBehaviour
     public Vector3 spawnPoint;
     public float timeTilNextSpawn = 5f;
 
-    private int currentCount = 0;
     public string unitToSpawn;
     public UnitConfigManager unitConfigManager;
+    public Transform myparent;
+    
+    private int currentCount = 0;
     private bool _running = true;
 
     // Start is called before the first frame update
@@ -53,7 +55,10 @@ public class SpawnerUnit : MonoBehaviour
                 GO.name = unitToSpawn;
                 
                 // place l'unité dans la bonne catégorie (un objet de coordonnée 0,0,0 de pref)
-                GO.transform.parent = transform;
+                if(myparent)
+                    GO.transform.parent = myparent;
+                else
+                    GO.transform.parent = transform;
                 
                 
                 PlayerUnit pus = GetComponent<PlayerUnit>();

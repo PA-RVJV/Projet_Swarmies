@@ -1525,6 +1525,7 @@ MonoBehaviour:
   timeTilNextSpawn: 3
   unitToSpawn: Worker
   unitConfigManager: {fileID: 50305413}
+  myparent: {fileID: 0}
 --- !u!1 &231652602
 GameObject:
   m_ObjectHideFlags: 0
@@ -6799,6 +6800,10 @@ MonoBehaviour:
   casernesAlliees: {fileID: 1558499165}
   pastilleMinimap: {fileID: 6125455789580105139, guid: f91a1fa76255549e4b01d7db00179fd2, type: 3}
   unitStatsDisplay: {fileID: 7254572631014417869, guid: 404902d003f90f6428c5d765c06675d9, type: 3}
+  warriorsAllies: {fileID: 882809080}
+  shootersAllies: {fileID: 1620813242}
+  healersAllies: {fileID: 289832675}
+  workersAllies: {fileID: 202531492}
 --- !u!1001 &1064652884
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14437,6 +14442,7 @@ MonoBehaviour:
   timeTilNextSpawn: 5
   unitToSpawn: 
   unitConfigManager: {fileID: 0}
+  myparent: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

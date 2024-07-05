@@ -16,6 +16,11 @@ namespace Script.Systems
         public GameObject casernesAlliees;
         public GameObject pastilleMinimap;
         public GameObject unitStatsDisplay;
+        
+        public GameObject warriorsAllies;
+        public GameObject shootersAllies;
+        public GameObject healersAllies;
+        public GameObject workersAllies;
 
         public void DealWithAction(UnitActionsEnum action, GameObject[] source)
         {
@@ -73,18 +78,24 @@ namespace Script.Systems
                     {
                         var pu = unit.GetComponent<SpawnerUnit>();
                         pu.unitToSpawn = "Warrior";
+                        pu.myparent = warriorsAllies.transform;
+
                         break;
                     }
                     case UnitActionsEnum.ConvertirEnShooters:
                     {
                         var pu = unit.GetComponent<SpawnerUnit>();
                         pu.unitToSpawn = "Shooter";
+                        pu.myparent = shootersAllies.transform;
+                        
                         break;
                     }
                     case UnitActionsEnum.ConvertirEnHealers:
                     {
                         var pu = unit.GetComponent<SpawnerUnit>();
                         pu.unitToSpawn = "Healer";
+                        pu.myparent = healersAllies.transform;
+
                         break;
                     }
                     default:
