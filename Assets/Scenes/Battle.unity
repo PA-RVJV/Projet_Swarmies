@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4094,71 +4094,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 644050591}
   m_CullTransparentMesh: 1
---- !u!1001 &646591525
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: beb35608ab0e22949b0da9004267bf3c, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 294.4
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: beb35608ab0e22949b0da9004267bf3c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: beb35608ab0e22949b0da9004267bf3c, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 227.43655
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: beb35608ab0e22949b0da9004267bf3c, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: beb35608ab0e22949b0da9004267bf3c, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: beb35608ab0e22949b0da9004267bf3c, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: beb35608ab0e22949b0da9004267bf3c, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: beb35608ab0e22949b0da9004267bf3c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: beb35608ab0e22949b0da9004267bf3c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: beb35608ab0e22949b0da9004267bf3c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -1853094968961178454, guid: beb35608ab0e22949b0da9004267bf3c, type: 3}
-      propertyPath: m_TargetDisplay
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 65702495048144492, guid: beb35608ab0e22949b0da9004267bf3c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: beb35608ab0e22949b0da9004267bf3c, type: 3}
-      propertyPath: m_Name
-      value: maison
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: beb35608ab0e22949b0da9004267bf3c, type: 3}
 --- !u!1 &682872225
 GameObject:
   m_ObjectHideFlags: 0
@@ -6799,6 +6734,7 @@ MonoBehaviour:
   casernesAlliees: {fileID: 1558499165}
   pastilleMinimap: {fileID: 6125455789580105139, guid: f91a1fa76255549e4b01d7db00179fd2, type: 3}
   unitStatsDisplay: {fileID: 7254572631014417869, guid: 404902d003f90f6428c5d765c06675d9, type: 3}
+  closeRange: 1
 --- !u!1001 &1064652884
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7132,11 +7068,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1091236761}
   m_CullTransparentMesh: 1
---- !u!1 &1098598200 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: beb35608ab0e22949b0da9004267bf3c, type: 3}
-  m_PrefabInstance: {fileID: 646591525}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1105111416
 GameObject:
   m_ObjectHideFlags: 0
@@ -8352,7 +8283,7 @@ Terrain:
   m_Enabled: 1
   serializedVersion: 6
   m_TerrainData: {fileID: 15600000, guid: 8b733c5224dddc14e994caa0492f1b7a, type: 2}
-  m_TreeDistance: 5000
+  m_TreeDistance: 424
   m_TreeBillboardDistance: 50
   m_TreeCrossFadeLength: 5
   m_TreeMaximumFullLODCount: 50
@@ -14431,7 +14362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12f852c3756147c40a480865d3945dd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnWorker: {fileID: 1098598200}
+  spawnWorker: {fileID: 0}
   numberMax: 5
   spawnPoint: {x: 0, y: 0, z: 0}
   timeTilNextSpawn: 5
@@ -14449,7 +14380,6 @@ SceneRoots:
   - {fileID: 1477109862}
   - {fileID: 1334714746}
   - {fileID: 2052700919}
-  - {fileID: 646591525}
   - {fileID: 7144727714182554699}
   - {fileID: 603733379}
   - {fileID: 1341358029}
