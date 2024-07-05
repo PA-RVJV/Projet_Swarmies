@@ -3,7 +3,6 @@ using System.Data;
 using PS.Units;
 using PS.Units.Player;
 using UnityEngine;
-using Script;
 using UnityEngine.AI;
 
 namespace Script.Systems
@@ -35,6 +34,7 @@ namespace Script.Systems
                         PlayerUnit pus = go.GetComponent<PlayerUnit>();
                         pus.unitConfig = transform.Find("UnitConfigManager").GetComponent<UnitConfigManager>();
                         pus.unitHandler = GetComponent<UnitHandler>();
+                        pus.baseStats = pus.unitHandler.GetUnitStats("caserne");
 
                         // pour pouvoir etre cliqué
                         go.layer = LayerMask.NameToLayer("PlayerUnits");

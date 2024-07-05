@@ -69,7 +69,7 @@ namespace PS.Units
 
             if (currentHealth <= 0)
             {
-                //Die();
+                Die();
             }
         }
 
