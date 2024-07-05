@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Script.Systems;
@@ -32,10 +33,11 @@ namespace Script.Display
         {
             var button = new Button() { text = GetText.Get(action) };
             button.AddToClassList("swarmies-button");
-            button.clickable.clicked += () => ButtonOnclicked(action, sObjects);
             button.RegisterCallback<MouseEnterEvent>(_OnUI);
             button.RegisterCallback<MouseLeaveEvent>(_OutUI);
-            button.RegisterCallback<DetachFromPanelEvent>(_ => IsOverSomeButton = false);
+            button.RegisterCallback<DetachFromPanelEvent>(_DestroyButton);
+            
+            button.clickable.clicked += () => ButtonOnclicked(action, sObjects);
             
             return button;
         }
@@ -45,6 +47,11 @@ namespace Script.Display
             IsOverSomeButton = true;
         }
         private void _OutUI(MouseLeaveEvent _)
+        {
+            IsOverSomeButton = false;
+        }
+
+        private void _DestroyButton(DetachFromPanelEvent _)
         {
             IsOverSomeButton = false;
         }
@@ -71,6 +78,11 @@ namespace Script.Display
             }
     
             _currentActions = actions;
+        }
+
+        private void OnGUI()
+        {
+            GUI.Label(new Rect(10, 10, 300, 20), IsOverSomeButton.ToString());
         }
     }
 }

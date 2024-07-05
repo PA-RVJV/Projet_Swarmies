@@ -15,7 +15,7 @@ public class SpawnerUnit : MonoBehaviour
     public float timeTilNextSpawn = 5f;
 
     private int currentCount = 0;
-    private string _unitToSpawn;
+    public string unitToSpawn;
     public UnitConfigManager unitConfigManager;
     private bool _running = true;
 
@@ -23,6 +23,7 @@ public class SpawnerUnit : MonoBehaviour
 
     void Start()
     {
+        _running = true;
         var t = transform.Find("Spawn");
         if (t)
         {
@@ -35,6 +36,12 @@ public class SpawnerUnit : MonoBehaviour
     {
         while (_running) // Change the condition to always run the coroutine
         {
+            if (unitToSpawn == "")
+            {
+                yield return new WaitForSeconds(timeTilNextSpawn);
+                continue;
+            }
+            
             if (currentCount < numberMax)
             {
                 yield return new WaitForSeconds(timeTilNextSpawn);
@@ -43,7 +50,7 @@ public class SpawnerUnit : MonoBehaviour
                 pu.unitConfig = unitConfigManager;
                 
                 //GO.name = gameObject.name.Remove(gameObject.name.Length - 1);
-                GO.name = _unitToSpawn;
+                GO.name = unitToSpawn;
                 
                 // place l'unité dans la bonne catégorie (un objet de coordonnée 0,0,0 de pref)
                 GO.transform.parent = transform;
@@ -56,6 +63,7 @@ public class SpawnerUnit : MonoBehaviour
                     var GOpu = GO.GetComponent<PlayerUnit>();
                     GOpu.unitConfig = pus.unitConfig;
                     GOpu.unitHandler = pus.unitHandler;
+                    GOpu.baseStats = GOpu.unitHandler.GetUnitStats(unitToSpawn.ToLower());
                 }
                 
                 GO.GetComponent<UnitSpawnCount>().SetSpawner(this); // Set the spawner reference
@@ -75,12 +83,7 @@ public class SpawnerUnit : MonoBehaviour
         currentCount--;
         Debug.Log("Unit destroyed. Current count: " + currentCount);
     }
-
-    public void SetUnitToSpawn(string unitName)
-    {
-        _unitToSpawn = unitName;
-    }
-
+    
     private void OnDestroy()
     {
         _running = false;

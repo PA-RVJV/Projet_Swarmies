@@ -35,6 +35,9 @@ namespace PS.Units
 
         public UnitStatTypes.Base GetUnitStats(string type)
         {
+            Assert.IsTrue(type.ToLower() == type, "la chaine demandée doit être en minuscules");
+            Assert.IsTrue(type[type.Length - 1] != 's', "enlever le s final de la chainje");
+            
             Unit unit;
             switch (type)
             {

@@ -1523,6 +1523,7 @@ MonoBehaviour:
   numberMax: 7
   spawnPoint: {x: 360, y: 0.4, z: 120}
   timeTilNextSpawn: 3
+  unitToSpawn: Worker
   unitConfigManager: {fileID: 50305413}
 --- !u!1 &231652602
 GameObject:
@@ -14434,6 +14435,7 @@ MonoBehaviour:
   numberMax: 5
   spawnPoint: {x: 0, y: 0, z: 0}
   timeTilNextSpawn: 5
+  unitToSpawn: 
   unitConfigManager: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
