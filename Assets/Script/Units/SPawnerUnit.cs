@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using PS.Units;
@@ -16,6 +17,7 @@ public class SpawnerUnit : MonoBehaviour
     private int currentCount = 0;
     private string _unitToSpawn;
     public UnitConfigManager unitConfigManager;
+    private bool _running = true;
 
     // Start is called before the first frame update
 
@@ -31,7 +33,7 @@ public class SpawnerUnit : MonoBehaviour
 
     private IEnumerator Spawner()
     {
-        while (true) // Change the condition to always run the coroutine
+        while (_running) // Change the condition to always run the coroutine
         {
             if (currentCount < numberMax)
             {
@@ -77,5 +79,10 @@ public class SpawnerUnit : MonoBehaviour
     public void SetUnitToSpawn(string unitName)
     {
         _unitToSpawn = unitName;
+    }
+
+    private void OnDestroy()
+    {
+        _running = false;
     }
 }

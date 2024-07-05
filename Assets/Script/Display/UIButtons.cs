@@ -15,7 +15,7 @@ namespace Script.Display
     
         public GameRules gameRules;
         
-        private Dictionary<GameObject, UnitActionsEnum> _currentActions = new();
+        private List<(GameObject, UnitActionsEnum)> _currentActions = new();
         
         // Start is called before the first frame update
         private void Start()
@@ -54,7 +54,7 @@ namespace Script.Display
             gameRules.DealWithAction(action, sObjects);
         }
     
-        public void SetButtons(Dictionary<GameObject, UnitActionsEnum> actions)
+        public void SetButtons(List<(GameObject, UnitActionsEnum)> actions)
         {
             if (_currentActions.SequenceEqual(actions))
                 return;
@@ -67,7 +67,7 @@ namespace Script.Display
             container.Clear();
             foreach (var action in actions)
             {
-                container.Add(AddButton(action.Value, new []{action.Key}));
+                container.Add(AddButton(action.Item2, new []{action.Item1}));
             }
     
             _currentActions = actions;

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
 using PS.Units;
 using PS.Units.Player;
@@ -30,6 +31,7 @@ namespace Script.Systems
                             continue;
                         var go = Instantiate(casernePrefab, unit.transform.position, unit.transform.rotation);
                         go.transform.parent = casernesAlliees.transform;
+                        go.name = casernePrefab.name;
 
                         PlayerUnit pus = go.GetComponent<PlayerUnit>();
                         pus.unitConfig = transform.Find("UnitConfigManager").GetComponent<UnitConfigManager>();
@@ -65,6 +67,27 @@ namespace Script.Systems
                     break;
                 default:
                     throw new NotImplementedException(nameof(action));
+            }
+        }
+        
+        /**
+         * A partir d'une unité sur le terrain, sort toutes les actions
+         * que cette unité peut faire
+         */
+        public IEnumerable<UnitActionsEnum> yieldActions(Transform unit)
+        {
+            switch (unit.parent.name)
+            {
+                case "Workers":
+                    yield return UnitActionsEnum.Construire;
+                    break;
+                case "Casernes":
+                {
+                    yield return UnitActionsEnum.ConvertirEnWarriors;
+                    yield return UnitActionsEnum.ConvertirEnShooters;
+                    yield return UnitActionsEnum.ConvertirEnHealers;
+                    break;
+                }
             }
         }
     }

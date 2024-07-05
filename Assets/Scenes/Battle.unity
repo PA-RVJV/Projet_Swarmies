@@ -6752,8 +6752,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 832
-  buildButton: {fileID: 0}
-  buildInterface: {fileID: 0}
+  GameRules: {fileID: 1061530868}
 --- !u!114 &1061530867
 MonoBehaviour:
   m_ObjectHideFlags: 0
