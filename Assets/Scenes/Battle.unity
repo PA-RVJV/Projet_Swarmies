@@ -265,6 +265,10 @@ MonoBehaviour:
     scale: {x: 0.15, y: 0.15, z: 0.15}
     playerMaterial: {fileID: 2100000, guid: 6b0dc7600a781e140b67762fabda494f, type: 2}
     enemyMaterial: {fileID: 2100000, guid: 43d1fc6316da9da4ca17c2dc6d9b4948, type: 2}
+  - unitType: Casernes
+    scale: {x: 1, y: 1, z: 1}
+    playerMaterial: {fileID: 2100000, guid: 6b0dc7600a781e140b67762fabda494f, type: 2}
+    enemyMaterial: {fileID: 2100000, guid: 43d1fc6316da9da4ca17c2dc6d9b4948, type: 2}
 --- !u!1 &53248152
 GameObject:
   m_ObjectHideFlags: 0
@@ -1519,6 +1523,7 @@ MonoBehaviour:
   numberMax: 7
   spawnPoint: {x: 360, y: 0.4, z: 120}
   timeTilNextSpawn: 3
+  unitConfigManager: {fileID: 50305413}
 --- !u!1 &231652602
 GameObject:
   m_ObjectHideFlags: 0
@@ -6792,8 +6797,8 @@ MonoBehaviour:
   selectCirclePrefab: {fileID: 2887351354362772361, guid: e14a804724ae440d398fe38af842b43a, type: 3}
   terrain: {fileID: 1206788133}
   casernesAlliees: {fileID: 1558499165}
-  pastilleMinimap: {fileID: 0}
-  unitStatsDisplay: {fileID: 0}
+  pastilleMinimap: {fileID: 6125455789580105139, guid: f91a1fa76255549e4b01d7db00179fd2, type: 3}
+  unitStatsDisplay: {fileID: 7254572631014417869, guid: 404902d003f90f6428c5d765c06675d9, type: 3}
 --- !u!1001 &1064652884
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14430,6 +14435,7 @@ MonoBehaviour:
   numberMax: 5
   spawnPoint: {x: 0, y: 0, z: 0}
   timeTilNextSpawn: 5
+  unitConfigManager: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

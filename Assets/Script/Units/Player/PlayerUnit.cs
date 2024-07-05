@@ -129,6 +129,7 @@ namespace PS.Units.Player
                 {
                     renderer.material = isPlayerUnit ? config.playerMaterial : config.enemyMaterial;
                 }
+                
             }
             else
             {
