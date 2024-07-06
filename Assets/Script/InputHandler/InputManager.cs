@@ -5,6 +5,7 @@ using System;
 using PS.Player;
 using Script;
 using Script.Display;
+using Script.Systems;
 using Unity.VisualScripting;
 using UnityEditor.PackageManager;
 using UnityEngine.AI;
@@ -20,8 +21,8 @@ namespace PS.InputHandlers
         public readonly List<WeakReference<Transform>> SelectedUnits = new(); // Liste des unités sélectionnées.
         public UIButtons uiButtons;
         public LayerMask layerMask;
-        public GameObject buildButton;
-        public GameObject buildInterface;
+        public GameRules GameRules;
+        
         
         private RaycastHit _hit; // stocke l'information du raycast.
         private bool _isDragging = false; // Booléen de vérification sélection multiple en cour ou non.
@@ -66,7 +67,7 @@ namespace PS.InputHandlers
         {
             if (SelectedUnits.Count >= 1)
             {
-                var dico = new Dictionary<GameObject, UnitActionsEnum>();
+                var dico = new List<(GameObject, UnitActionsEnum)>();
                 foreach (var selectedUnit in SelectedUnits)
                 {
                     if (selectedUnit.TryGetTarget(out unit))
@@ -75,9 +76,9 @@ namespace PS.InputHandlers
                             continue;
                         
                         //Debug.Log(unit);
-                        if (unit.parent.name == "Workers")
+                        foreach (var action in GameRules.yieldActions(unit))
                         {
-                            dico.Add(unit.gameObject, UnitActionsEnum.Construire);
+                            dico.Add((unit.gameObject, action));
                         }
                     }
                 }

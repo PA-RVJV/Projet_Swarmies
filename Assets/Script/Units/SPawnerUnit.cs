@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using PS.Units;
@@ -13,14 +14,18 @@ public class SpawnerUnit : MonoBehaviour
     public Vector3 spawnPoint;
     public float timeTilNextSpawn = 5f;
 
-    private int currentCount = 0;
-    private string _unitToSpawn;
+    public string unitToSpawn;
     public UnitConfigManager unitConfigManager;
+    public Transform myparent;
+    
+    private int currentCount = 0;
+    private bool _running = true;
 
     // Start is called before the first frame update
 
     void Start()
     {
+        _running = true;
         var t = transform.Find("Spawn");
         if (t)
         {
@@ -31,8 +36,14 @@ public class SpawnerUnit : MonoBehaviour
 
     private IEnumerator Spawner()
     {
-        while (true) // Change the condition to always run the coroutine
+        while (_running) // Change the condition to always run the coroutine
         {
+            if (unitToSpawn == "")
+            {
+                yield return new WaitForSeconds(timeTilNextSpawn);
+                continue;
+            }
+            
             if (currentCount < numberMax)
             {
                 yield return new WaitForSeconds(timeTilNextSpawn);
@@ -41,10 +52,13 @@ public class SpawnerUnit : MonoBehaviour
                 pu.unitConfig = unitConfigManager;
                 
                 //GO.name = gameObject.name.Remove(gameObject.name.Length - 1);
-                GO.name = _unitToSpawn;
+                GO.name = unitToSpawn;
                 
                 // place l'unité dans la bonne catégorie (un objet de coordonnée 0,0,0 de pref)
-                GO.transform.parent = transform;
+                if(myparent)
+                    GO.transform.parent = myparent;
+                else
+                    GO.transform.parent = transform;
                 
                 
                 PlayerUnit pus = GetComponent<PlayerUnit>();
@@ -54,6 +68,7 @@ public class SpawnerUnit : MonoBehaviour
                     var GOpu = GO.GetComponent<PlayerUnit>();
                     GOpu.unitConfig = pus.unitConfig;
                     GOpu.unitHandler = pus.unitHandler;
+                    GOpu.baseStats = GOpu.unitHandler.GetUnitStats(unitToSpawn.ToLower());
                 }
                 
                 GO.GetComponent<UnitSpawnCount>().SetSpawner(this); // Set the spawner reference
@@ -73,9 +88,9 @@ public class SpawnerUnit : MonoBehaviour
         currentCount--;
         Debug.Log("Unit destroyed. Current count: " + currentCount);
     }
-
-    public void SetUnitToSpawn(string unitName)
+    
+    private void OnDestroy()
     {
-        _unitToSpawn = unitName;
+        _running = false;
     }
 }

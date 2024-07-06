@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Script.Systems;
@@ -15,7 +16,7 @@ namespace Script.Display
     
         public GameRules gameRules;
         
-        private Dictionary<GameObject, UnitActionsEnum> _currentActions = new();
+        private List<(GameObject, UnitActionsEnum)> _currentActions = new();
         
         // Start is called before the first frame update
         private void Start()
@@ -32,10 +33,11 @@ namespace Script.Display
         {
             var button = new Button() { text = GetText.Get(action) };
             button.AddToClassList("swarmies-button");
-            button.clickable.clicked += () => ButtonOnclicked(action, sObjects);
             button.RegisterCallback<MouseEnterEvent>(_OnUI);
             button.RegisterCallback<MouseLeaveEvent>(_OutUI);
-            button.RegisterCallback<DetachFromPanelEvent>(_ => IsOverSomeButton = false);
+            button.RegisterCallback<DetachFromPanelEvent>(_DestroyButton);
+            
+            button.clickable.clicked += () => ButtonOnclicked(action, sObjects);
             
             return button;
         }
@@ -48,13 +50,18 @@ namespace Script.Display
         {
             IsOverSomeButton = false;
         }
+
+        private void _DestroyButton(DetachFromPanelEvent _)
+        {
+            IsOverSomeButton = false;
+        }
     
         private void ButtonOnclicked(UnitActionsEnum action, GameObject[] sObjects)
         {
             gameRules.DealWithAction(action, sObjects);
         }
     
-        public void SetButtons(Dictionary<GameObject, UnitActionsEnum> actions)
+        public void SetButtons(List<(GameObject, UnitActionsEnum)> actions)
         {
             if (_currentActions.SequenceEqual(actions))
                 return;
@@ -67,10 +74,15 @@ namespace Script.Display
             container.Clear();
             foreach (var action in actions)
             {
-                container.Add(AddButton(action.Value, new []{action.Key}));
+                container.Add(AddButton(action.Item2, new []{action.Item1}));
             }
     
             _currentActions = actions;
+        }
+
+        private void OnGUI()
+        {
+            GUI.Label(new Rect(10, 10, 300, 20), IsOverSomeButton.ToString());
         }
     }
 }
