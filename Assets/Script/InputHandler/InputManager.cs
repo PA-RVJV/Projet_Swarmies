@@ -247,7 +247,7 @@ namespace PS.InputHandlers
 
         // Désélectionne toutes les unités sélectionnées et désactive l'indicateur de sélection.
         private void DeselectUnits()
-        { 
+        {
             for (int i = 0; i < SelectedUnits.Count; i++)
             {
                 var sel = SelectedUnits[i];
