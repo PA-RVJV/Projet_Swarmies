@@ -1,31 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class RessourceOverlay : MonoBehaviour
+public class ResourceOverlay : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public TextMeshProUGUI woodText;
+    public TextMeshProUGUI stoneText;
 
-    // Update is called once per frame
-    void Update()
-    {
-        ResourcesManager();
-    }
-    
-    public void ResourcesManager()
-    {
-        if (gameObject.name == "WoodBackground")
-        {
-            
-        }
+    private int woodAmount;
+    private int stoneAmount;
 
-        if (gameObject.name == "StoneBackground")
+    public void UpdateResource(ResourceType type, int amount)
+    {
+        switch (type)
         {
-            
+            case ResourceType.Wood:
+                woodAmount += amount;
+                woodText.text = "" + woodAmount;
+                break;
+            case ResourceType.Stone:
+                stoneAmount += amount;
+                stoneText.text = "" + stoneAmount;
+                break;
         }
     }
 }

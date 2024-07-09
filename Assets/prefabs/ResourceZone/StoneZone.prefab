@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3444808468320536825}
   - component: {fileID: 7106235670038780177}
   - component: {fileID: -940770895624713131}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: StoneZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}

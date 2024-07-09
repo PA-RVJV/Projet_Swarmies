@@ -183,8 +183,10 @@ namespace PS.InputHandlers
             {
                 // Crée un rayon partant de la caméra vers la position de la souris.
                 Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
-                // Vérifie si le rayon touche quelque chose.
-                if (Physics.Raycast(ray, out _hit))
+                
+                // Vérifie si le rayon touche quelque chose, en ignorant le Layer "ResourceZone"
+                int ignoreResourceZoneMask = ~LayerMask.GetMask("ResourceZone");
+                if (Physics.Raycast(ray, out _hit, Mathf.Infinity, ignoreResourceZoneMask))
                 {
                     // Traite différemment selon le layer de l'objet touché.
                     switch (_hit.transform.gameObject.layer)
