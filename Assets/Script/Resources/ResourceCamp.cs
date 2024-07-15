@@ -8,8 +8,8 @@ public class ResourceCamp : MonoBehaviour
     public int collectionAmount = 10; // Quantité de ressources collectées à chaque intervalle
     private float collectionTimer = 0.0f;
 
-    public ResourceType resourceType;
-    public ResourceZone resourceZone; // Référence à la zone de ressources
+    private ResourceType resourceType;
+    private ResourceZone resourceZone; // Référence à la zone de ressources
     public ResourceOverlay resourceUI; // Référence à l'UI pour mettre à jour les ressources
 
     private void Update()
@@ -29,5 +29,15 @@ public class ResourceCamp : MonoBehaviour
             int collected = resourceZone.CollectResources(collectionAmount);
             resourceUI.UpdateResource(resourceType, collected);
         }
+    }
+
+    public void SetResourceType(ResourceType typeResource)
+    {
+        resourceType = typeResource;
+    }
+
+    public void SetResourceZone(ResourceZone zoneResource)
+    {
+        resourceZone = zoneResource;
     }
 }

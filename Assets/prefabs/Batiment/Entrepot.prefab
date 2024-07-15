@@ -9,6 +9,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 300ed784ca4744cb2b93057048111ef6, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 300ed784ca4744cb2b93057048111ef6, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 300ed784ca4744cb2b93057048111ef6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 60.259537
       objectReference: {fileID: 0}
@@ -64,6 +72,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 300ed784ca4744cb2b93057048111ef6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 691066900804528553}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 300ed784ca4744cb2b93057048111ef6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1871312965936379676}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 300ed784ca4744cb2b93057048111ef6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -7628150325268502225}
   m_SourcePrefab: {fileID: 100100000, guid: 300ed784ca4744cb2b93057048111ef6, type: 3}
 --- !u!1 &4792306398520483109 stripped
 GameObject:
@@ -115,3 +129,39 @@ MonoBehaviour:
     armor: 0
   unitConfig: {fileID: 0}
   attackCooldown: 0
+--- !u!65 &1871312965936379676
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4792306398520483109}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-7628150325268502225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4792306398520483109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 751d90f536a230740929419a80994bac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collectionInterval: 30
+  collectionAmount: 2
+  resourceUI: {fileID: 0}
