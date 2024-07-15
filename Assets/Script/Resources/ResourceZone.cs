@@ -6,24 +6,20 @@ public enum ResourceType
 {
     Wood,
     Stone,
-    Iron
+    //Iron,
+    //Or
 }
 
 public class ResourceZone : MonoBehaviour
 {
     public ResourceType resourceType;
-    public int resourceAmount = 100;
+    public int resourceAmount;
     
-    // Start is called before the first frame update
-    void Start()
+    public int CollectResources(int amount)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        int collected = Mathf.Min(amount, resourceAmount);
+        resourceAmount -= collected;
+        return collected;
     }
 }
 

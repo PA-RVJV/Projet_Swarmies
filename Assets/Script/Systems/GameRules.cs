@@ -31,6 +31,12 @@ namespace Script.Systems
         private Terrain activeTerrain;
         private TerrainData activeTerrainData;
         
+        ResourceZone resourceZone;
+        public Canvas resourceOverlay;
+        private Collider[] hitColliders = new Collider[10];
+
+        public GameObject resourceErrorMessageImage;
+        
         private void OnEnable()
         {
             // Stocker l'état initial des arbres au démarrage du jeu
@@ -116,10 +122,35 @@ namespace Script.Systems
                     {
                         if (!unit)
                             continue;
+                        
+                        // Vérifier si l'unité se trouve dans une zone de ressources
+                        ResourceZone resourceZone = null;
+                        int numColliders = Physics.OverlapSphereNonAlloc(unit.transform.position, 0.1f, hitColliders);
+                        for (int i = 0; i < numColliders; i++)
+                        {
+                            resourceZone = hitColliders[i].GetComponent<ResourceZone>();
+                            if (resourceZone != null)
+                                break;
+                        }
+                        
+                        if (resourceZone == null)
+                        {
+                            StartCoroutine(ShowResourceErrorMessage());
+                            continue;
+                        }
+                        
                         var go = Instantiate(entrepotPrefab, unit.transform.position, unit.transform.rotation);
                         go.transform.parent = entrepotsAllies.transform;
                         go.name = entrepotPrefab.name;
+                        //go.transform.localScale *= 0.1f;
+                        //go.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
 
+                        // Attribuer le type de ressource au bâtiment
+                        ResourceCamp resourceCamp = go.GetComponent<ResourceCamp>();
+                        resourceCamp.SetResourceType(resourceZone.resourceType);
+                        resourceCamp.SetResourceZone(resourceZone) ;
+                        resourceCamp.resourceUI = resourceOverlay.GetComponent<ResourceOverlay>();;
+                        
                         PlayerUnit pus = go.GetComponent<PlayerUnit>();
                         var ucf = transform.Find("UnitConfigManager").GetComponent<UnitConfigManager>();
                         pus.unitConfig = ucf;
@@ -152,9 +183,9 @@ namespace Script.Systems
                         usd.transform.SetParent(go.transform, false);
 
                         Destroy(unit);
-                    }
                         break;
-
+                    }
+                    
                     case UnitActionsEnum.ConvertirEnWarriors:
                     {
                         var pu = unit.GetComponent<SpawnerUnit>();
@@ -232,6 +263,13 @@ namespace Script.Systems
             activeTerrainData.treeInstances = treeInstances;
             activeTerrain.Flush();
 
+        }
+
+        private IEnumerator ShowResourceErrorMessage()
+        {
+            resourceErrorMessageImage.SetActive(true);
+            yield return new WaitForSeconds(2);
+            resourceErrorMessageImage.SetActive(false);
         }
     }
 }

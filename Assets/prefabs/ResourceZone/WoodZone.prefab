@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2499346625133409962}
   - component: {fileID: 7179284834030067399}
   - component: {fileID: 7877714937278628317}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: WoodZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
