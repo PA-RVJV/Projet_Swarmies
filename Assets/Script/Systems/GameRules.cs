@@ -12,9 +12,11 @@ namespace Script.Systems
     public class GameRules : MonoBehaviour
     {
         public GameObject casernePrefab;
+        public GameObject entrepotPrefab;
         public GameObject selectCirclePrefab;
         public GameObject terrain;
         public GameObject casernesAlliees;
+        public GameObject entrepotsAllies;
         public GameObject pastilleMinimap;
         public GameObject unitStatsDisplay;
         
@@ -64,6 +66,7 @@ namespace Script.Systems
                 switch (action)
                 {
                     case UnitActionsEnum.Construire:
+                    {
                         if (!unit)
                             continue;
                         var go = Instantiate(casernePrefab, unit.transform.position, unit.transform.rotation);
@@ -81,7 +84,7 @@ namespace Script.Systems
                         spaner.unitConfigManager = ucf;
 
                         checkForTreesIntersecting(go);
-                            
+
                         // pour pouvoir etre cliqué
                         go.layer = LayerMask.NameToLayer("PlayerUnits");
 
@@ -106,7 +109,50 @@ namespace Script.Systems
                         usd.transform.SetParent(go.transform, false);
 
                         Destroy(unit);
+                }
 
+                break;
+                    case UnitActionsEnum.ConstruireEntrepot:
+                    {
+                        if (!unit)
+                            continue;
+                        var go = Instantiate(entrepotPrefab, unit.transform.position, unit.transform.rotation);
+                        go.transform.parent = entrepotsAllies.transform;
+                        go.name = entrepotPrefab.name;
+
+                        PlayerUnit pus = go.GetComponent<PlayerUnit>();
+                        var ucf = transform.Find("UnitConfigManager").GetComponent<UnitConfigManager>();
+                        pus.unitConfig = ucf;
+                        pus.unitHandler = GetComponent<UnitHandler>();
+                        pus.baseStats = pus.unitHandler.GetUnitStats("entrepot");
+                        
+                        checkForTreesIntersecting(go);
+
+                        // pour pouvoir etre cliqué
+                        go.layer = LayerMask.NameToLayer("PlayerUnits");
+
+                        // bloqueuer de pqthfinding
+                        var nvo = go.AddComponent<NavMeshObstacle>();
+                        nvo.carving = true;
+
+                        // cercle de selectiom
+                        var selectCircle = Instantiate(selectCirclePrefab, go.transform);
+                        selectCircle.name = "Hightlight";
+                        selectCircle.transform.parent = go.transform;
+                        var scpos = selectCircle.transform.position;
+                        scpos.y = 0;
+                        selectCircle.transform.position = scpos;
+
+                        // pastille minimap
+                        var pastille = Instantiate(pastilleMinimap, go.transform);
+                        pastille.transform.SetParent(go.transform, false);
+
+                        // Barre de vie
+                        var usd = Instantiate(unitStatsDisplay, go.transform);
+                        usd.transform.SetParent(go.transform, false);
+
+                        Destroy(unit);
+                    }
                         break;
 
                     case UnitActionsEnum.ConvertirEnWarriors:
@@ -149,6 +195,7 @@ namespace Script.Systems
             {
                 case "Workers":
                     yield return UnitActionsEnum.Construire;
+                    yield return UnitActionsEnum.ConstruireEntrepot;
                     break;
                 case "Casernes":
                 {

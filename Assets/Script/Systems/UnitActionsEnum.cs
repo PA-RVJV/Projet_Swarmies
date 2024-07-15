@@ -3,6 +3,7 @@ namespace Script
     public enum UnitActionsEnum
     {
         Construire,
+        ConstruireEntrepot,
         ConvertirEnWarriors,
         ConvertirEnShooters,
         ConvertirEnHealers,
@@ -15,7 +16,9 @@ namespace Script
             switch (actionsEnum)
             {
                 case UnitActionsEnum.Construire:
-                    return "Construire";
+                    return "+ Caserne";
+                case UnitActionsEnum.ConstruireEntrepot:
+                    return "+ Entrepot";
                 case UnitActionsEnum.ConvertirEnWarriors:
                     return "+ Warriors";
                 case UnitActionsEnum.ConvertirEnShooters:

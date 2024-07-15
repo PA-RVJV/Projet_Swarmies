@@ -13,7 +13,8 @@ namespace PS.Units
             Healer,
             Worker,
             Mairie,
-            Porte
+            Porte,
+            Entrepot,
         };
         
         [Header("Unit Settings")] [Space(15)]
