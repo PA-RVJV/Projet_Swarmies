@@ -144,6 +144,7 @@ namespace Script.Systems
                         go.name = entrepotPrefab.name;
                         //go.transform.localScale *= 0.1f;
                         //go.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
+                        go.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
 
                         // Attribuer le type de ressource au bâtiment
                         ResourceCamp resourceCamp = go.GetComponent<ResourceCamp>();
