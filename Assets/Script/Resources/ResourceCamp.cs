@@ -4,14 +4,24 @@ using UnityEngine;
 
 public class ResourceCamp : MonoBehaviour
 {
-    public float collectionInterval = 5.0f; // Intervalle de collecte en secondes
-    public int collectionAmount = 10; // Quantité de ressources collectées à chaque intervalle
+    public float collectionInterval; // Intervalle de collecte en secondes
+    public int collectionAmount; // Quantité de ressources collectées à chaque intervalle
     private float collectionTimer = 0.0f;
 
     private ResourceType resourceType;
     private ResourceZone resourceZone; // Référence à la zone de ressources
-    public ResourceOverlay resourceUI; // Référence à l'UI pour mettre à jour les ressources
+    public ResourceManager resourceManager; // Référence à l'UI pour mettre à jour les ressources
 
+    private void Start()
+    {
+        if (resourceZone != null)
+        {
+            // Récupére les valeurs spécifiques à la zone de ressources
+            collectionInterval = resourceZone.collectionInterval;
+            collectionAmount = resourceZone.collectionAmount;
+        }
+    }
+    
     private void Update()
     {
         collectionTimer += Time.deltaTime;
@@ -27,7 +37,7 @@ public class ResourceCamp : MonoBehaviour
         if (resourceZone != null && resourceZone.resourceType == resourceType)
         {
             int collected = resourceZone.CollectResources(collectionAmount);
-            resourceUI.UpdateResource(resourceType, collected);
+            resourceManager.AddResource(resourceType, collected);
         }
     }
 
@@ -39,5 +49,9 @@ public class ResourceCamp : MonoBehaviour
     public void SetResourceZone(ResourceZone zoneResource)
     {
         resourceZone = zoneResource;
+        
+        // Récupérer les valeurs spécifiques à la zone de ressources
+        collectionInterval = resourceZone.collectionInterval;
+        collectionAmount = resourceZone.collectionAmount;
     }
 }

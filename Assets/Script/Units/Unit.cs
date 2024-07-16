@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace PS.Units
@@ -27,6 +28,16 @@ namespace PS.Units
         [Space(40)] [Header("Unit Stats")] [Space(15)]
         
         public UnitStatTypes.Base baseStats;
+        
+        public Dictionary<ResourceType, int> GetConstructionCost()
+        {
+            return new Dictionary<ResourceType, int>
+            {
+                { ResourceType.Wood, Mathf.RoundToInt(baseStats.woodCost) },
+                { ResourceType.Stone, Mathf.RoundToInt(baseStats.stoneCost) },
+                { ResourceType.Gold, Mathf.RoundToInt(baseStats.goldCost) }
+            };
+        }
     }
 }
 
