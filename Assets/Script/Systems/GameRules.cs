@@ -34,8 +34,8 @@ namespace Script.Systems
         ResourceZone resourceZone;
         public Canvas resourceOverlay;
         private Collider[] hitColliders = new Collider[10];
-
-        public GameObject resourceErrorMessageImage;
+        private ResourceOverlay resourceOverlayScript;
+        public ResourceManager resourceManager;
         
         private void OnEnable()
         {
@@ -45,6 +45,15 @@ namespace Script.Systems
             initialTreeInstances = activeTerrainData.treeInstances.Clone() as TreeInstance[];
         }
 
+        private void Start()
+        {
+            resourceManager = FindObjectOfType<ResourceManager>();
+            resourceOverlayScript = resourceOverlay.GetComponent<ResourceOverlay>();
+            if (resourceManager == null)
+            {
+                Debug.LogError("ResourceManager not found in the scene.");
+            }
+        }
         
         // TODO PROBLEME les arbres ne réaparaisse pas toujours .... a cause de initialTreeInstances ?
         private void OnDisable()
@@ -75,6 +84,27 @@ namespace Script.Systems
                     {
                         if (!unit)
                             continue;
+                        
+                        // Charger les statistiques de l'entrepôt à partir des assets
+                        Unit entrepotUnit = Resources.Load<Unit>("Units/Caserne");
+                        
+                        if (entrepotUnit == null)
+                        {
+                            Debug.LogError("Entrepot not found in Resources/Units.");
+                            continue;
+                        }
+                        
+                        // Obtenir les coûts de construction
+                        Dictionary<ResourceType, int> constructionCost = entrepotUnit.GetConstructionCost();
+                        
+                        // Vérifier si les ressources sont suffisantes pour construire l'entrepôt
+                        if (!resourceManager.HasEnoughResources(constructionCost))
+                        {
+                            StartCoroutine(resourceOverlayScript.ShowResourceCostErrorMessage());
+                            continue;
+                        }
+
+                        // on commence la construction
                         var go = Instantiate(casernePrefab, unit.transform.position, unit.transform.rotation);
                         go.transform.parent = casernesAlliees.transform;
                         go.name = casernePrefab.name;
@@ -90,6 +120,9 @@ namespace Script.Systems
                         spaner.unitConfigManager = ucf;
 
                         checkForTreesIntersecting(go);
+                        
+                        // soustrait  du stock les ressource utilisé pour la construction
+                        resourceManager.DeductResources(constructionCost);
 
                         // pour pouvoir etre cliqué
                         go.layer = LayerMask.NameToLayer("PlayerUnits");
@@ -121,8 +154,29 @@ namespace Script.Systems
                     case UnitActionsEnum.ConstruireEntrepot:
                     {
                         if (!unit)
+                        {
                             continue;
+                        }
                         
+                        // Charger les statistiques de l'entrepôt à partir des assets
+                        Unit entrepotUnit = Resources.Load<Unit>("Units/Entrepot");
+                        
+                        if (entrepotUnit == null)
+                        {
+                            Debug.LogError("Entrepot not found in Resources/Units.");
+                            continue;
+                        }
+                        
+                        // Obtenir les coûts de construction
+                        Dictionary<ResourceType, int> constructionCost = entrepotUnit.GetConstructionCost();
+                        
+                        // Vérifier si les ressources sont suffisantes pour construire l'entrepôt
+                        if (!resourceManager.HasEnoughResources(constructionCost))
+                        {
+                            StartCoroutine(resourceOverlayScript.ShowResourceCostErrorMessage());
+                            continue;
+                        }
+
                         // Vérifier si l'unité se trouve dans une zone de ressources
                         ResourceZone resourceZone = null;
                         int numColliders = Physics.OverlapSphereNonAlloc(unit.transform.position, 0.1f, hitColliders);
@@ -135,10 +189,11 @@ namespace Script.Systems
                         
                         if (resourceZone == null)
                         {
-                            StartCoroutine(ShowResourceErrorMessage());
+                            StartCoroutine(resourceOverlayScript.ShowResourceZoneErrorMessage());
                             continue;
                         }
                         
+                        // Commence la création du batiment
                         var go = Instantiate(entrepotPrefab, unit.transform.position, unit.transform.rotation);
                         go.transform.parent = entrepotsAllies.transform;
                         go.name = entrepotPrefab.name;
@@ -150,7 +205,7 @@ namespace Script.Systems
                         ResourceCamp resourceCamp = go.GetComponent<ResourceCamp>();
                         resourceCamp.SetResourceType(resourceZone.resourceType);
                         resourceCamp.SetResourceZone(resourceZone) ;
-                        resourceCamp.resourceUI = resourceOverlay.GetComponent<ResourceOverlay>();;
+                        resourceCamp.resourceManager = transform.Find("ResourceManager").GetComponent<ResourceManager>();
                         
                         PlayerUnit pus = go.GetComponent<PlayerUnit>();
                         var ucf = transform.Find("UnitConfigManager").GetComponent<UnitConfigManager>();
@@ -159,7 +214,10 @@ namespace Script.Systems
                         pus.baseStats = pus.unitHandler.GetUnitStats("entrepot");
                         
                         checkForTreesIntersecting(go);
-
+                        
+                        // soustrait  du stock les ressource utilisé pour la construction
+                        resourceManager.DeductResources(constructionCost);
+                        
                         // pour pouvoir etre cliqué
                         go.layer = LayerMask.NameToLayer("PlayerUnits");
 
@@ -182,7 +240,7 @@ namespace Script.Systems
                         // Barre de vie
                         var usd = Instantiate(unitStatsDisplay, go.transform);
                         usd.transform.SetParent(go.transform, false);
-
+                        
                         Destroy(unit);
                         break;
                     }
@@ -264,13 +322,6 @@ namespace Script.Systems
             activeTerrainData.treeInstances = treeInstances;
             activeTerrain.Flush();
 
-        }
-
-        private IEnumerator ShowResourceErrorMessage()
-        {
-            resourceErrorMessageImage.SetActive(true);
-            yield return new WaitForSeconds(2);
-            resourceErrorMessageImage.SetActive(false);
         }
     }
 }

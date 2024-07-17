@@ -67,4 +67,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resourceType: 0
-  resourceAmount: 100
+  resourceAmount: 10000
+  collectionInterval: 5
+  collectionAmount: 3

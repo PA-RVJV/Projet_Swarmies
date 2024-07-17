@@ -9,7 +9,7 @@ namespace PS.Units
         [System.Serializable]
         public class Base
         {
-            public float cost, attack, attackRange, attackCooldown, aggroRange, health, armor;
+            public float woodCost, stoneCost, goldCost, attack, attackRange, attackCooldown, aggroRange, health, armor;
         }
     }
 }

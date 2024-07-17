@@ -6,14 +6,16 @@ public enum ResourceType
 {
     Wood,
     Stone,
-    //Iron,
-    //Or
+    Gold
 }
 
 public class ResourceZone : MonoBehaviour
 {
     public ResourceType resourceType;
     public int resourceAmount;
+
+    public float collectionInterval = 5.0f;
+    public int collectionAmount = 10;
     
     public int CollectResources(int amount)
     {
