@@ -87,22 +87,10 @@ namespace Script.Systems
                         if (!unit)
                             continue;
                         
-                        // Charger les statistiques de l'entrepôt à partir des assets
-                        Unit entrepotUnit = Resources.Load<Unit>("Units/Caserne");
-                        
-                        if (entrepotUnit == null)
+                        // vérifie si le jouer a assez de resource, si c'est le cas, les resource sont déduit du stock et on return true
+                        // sinon un message est afficher pendant quelque seconde et on return false
+                        if (!resourceManager.HasEnoughResourcesForBuilding("Caserne"))
                         {
-                            Debug.LogError("Entrepot not found in Resources/Units.");
-                            continue;
-                        }
-                        
-                        // Obtenir les coûts de construction
-                        Dictionary<ResourceType, int> constructionCost = entrepotUnit.GetConstructionCost();
-                        
-                        // Vérifier si les ressources sont suffisantes pour construire l'entrepôt
-                        if (!resourceManager.HasEnoughResources(constructionCost))
-                        {
-                            StartCoroutine(resourceOverlayScript.ShowResourceCostErrorMessage());
                             continue;
                         }
 
@@ -116,8 +104,6 @@ namespace Script.Systems
                         pus.unitConfig = ucf;
                         pus.unitHandler = GetComponent<UnitHandler>();                                                                                                                                                                                                                                                                                                                                                                                                                 
                         pus.baseStats = pus.unitHandler.GetUnitStats("caserne");
-
-                        
                         
                         // Le script de spawn attachée a la caserne
                         var spaner = go.GetComponent<SpawnerUnit>();
@@ -130,9 +116,6 @@ namespace Script.Systems
                         cdp.transform.SetParent(go.transform, false);
                         cdp.transform.localPosition = new Vector3(0, 5, 0);
                         spaner.caserneDisplay = cdp.GetComponent<CaserneDisplay>();
-                        
-                        // soustrait  du stock les ressource utilisé pour la construction
-                        resourceManager.DeductResources(constructionCost);
 
                         // pour pouvoir etre cliqué
                         go.layer = LayerMask.NameToLayer("PlayerUnits");
@@ -168,22 +151,10 @@ namespace Script.Systems
                             continue;
                         }
                         
-                        // Charger les statistiques de l'entrepôt à partir des assets
-                        Unit entrepotUnit = Resources.Load<Unit>("Units/Entrepot");
-                        
-                        if (entrepotUnit == null)
+                        // vérifie si le jouer a assez de resource, si c'est le cas, les resource sont déduit du stock et on return true
+                        // sinon un message est afficher pendant quelque seconde et on return false
+                        if (!resourceManager.HasEnoughResourcesForBuilding("Entrepot"))
                         {
-                            Debug.LogError("Entrepot not found in Resources/Units.");
-                            continue;
-                        }
-                        
-                        // Obtenir les coûts de construction
-                        Dictionary<ResourceType, int> constructionCost = entrepotUnit.GetConstructionCost();
-                        
-                        // Vérifier si les ressources sont suffisantes pour construire l'entrepôt
-                        if (!resourceManager.HasEnoughResources(constructionCost))
-                        {
-                            StartCoroutine(resourceOverlayScript.ShowResourceCostErrorMessage());
                             continue;
                         }
 
@@ -224,9 +195,6 @@ namespace Script.Systems
                         pus.baseStats = pus.unitHandler.GetUnitStats("entrepot");
                         
                         checkForTreesIntersecting(go);
-                        
-                        // soustrait  du stock les ressource utilisé pour la construction
-                        resourceManager.DeductResources(constructionCost);
                         
                         // pour pouvoir etre cliqué
                         go.layer = LayerMask.NameToLayer("PlayerUnits");

@@ -29,7 +29,7 @@ namespace PS.Units
         
         public UnitStatTypes.Base baseStats;
         
-        public Dictionary<ResourceType, int> GetConstructionCost()
+        public Dictionary<ResourceType, int> GetCost()
         {
             return new Dictionary<ResourceType, int>
             {
