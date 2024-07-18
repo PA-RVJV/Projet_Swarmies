@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FormationManager
+public static class FormationManager
 {
     public static List<Vector3> GetFormationPositions(Vector3 targetPosition, int unitCount, float spacing, string formationType)
     {
@@ -57,24 +57,19 @@ public class FormationManager
     private static List<Vector3> GetDiamondFormation(Vector3 targetPosition, int unitCount, float spacing)
     {
         List<Vector3> positions = new List<Vector3>();
-        int layer = 1;
-        int unitsInLayer = 1;
-        int unitsPlaced = 0;
+        int layers = Mathf.CeilToInt((Mathf.Sqrt(1 + 8 * unitCount) - 1) / 2);  // Derivation from quadratic equation for layers
+        int unitCounter = 0;
 
-        positions.Add(targetPosition); // Central position
-        unitsPlaced++;
-
-        while (unitsPlaced < unitCount)
+        for (int layer = 0; layer < layers; layer++)
         {
-            int unitsInThisLayer = 4 * layer;
-            for (int i = 0; i < unitsInThisLayer && unitsPlaced < unitCount; i++)
+            int unitsInLayer = 2 * layer + 1;
+            for (int i = 0; i < unitsInLayer && unitCounter < unitCount; i++)
             {
-                float angle = (i / (float)unitsInThisLayer) * 2 * Mathf.PI;
-                Vector3 position = targetPosition + new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * spacing * layer;
+                float angle = i * (360.0f / unitsInLayer);
+                Vector3 position = targetPosition + new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), 0, Mathf.Sin(Mathf.Deg2Rad * angle)) * spacing * layer;
                 positions.Add(position);
-                unitsPlaced++;
+                unitCounter++;
             }
-            layer++;
         }
 
         return positions;

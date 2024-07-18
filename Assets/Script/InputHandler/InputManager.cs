@@ -211,7 +211,7 @@ namespace PS.InputHandlers
                             if (SelectedUnits.Count > 1)
                             {
                                 string currentFormation = "quinconce";
-                                List<Vector3> formationPositions = FormationManager.GetFormationPositions(_hit.point, SelectedUnits.Count, 2.0f, currentFormation);
+                                List<Vector3> formationPositions = FormationManager.GetFormationPositions(_hit.point, SelectedUnits.Count, 0.6f, currentFormation);
                                 int index = 0;
                                 foreach (var weakUnit in SelectedUnits)
                                 {

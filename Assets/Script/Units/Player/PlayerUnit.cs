@@ -35,6 +35,8 @@ namespace PS.Units.Player
         {
             // Initialise la référence au composant NavMeshAgent.
             _navAgent = GetComponent<NavMeshAgent>();
+            _navAgent.angularSpeed = 120f;
+            _navAgent.avoidancePriority = 50;
             attackCooldown = baseStats.attackCooldown;
 
             _isAttacker = GetComponent<NavMeshAgent>() && GetComponent<NavMeshAgent>().enabled;
@@ -94,12 +96,8 @@ namespace PS.Units.Player
                 attackCooldown = baseStats.attackCooldown;
             }
 
-            // introduire une condition avec les batiment de production d'unité pour le changement d'apparence
-            //if ()
-            //{
-            //    unitConfig.ApplyConfig(gameObject, currentParentName);
-            //
-            //}
+            // Interpoler les positions pour un mouvement plus fluide
+            transform.position = Vector3.Lerp(transform.position, _navAgent.nextPosition, Time.deltaTime * _navAgent.speed);
         }
 
         public void TargetEnemy(Transform TargetedEnemy)
