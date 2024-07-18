@@ -20,13 +20,13 @@ public class SpawnerUnit : MonoBehaviour
     public Transform myparent;
     
     private int currentCount = 0;
-    private int unitToProduct = 0;
     private bool _running = true;
 
     // UI Elements
     public CaserneDisplay caserneDisplay;
-    private int unitsInQueue = 0;
     private float spawnProgress = 0f;
+
+    private ResourceManager resourceManager;
 
     
     
@@ -40,6 +40,8 @@ public class SpawnerUnit : MonoBehaviour
         {
             spawnPoint = t.position;
         }
+
+        resourceManager = FindObjectOfType<ResourceManager>(); 
         StartCoroutine(Spawner());
     }
 
@@ -47,15 +49,15 @@ public class SpawnerUnit : MonoBehaviour
     {
         while (_running) // Change the condition to always run the coroutine
         {
-            if (currentCount != 0 && unitToSpawn != "Worker")
-            {
-                caserneDisplay.UpdateUnitsInQueueText(currentCount, numberMax);
-            }
-            
             if (unitToSpawn == "")
             {
                 yield return new WaitForSeconds(timeTilNextSpawn);
                 continue;
+            }
+            
+            if (currentCount != 0 && unitToSpawn != "Worker")
+            {
+                caserneDisplay.UpdateUnitsInQueueText(currentCount, numberMax);
             }
             
             if (unitToSpawn == "Worker" && currentCount < numberMax)
@@ -67,8 +69,22 @@ public class SpawnerUnit : MonoBehaviour
             }
             else if (currentCount < numberMax)
             {
-                unitsInQueue++;
+                
                 caserneDisplay.ChangeUnitIcon(unitToSpawn);
+                
+                // vérifie si le jouer a assez de resource, si c'est le cas, les resource sont déduit du stock et on return true
+                // sinon un message est afficher pendant quelque seconde et on return false
+                if (!resourceManager.HasEnoughResourcesForUnit(unitToSpawn))
+                {
+                    caserneDisplay.ShowResourceWarning(true);
+                    yield return new WaitForSeconds(timeTilNextSpawn);
+                    continue;
+                }
+                else
+                {
+                    caserneDisplay.ShowResourceWarning(false);
+                }
+                
                 caserneDisplay.UpdateUnitsInQueueText(currentCount, numberMax);
                 caserneDisplay.ShowResourceWarning(false);
                 spawnProgress = 0f;
@@ -82,7 +98,6 @@ public class SpawnerUnit : MonoBehaviour
 
                 SpawnUnit();
                 
-                unitsInQueue--;
             }
             else
             {

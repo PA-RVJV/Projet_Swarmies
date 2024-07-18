@@ -14477,9 +14477,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0721231e6fd60346b8c88aaebdb6c64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingWood: 20
-  startingStone: 15
-  startingGold: 15
+  resourceOverlay: {fileID: 55283516}
+  startingWood: 100
+  startingStone: 100
+  startingGold: 10
 --- !u!4 &1785667367 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1223379371621718547, guid: 7fc420ec9f790f2428a28c18eed03dba, type: 3}

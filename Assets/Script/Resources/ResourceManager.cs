@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PS.Units;
 
 public class ResourceManager : MonoBehaviour
 {
     public Dictionary<ResourceType, int> resourceStock = new Dictionary<ResourceType, int>();
+    public Canvas resourceOverlay;
+    private ResourceOverlay resourceOverlayScript;
+    
     
     // Ressources de départ
     public int startingWood = 0;
@@ -19,7 +23,7 @@ public class ResourceManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        resourceOverlayScript = resourceOverlay.GetComponent<ResourceOverlay>();
     }
 
     // Update is called once per frame
@@ -60,8 +64,25 @@ public class ResourceManager : MonoBehaviour
         return 0;
     }
     
-    public bool HasEnoughResources(Dictionary<ResourceType, int> cost)
+    public bool HasEnoughResourcesForBuilding(string unitName)
     {
+        Dictionary<ResourceType, int> cost = GetConstructionCost(unitName);
+        foreach (var kvp in cost)
+        {
+            if (GetResourceAmount(kvp.Key) < kvp.Value)
+            {
+                StartCoroutine(resourceOverlayScript.ShowResourceCostErrorMessage());
+                return false;
+            }
+        }
+
+        DeductResources(cost);
+        return true;
+    }
+    
+    public bool HasEnoughResourcesForUnit(string unitName)
+    {
+        Dictionary<ResourceType, int> cost = GetConstructionCost(unitName);
         foreach (var kvp in cost)
         {
             if (GetResourceAmount(kvp.Key) < kvp.Value)
@@ -69,19 +90,27 @@ public class ResourceManager : MonoBehaviour
                 return false;
             }
         }
+
+        DeductResources(cost);
         return true;
     }
     
-    public bool DeductResources(Dictionary<ResourceType, int> cost)
+    private void DeductResources(Dictionary<ResourceType, int> cost)
     {
-        if (HasEnoughResources(cost))
+        foreach (var kvp in cost)
         {
-            foreach (var kvp in cost)
-            {
-                resourceStock[kvp.Key] -= kvp.Value;
-            }
-            return true;
+            resourceStock[kvp.Key] -= kvp.Value;
         }
-        return false;
+    }
+
+    public Dictionary<ResourceType, int> GetConstructionCost(string unitName)
+    {
+        // Charger les statistiques de l'entrepôt à partir des assets
+        Unit unit = Resources.Load<Unit>($"Units/{unitName}");
+                        
+        // Obtenir les coûts de construction
+        Dictionary<ResourceType, int> constructionCost = unit.GetCost();
+
+        return constructionCost;
     }
 }
