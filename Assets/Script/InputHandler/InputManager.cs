@@ -207,16 +207,31 @@ namespace PS.InputHandlers
                             }
                             
                             break;
-                        default: // Si l'objet touché n'appartient à aucun des layers spécifiés.
-                            // Déplace les unités sélectionnées vers le point touché.
-                            foreach (var weakUnit in SelectedUnits)
+                        default:
+                            if (SelectedUnits.Count > 1)
                             {
-                                if(weakUnit.TryGetTarget(out Transform unit) && unit) 
+                                string currentFormation = "quinconce";
+                                List<Vector3> formationPositions = FormationManager.GetFormationPositions(_hit.point, SelectedUnits.Count, 2.0f, currentFormation);
+                                int index = 0;
+                                foreach (var weakUnit in SelectedUnits)
                                 {
-                                    if(!(this.unit.GetComponent<NavMeshAgent>() && this.unit.GetComponent<NavMeshAgent>().enabled))
-                                        break;
-                                    PlayerUnit pU = unit.gameObject.GetComponent<PlayerUnit>();
-                                    pU.MoveUnit(_hit.point);
+                                    if (weakUnit.TryGetTarget(out Transform unit) && unit)
+                                    {
+                                        PlayerUnit pU = unit.gameObject.GetComponent<PlayerUnit>();
+                                        pU.MoveUnit(formationPositions[index]);
+                                        index++;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                foreach (var weakUnit in SelectedUnits)
+                                {
+                                    if (weakUnit.TryGetTarget(out Transform unit) && unit)
+                                    {
+                                        PlayerUnit pU = unit.gameObject.GetComponent<PlayerUnit>();
+                                        pU.MoveUnit(_hit.point);
+                                    }
                                 }
                             }
                             break;
