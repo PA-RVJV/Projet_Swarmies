@@ -76,7 +76,7 @@ namespace PS.InputHandlers
                             continue;
                         
                         //Debug.Log(unit);
-                        foreach (var action in GameRules.yieldActions(unit))
+                        foreach (var action in GameRules.YieldActions(unit))
                         {
                             dico.Add((unit.gameObject, action));
                         }

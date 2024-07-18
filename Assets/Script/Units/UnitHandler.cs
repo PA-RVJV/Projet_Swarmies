@@ -120,7 +120,7 @@ namespace PS.Units
                         Assert.IsTrue(false);
                     }
 
-                    // ajoute une barre de vie et une pastille de minimap si elle est absente
+                    // ajoute une barre de vie si elle est absente
                     if (unit.GetComponentInChildren<HealthBarTrait>() == null)
                     {
                         GameObject go;

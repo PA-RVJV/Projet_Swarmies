@@ -6,6 +6,7 @@ using PS.Units;
 using PS.Units.Player;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 namespace Script.Systems
 {
@@ -19,6 +20,7 @@ namespace Script.Systems
         public GameObject entrepotsAllies;
         public GameObject pastilleMinimap;
         public GameObject unitStatsDisplay;
+        public GameObject CaserneDisplay;
         
         public GameObject warriorsAllies;
         public GameObject shootersAllies;
@@ -112,14 +114,22 @@ namespace Script.Systems
                         PlayerUnit pus = go.GetComponent<PlayerUnit>();
                         var ucf = transform.Find("UnitConfigManager").GetComponent<UnitConfigManager>();
                         pus.unitConfig = ucf;
-                        pus.unitHandler = GetComponent<UnitHandler>();
+                        pus.unitHandler = GetComponent<UnitHandler>();                                                                                                                                                                                                                                                                                                                                                                                                                 
                         pus.baseStats = pus.unitHandler.GetUnitStats("caserne");
 
+                        
+                        
                         // Le script de spawn attachée a la caserne
                         var spaner = go.GetComponent<SpawnerUnit>();
                         spaner.unitConfigManager = ucf;
 
                         checkForTreesIntersecting(go);
+                        
+                        // Barre et queue de production
+                        var cdp = Instantiate(CaserneDisplay, go.transform);
+                        cdp.transform.SetParent(go.transform, false);
+                        cdp.transform.localPosition = new Vector3(0, 5, 0);
+                        spaner.caserneDisplay = cdp.GetComponent<CaserneDisplay>();
                         
                         // soustrait  du stock les ressource utilisé pour la construction
                         resourceManager.DeductResources(constructionCost);
@@ -146,7 +156,7 @@ namespace Script.Systems
                         // Barre de vie
                         var usd = Instantiate(unitStatsDisplay, go.transform);
                         usd.transform.SetParent(go.transform, false);
-
+                        
                         Destroy(unit);
                 }
 
@@ -199,7 +209,7 @@ namespace Script.Systems
                         go.name = entrepotPrefab.name;
                         //go.transform.localScale *= 0.1f;
                         //go.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
-                        go.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+                        go.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
 
                         // Attribuer le type de ressource au bâtiment
                         ResourceCamp resourceCamp = go.GetComponent<ResourceCamp>();
@@ -279,7 +289,7 @@ namespace Script.Systems
          * A partir d'une unité sur le terrain, sort toutes les actions
          * que cette unité peut faire
          */
-        public IEnumerable<UnitActionsEnum> yieldActions(Transform unit)
+        public IEnumerable<UnitActionsEnum> YieldActions(Transform unit)
         {
             switch (unit.parent.name)
             {
