@@ -12,11 +12,10 @@ GameObject:
   - component: {fileID: 5103682218139833339}
   - component: {fileID: 8600848415692352174}
   - component: {fileID: 4685967752780826888}
-  - component: {fileID: 5001099513430004563}
   - component: {fileID: 5435959878754354914}
   - component: {fileID: 402130286090323149}
   m_Layer: 0
-  m_Name: Caserne
+  m_Name: Tower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 366.25232, y: 1.8, z: 117.4}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 0.9, y: 2.7954645, z: 0.9}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8173258154122289481}
@@ -110,26 +109,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5001099513430004563
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5203104378639932418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12f852c3756147c40a480865d3945dd7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnWorker: {fileID: 2374471220910993860, guid: f9df890b18e4f044491c2c2e92c790a2, type: 3}
-  numberMax: 5
-  caserneDisplay: {fileID: 6765899432911624182}
-  spawnPoint: {x: 0, y: 0, z: 0}
-  timeTilNextSpawn: 5
-  unitToSpawn: 
-  unitConfigManager: {fileID: 0}
-  myparent: {fileID: 0}
 --- !u!195 &5435959878754354914
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -327,17 +306,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 404902d003f90f6428c5d765c06675d9, type: 3}
---- !u!114 &6765899432911624182 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5854415610853838558, guid: 404902d003f90f6428c5d765c06675d9, type: 3}
-  m_PrefabInstance: {fileID: 926125607170283816}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4dbf45ef07df0c4c8301359e2fa22bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &8173258154122289481 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9058846245044435041, guid: 404902d003f90f6428c5d765c06675d9, type: 3}

@@ -72,6 +72,30 @@ PrefabInstance:
       propertyPath: m_TagString
       value: PlayerUnit
       objectReference: {fileID: 0}
+    - target: {fileID: 1031240090041667592, guid: 5a6f75a94701b49a599237087f9175b1, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1031240090041667592, guid: 5a6f75a94701b49a599237087f9175b1, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1031240090041667592, guid: 5a6f75a94701b49a599237087f9175b1, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2568673716650347859, guid: 5a6f75a94701b49a599237087f9175b1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2568673716650347859, guid: 5a6f75a94701b49a599237087f9175b1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.71
+      objectReference: {fileID: 0}
+    - target: {fileID: 2568673716650347859, guid: 5a6f75a94701b49a599237087f9175b1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.12
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: -8700617353114198275, guid: 5a6f75a94701b49a599237087f9175b1, type: 3}
@@ -107,14 +131,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitHandler: {fileID: 0}
   baseStats:
-    cost: 0
+    woodCost: 0
+    stoneCost: 0
+    goldCost: 0
     attack: 0
     attackRange: 0
-    attackSpeed: 0
+    attackCooldown: 0
     aggroRange: 0
     health: 0
     armor: 0
   attackCooldown: 0
+  currentHealth: 0
 --- !u!65 &6774885477330347553
 BoxCollider:
   m_ObjectHideFlags: 0

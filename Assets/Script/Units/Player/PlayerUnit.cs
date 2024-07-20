@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using PS.Units.Enemy;
 
 
 namespace PS.Units.Player
@@ -12,34 +13,31 @@ namespace PS.Units.Player
         public UnitStatTypes.Base baseStats;
         public UnitConfigManager unitConfig;
         public float attackCooldown;
-
-        private Collider[] rangeColliders;
-        private Transform aggroTarget;
-        private UnitStatDisplay aggroUnit;       
+        
         private bool isPlayerUnit;
         
         // Variable privée pour stocker la référence au composant NavMeshAgent de l'unité.
-        private NavMeshAgent _navAgent;
-        private Collider[] _rangeColliders = {};
-        private Transform _aggroTarget;
-        private UnitStatDisplay _aggroUnit;
+        private NavMeshAgent navAgent;
+        private Collider[] rangeColliders = {};
+        private Transform aggroTarget;
+        private UnitStatDisplay unitStatDisplay;
         
-        private bool _hasAggro;
-        private bool _isDeplaced;
-        private float _distance;
-        private bool _isAttacker;
-
+        private bool hasAggro;
+        private bool isDeplaced;
+        private float distance;
+        private bool isAttacked;
+        public float currentHealth;
         
         // OnEnable est appelé quand le script est activé.
         private void OnEnable()
         {
             // Initialise la référence au composant NavMeshAgent.
-            _navAgent = GetComponent<NavMeshAgent>();
-            _navAgent.angularSpeed = 120f;
-            _navAgent.avoidancePriority = 50;
-            attackCooldown = baseStats.attackCooldown;
-
-            _isAttacker = GetComponent<NavMeshAgent>() && GetComponent<NavMeshAgent>().enabled;
+            navAgent = GetComponent<NavMeshAgent>();
+            navAgent.speed = 3f;
+            navAgent.angularSpeed = 120f;
+            navAgent.avoidancePriority = 50;
+            isAttacked = GetComponent<NavMeshAgent>() && GetComponent<NavMeshAgent>().enabled;
+            
             if (unitConfig == null)
             {
                 
@@ -49,6 +47,9 @@ namespace PS.Units.Player
         private void Start()
         {
             ApplyConfig(transform.parent);
+            attackCooldown = baseStats.attackCooldown;
+            currentHealth = baseStats.health;
+            unitStatDisplay = gameObject.GetComponentInChildren<UnitStatDisplay>();
         }
         
         private void OnDestroy()
@@ -56,19 +57,12 @@ namespace PS.Units.Player
             Debug.Log("destroyed");
         }
         
-        // Méthode pour déplacer l'unité vers une destination spécifique.
-        public void MoveUnit(Vector3 destination)
-        {
-            // Utilise le NavMeshAgent pour définir la destination de l'unité.
-            _isDeplaced = true;
-            _navAgent.SetDestination(destination);
-        }
         private void Update()
         {
-            if (!_isAttacker)
+            if (!isAttacked)
                 return;
             
-            if (!_hasAggro)
+            if (!hasAggro)
             {
                 CheckForEnemyTarget();
             }
@@ -76,17 +70,17 @@ namespace PS.Units.Player
             {
                 MoveToAggroTarget();
                 Attack();
-                CheckAggroDistance();
+                //CheckAggroDistance();
                 attackCooldown -= Time.deltaTime;
             }
 
-            if (_isDeplaced == true)
+            if (isDeplaced == true)
             {
-                if (_navAgent.remainingDistance <= _navAgent.stoppingDistance) // Vérifie si l'agent est assez proche de la destination
+                if (navAgent.remainingDistance <= navAgent.stoppingDistance) // Vérifie si l'agent est assez proche de la destination
                 {
-                    if (!_navAgent.hasPath || _navAgent.velocity.sqrMagnitude == 0f) // Vérifie si l'agent est arrêté
+                    if (!navAgent.hasPath || navAgent.velocity.sqrMagnitude == 0f) // Vérifie si l'agent est arrêté
                     {
-                        _isDeplaced = false;
+                        isDeplaced = false;
                     }
                 }
             }
@@ -97,14 +91,22 @@ namespace PS.Units.Player
             }
 
             // Interpoler les positions pour un mouvement plus fluide
-            transform.position = Vector3.Lerp(transform.position, _navAgent.nextPosition, Time.deltaTime * _navAgent.speed);
+            unitStatDisplay.HandleHealth(currentHealth);
+            transform.position = Vector3.Lerp(transform.position, navAgent.nextPosition, Time.deltaTime * navAgent.speed);
         }
 
+        // Méthode pour déplacer l'unité vers une destination spécifique.
+        public void MoveUnit(Vector3 destination)
+        {
+            // Utilise le NavMeshAgent pour définir la destination de l'unité.
+            isDeplaced = true;
+            navAgent.SetDestination(destination);
+        }
+        
         public void TargetEnemy(Transform TargetedEnemy)
         {
-            _aggroTarget = TargetedEnemy;
-            _aggroUnit = _aggroTarget.gameObject.GetComponentInChildren<UnitStatDisplay>();
-            _hasAggro = true;
+            aggroTarget = TargetedEnemy;
+            hasAggro = true;
         }
         
         private void ApplyConfig(Transform parent)
@@ -127,7 +129,6 @@ namespace PS.Units.Player
                 {
                     renderer.material = isPlayerUnit ? config.playerMaterial : config.enemyMaterial;
                 }
-                
             }
             else
             {
@@ -137,15 +138,14 @@ namespace PS.Units.Player
         
         private void CheckForEnemyTarget()
         {
-            _rangeColliders = Physics.OverlapSphere(transform.position, baseStats.aggroRange);
+            rangeColliders = Physics.OverlapSphere(transform.position, baseStats.aggroRange);
 
-            for (int i = 0; i < _rangeColliders.Length; i++)
+            for (int i = 0; i < rangeColliders.Length; i++)
             {
-                if (_rangeColliders[i]?.gameObject.layer == unitHandler.eUnitLayer)
+                if (rangeColliders[i]?.gameObject.layer == unitHandler.eUnitLayer)
                 {
-                    _aggroTarget = _rangeColliders[i].gameObject.transform;
-                    _aggroUnit = _aggroTarget.gameObject.GetComponentInChildren<UnitStatDisplay>();
-                    _hasAggro = true;
+                    aggroTarget = rangeColliders[i].gameObject.transform;
+                    hasAggro = true;
                     break; 
                 }
             }
@@ -153,14 +153,13 @@ namespace PS.Units.Player
         
         private void CheckAggroDistance()
         {
-            if (_aggroTarget != null)
+            if (aggroTarget != null)
             {
-                _distance = Vector3.Distance(_aggroTarget.position, transform.position);
-                if (_distance >= baseStats.attackRange)
+                distance = Vector3.Distance(aggroTarget.position, transform.position);
+                if (distance >= baseStats.attackRange)
                 {
-                    _hasAggro = false;
-                    _aggroTarget = null;
-                    _aggroUnit = null;
+                    hasAggro = false;
+                    aggroTarget = null;
                 }
             }
         }
@@ -168,33 +167,60 @@ namespace PS.Units.Player
 
         private void Attack()
         {
-            if (_distance < baseStats.attackRange && attackCooldown <= 0)
+            if (distance <= baseStats.attackRange && attackCooldown <= 0)
             {
                 attackCooldown = baseStats.attackCooldown;
-                _aggroUnit.TakeDamage(baseStats.attack);
+                EnemyUnit enemyUnit = aggroTarget.GetComponent<EnemyUnit>();
+                if (enemyUnit != null)
+                {
+                    enemyUnit.TakeDamage(baseStats.attack);
+                }
+                else
+                {
+                    Building buildingUnit = aggroTarget.GetComponent<Building>();
+                    if (buildingUnit != null)
+                    {
+                        buildingUnit.TakeDamage(baseStats.attack);
+                    }
+                }
             }
         }
 
         private void MoveToAggroTarget()
         {
-            if (_aggroTarget == null)
+            if (aggroTarget == null)
             {
-                _navAgent.SetDestination(transform.position);
-                _hasAggro = false;
+                navAgent.SetDestination(transform.position);
+                hasAggro = false;
             }
             else
             {
-                _distance = Vector3.Distance(_aggroTarget.position, transform.position);
-                if (_isDeplaced != true)
+                distance = Vector3.Distance(aggroTarget.position, transform.position);
+                navAgent.stoppingDistance = baseStats.attackRange;
+                
+                if (isDeplaced != true)
                 {
-                    _navAgent.stoppingDistance = baseStats.attackRange;
-
                     //if (_distance <= baseStats.aggroRange)
                     //{
-                    _navAgent.SetDestination(_aggroTarget.position);
+                    navAgent.SetDestination(aggroTarget.position);
                     //}
                 }
             }
+        }
+        
+        public void TakeDamage(float damage)
+        {
+            float totalDamage = damage - baseStats.armor;
+            currentHealth -= totalDamage;
+            if (currentHealth <= 0)
+            {
+                Die();
+            }
+        }
+
+        private void Die()
+        {
+            Destroy(gameObject);
         }
     }
 }

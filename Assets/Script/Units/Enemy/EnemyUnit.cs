@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using PS.Units.Player;
 
 namespace PS.Units.Enemy
 {
@@ -16,13 +17,13 @@ namespace PS.Units.Enemy
         
         private Collider[] rangeColliders;
         
-        private Transform aggroTarget;
-
-        private UnitStatDisplay aggroUnit;
+        public Transform aggroTarget;
         
         private bool hasAggro = false;
         
         private float distance;
+        
+        private UnitStatDisplay unitStatDisplay;
 
         public float attackCooldown;
         
@@ -30,17 +31,24 @@ namespace PS.Units.Enemy
         
         private bool isPlayerUnit;
         
+        public float currentHealth;
+        
         // OnEnable est appelé quand le script est activé.
         private void OnEnable()
         {
             // Initialise la référence au composant NavMeshAgent.
             navAgent = GetComponent<NavMeshAgent>();
-            attackCooldown = baseStats.attackCooldown;
+            navAgent.speed = 3f;
+            navAgent.angularSpeed = 120f;
+            navAgent.avoidancePriority = 50;
         }
 
         private void Start()
         {
             ApplyConfig(transform.parent);
+            currentHealth = baseStats.health;
+            attackCooldown = baseStats.attackCooldown;
+            unitStatDisplay = gameObject.GetComponentInChildren<UnitStatDisplay>();
         }
         
         private void Update()
@@ -60,6 +68,7 @@ namespace PS.Units.Enemy
             {
                 attackCooldown = baseStats.attackCooldown;
             }
+            unitStatDisplay.HandleHealth(currentHealth);
         }
         
         public void ApplyConfig(Transform parent)
@@ -90,7 +99,6 @@ namespace PS.Units.Enemy
                 if (rangeColliders[i]?.gameObject.layer == unitHandler.pUnitLayer)
                 {
                     aggroTarget = rangeColliders[i].gameObject.transform;
-                    aggroUnit = aggroTarget.gameObject.GetComponentInChildren<UnitStatDisplay>();
                     hasAggro = true;
                     break;
                 }
@@ -99,15 +107,27 @@ namespace PS.Units.Enemy
 
         private void Attack()
         {
-            if (distance < baseStats.attackRange && attackCooldown <= 0)
+            if (distance <= baseStats.attackRange && attackCooldown <= 0)
             {
                 attackCooldown = baseStats.attackCooldown;
-                aggroUnit.TakeDamage(baseStats.attack);
+                PlayerUnit playerUnit = aggroTarget.GetComponent<PlayerUnit>();
+                if (playerUnit is not null)
+                {
+                    playerUnit.TakeDamage(baseStats.attack);
+                }
+                else
+                {
+                    Building buildingUnit = aggroTarget.GetComponent<Building>();
+                    if (buildingUnit is not null)
+                    {
+                        buildingUnit.TakeDamage(baseStats.attack);
+                    }
+                }
             }
         }
         
         
-        private void MoveToAggroTarget()
+        public void MoveToAggroTarget()
         {
             if (aggroTarget == null)
             {
@@ -119,11 +139,25 @@ namespace PS.Units.Enemy
                 distance = Vector3.Distance(aggroTarget.position, transform.position);
                 navAgent.stoppingDistance = baseStats.attackRange;
 
-                if (distance <= baseStats.aggroRange)
+                if (distance >= baseStats.attackRange)
                 {
                     navAgent.SetDestination(aggroTarget.position);
                 }
             }
+        }
+        public void TakeDamage(float damage)
+        {
+            float totalDamage = damage - baseStats.armor;
+            currentHealth -= totalDamage;
+            if (currentHealth <= 0)
+            {
+                Die();
+            }
+        }
+
+        private void Die()
+        {
+            Destroy(gameObject);
         }
     }
 }

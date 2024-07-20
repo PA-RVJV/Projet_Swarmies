@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using PS.Units.Enemy;
 
 public class EnemyAttackWave : MonoBehaviour
 {
@@ -12,16 +13,28 @@ public class EnemyAttackWave : MonoBehaviour
         foreach (Transform enemy in transform)
         {
             NavMeshAgent agent = enemy.GetComponent<NavMeshAgent>();
+            EnemyUnit enemyScript = enemy.GetComponent<EnemyUnit>();
             if (agent != null)
             {
-                // Calculer une position aléatoire autour du bâtiment
-                Vector3 randomPosition = GetRandomPositionAroundBuilding();
-                // Définir la destination de l'agent
-                agent.SetDestination(randomPosition);
+                setUnitAttack(enemyScript);
+                
             }
         }
     }
 
+    private void setUnitAttack(EnemyUnit enemyScript)
+    {
+        enemyScript.aggroTarget = targetBuilding;
+        enemyScript.MoveToAggroTarget();
+    }
+    
+    private void setUnitDefend(NavMeshAgent agent)
+    {
+        // Calculer une position aléatoire autour du bâtiment
+        Vector3 randomPosition = GetRandomPositionAroundBuilding();
+        // Définir la destination de l'agent
+        agent.SetDestination(randomPosition);
+    }
     private Vector3 GetRandomPositionAroundBuilding()
     {
         // Calculer un angle aléatoire

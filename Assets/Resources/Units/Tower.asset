@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ccadda1e30310df4797c98cbf6e00aa0, type: 3}
-  m_Name: Porte
+  m_Name: Tower
   m_EditorClassIdentifier: 
-  type: 5
-  name: Porte
-  unitPrefab: {fileID: 5972938932718913565, guid: 631af951e71bd43b5bb72a91c26e9367, type: 3}
+  type: 7
+  name: 
+  unitPrefab: {fileID: 799526083087448750, guid: 15c16609dd61ec94395c71d5fc765f7d, type: 3}
   baseStats:
-    woodCost: 0
-    stoneCost: 0
-    goldCost: 0
-    attack: 5
+    woodCost: 10
+    stoneCost: 5
+    goldCost: 2
+    attack: 10
     attackRange: 3
     attackCooldown: 2
-    aggroRange: 5
-    health: 2500
-    armor: 1
+    aggroRange: 2
+    health: 1000
+    armor: 0

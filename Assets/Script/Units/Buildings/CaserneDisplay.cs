@@ -9,41 +9,21 @@ public class CaserneDisplay : MonoBehaviour
     // Dictionnaire pour stocker les icônes chargées
     private Dictionary<string, Sprite> iconDictionary = new Dictionary<string, Sprite>();
     
+    [SerializeField] private Image progressBarAmount;
+    [SerializeField] private GameObject warningResourceObject;
+    [SerializeField] private TextMeshProUGUI unitsInQueueText;
+    [SerializeField] private Image unitIconImage;
+    
     // Dossier contenant les icônes
     private string iconFolder = "IconUnit";
     
     private Camera _camera;
-    private Image progressBarValueImage;
-    
-    private TextMeshProUGUI unitsInQueueText;
-    private GameObject warningResourceImage;
-    private Image unitIconImage;
     
     // Start is called before the first frame update
     void Start()
     {
         LoadIcons();
-        
         _camera = Camera.main;
-        
-        // Trouver le GameObject ProductionBar dans la hiérarchie du Canvas
-        Transform productionBarTransform = transform.Find("ProductionBar");
-        
-        // Trouver l'image Background dans ProductionBar
-        Transform backgroundTransform = productionBarTransform.Find("Background");
-
-        // Trouver l'image ProductionBarValue dans Background
-        Transform productionBarValueTransform = backgroundTransform.Find("ProductionBarValue");
-
-        // Obtenir le composant Image de ProductionBarValue
-        progressBarValueImage = productionBarValueTransform.GetComponent<Image>();
-        
-        // Trouver le GameObject UnitQueue dans la hiérarchie du Canvas
-        Transform UnitQueueTransform = transform.Find("UnitQueue");
-        
-        unitsInQueueText = UnitQueueTransform.GetComponentInChildren<TextMeshProUGUI>();
-        unitIconImage = UnitQueueTransform.GetComponentInChildren<Image>();
-        warningResourceImage = UnitQueueTransform.Find("WarningResourceImage").gameObject;
     }
 
     // Update is called once per frame
@@ -70,10 +50,10 @@ public class CaserneDisplay : MonoBehaviour
     
     public void UpdateProgressBar(float progress)
     {
-        if (progressBarValueImage != null)
+        if (progressBarAmount != null)
         {
             progress = Mathf.Clamp01(progress);
-            progressBarValueImage.fillAmount = progress;
+            progressBarAmount.fillAmount = progress;
         }
     }
 
@@ -101,6 +81,6 @@ public class CaserneDisplay : MonoBehaviour
 
     public void ShowResourceWarning(bool activate)
     {
-        warningResourceImage.SetActive(activate);
+        warningResourceObject.SetActive(activate);
     }
 }

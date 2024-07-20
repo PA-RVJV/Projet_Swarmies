@@ -16,6 +16,7 @@ namespace PS.Units
             Mairie,
             Porte,
             Entrepot,
+            Tower
         };
         
         [Header("Unit Settings")] [Space(15)]

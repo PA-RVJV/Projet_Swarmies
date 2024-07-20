@@ -110,12 +110,6 @@ namespace Script.Systems
                         spaner.unitConfigManager = ucf;
 
                         checkForTreesIntersecting(go);
-                        
-                        // Barre et queue de production
-                        var cdp = Instantiate(CaserneDisplay, go.transform);
-                        cdp.transform.SetParent(go.transform, false);
-                        cdp.transform.localPosition = new Vector3(0, 5, 0);
-                        spaner.caserneDisplay = cdp.GetComponent<CaserneDisplay>();
 
                         // pour pouvoir etre cliqué
                         go.layer = LayerMask.NameToLayer("PlayerUnits");
@@ -135,10 +129,6 @@ namespace Script.Systems
                         // pastille minimap
                         var pastille = Instantiate(pastilleMinimap, go.transform);
                         pastille.transform.SetParent(go.transform, false);
-
-                        // Barre de vie
-                        var usd = Instantiate(unitStatsDisplay, go.transform);
-                        usd.transform.SetParent(go.transform, false);
                         
                         Destroy(unit);
                 }
@@ -180,7 +170,7 @@ namespace Script.Systems
                         go.name = entrepotPrefab.name;
                         //go.transform.localScale *= 0.1f;
                         //go.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
-                        go.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+                        //go.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
 
                         // Attribuer le type de ressource au bâtiment
                         ResourceCamp resourceCamp = go.GetComponent<ResourceCamp>();
@@ -214,10 +204,6 @@ namespace Script.Systems
                         // pastille minimap
                         var pastille = Instantiate(pastilleMinimap, go.transform);
                         pastille.transform.SetParent(go.transform, false);
-
-                        // Barre de vie
-                        var usd = Instantiate(unitStatsDisplay, go.transform);
-                        usd.transform.SetParent(go.transform, false);
                         
                         Destroy(unit);
                         break;

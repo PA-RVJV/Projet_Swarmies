@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,74 +9,123 @@ namespace PS.Units
 {
     public class UnitStatDisplay : MonoBehaviour
     {
-        public float maxHealth, armor, currentHealth;
-
+        // Dictionnaire pour stocker les icônes chargées
+        private Dictionary<string, Sprite> iconDictionary = new Dictionary<string, Sprite>();
+    
         [SerializeField] private Image healthBarAmount;
-        
+        [SerializeField] private Image progressBarAmount;
+        [SerializeField] private GameObject warningResourceObject;
+        [SerializeField] private TextMeshProUGUI unitsInQueueText;
+        [SerializeField] private Image unitIconImage;
+        [SerializeField] private GameObject ProductionDisplay;
+    
         private Camera _camera;
+        
+        public float maxHealth;
+        
+        // Dossier contenant les icônes
+        private string iconFolder = "IconUnit";
         
         private void Start()
         {
             _camera = Camera.main;
+            LoadIcons();
             
             try
             {
-                maxHealth = gameObject.GetComponentInParent<Player.PlayerUnit>().baseStats.health;
-                armor = gameObject.GetComponentInParent<Player.PlayerUnit>().baseStats.armor;
+                var playerUnit = gameObject.GetComponentInParent<Player.PlayerUnit>();
+                if (playerUnit != null)
+                {
+                    maxHealth = playerUnit.baseStats.health;
+                }
+                else if(gameObject.GetComponentInParent<Enemy.EnemyUnit>())
+                {
+                    var enemyUnit = gameObject.GetComponentInParent<Enemy.EnemyUnit>();
+                    if (enemyUnit != null)
+                    {
+                        maxHealth = enemyUnit.baseStats.health;
+                    }
+                }
+                else
+                {
+                    var buildingUnit = gameObject.GetComponentInParent<Building>();
+                    if (buildingUnit != null)
+                    {
+                        maxHealth = buildingUnit.baseStats.health;
+                    }
+                }
             }
             catch (Exception)
             {
-                Debug.Log("No player Unit. Trying Enemy Unit...");
-                try
-                {
-                    maxHealth = gameObject.GetComponentInParent<Enemy.EnemyUnit>().baseStats.health;
-                    armor = gameObject.GetComponentInParent<Enemy.EnemyUnit>().baseStats.armor;
-                }
-                catch (Exception)
-                {
-                    try
-                    {
-                        maxHealth = gameObject.GetComponentInParent<Building>().baseStats.health;
-                        armor = gameObject.GetComponentInParent<Building>().baseStats.armor;
-                    }
-                    catch (Exception)
-                    {
-                        Debug.Log("No Unit Scripts found!");
-                    }
-                }
+                Debug.Log("No Unit Scripts found!");
             }
-
-            currentHealth = maxHealth;
         }
         
         private void Update()
         {
-            HandleHealth();
+            HandleDisplayRotation();
         }
         
-        public void TakeDamage(float damage)
+        public void HandleHealth(float currentHealth)
         {
-            float totalDamage = damage - armor;
-            currentHealth -= totalDamage;
-        }
-        
-        private void HandleHealth()
-        {
-            gameObject.transform.LookAt(gameObject.transform.position + 
-                                             _camera.transform.rotation * Vector3.forward, 
-                _camera.transform.rotation * Vector3.up);
-            
             healthBarAmount.fillAmount = currentHealth / maxHealth;
+        }
 
-            if (currentHealth <= 0)
+        private void HandleDisplayRotation()
+        {
+            Quaternion rotationCam = _camera.transform.rotation;
+            gameObject.transform.LookAt(gameObject.transform.position + rotationCam * Vector3.forward, 
+                rotationCam * Vector3.up);
+        }
+            
+        public void UpdateUnitsInQueueText(int currentCount, int numberMax)
+        {
+    
+            if (unitsInQueueText != null)
             {
-                Die();
+                unitsInQueueText.text = $"{currentCount}/{numberMax}";
             }
         }
-
-        private void Die()
+        
+        public void UpdateProgressBar(float progress)
         {
-            Destroy(gameObject.transform.parent.gameObject);
+            if (progressBarAmount != null)
+            {
+                progress = Mathf.Clamp01(progress);
+                progressBarAmount.fillAmount = progress;
+            }
+        }
+    
+        // Méthode pour charger les icônes
+        void LoadIcons()
+        {
+            // Charge toutes les icônes du dossier spécifié
+            Sprite[] icons = Resources.LoadAll<Sprite>(iconFolder);
+    
+            // Ajoute chaque icône au dictionnaire
+            foreach (Sprite icon in icons)
+            {
+                iconDictionary.Add(icon.name, icon);
+            }
+        }
+    
+        // Méthode pour changer l'icône en fonction du type d'unité
+        public void ChangeUnitIcon(string unitType)
+        {
+            if (iconDictionary.ContainsKey(unitType))
+            {
+                unitIconImage.sprite = iconDictionary[unitType];
+            }
+        }
+    
+        public void ShowResourceWarning(bool activate)
+        {
+            warningResourceObject.SetActive(activate);
+        }
+
+        public void ShowProductionDisplay(bool activate)
+        {
+            ProductionDisplay.SetActive(activate);
         }
     }
 

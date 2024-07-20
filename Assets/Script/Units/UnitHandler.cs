@@ -11,7 +11,7 @@ namespace PS.Units
     {
         public PlayerManager playerManager;
         [SerializeField]
-        private Unit warrior, shooter, healer, worker, mairie, caserne, porte, entrepot;
+        private Unit warrior, shooter, healer, worker, mairie, caserne, porte, entrepot, tower;
 
         public LayerMask pUnitLayer;
         public LayerMask eUnitLayer;
@@ -30,6 +30,10 @@ namespace PS.Units
             Assert.IsNotNull(shooter);
             Assert.IsNotNull(warrior);
             Assert.IsNotNull(porte);
+            Assert.IsNotNull(caserne);
+            Assert.IsNotNull(entrepot);
+            Assert.IsNotNull(tower);
+            
             
             Assert.IsNotNull(playerManager);
         }
@@ -65,6 +69,9 @@ namespace PS.Units
                     break;
                 case "entrepot":
                     unit = entrepot;
+                    break;
+                case "tower":
+                    unit = tower;
                     break;
                 default:
                     Debug.Log($"Unit Type : {type} not found");

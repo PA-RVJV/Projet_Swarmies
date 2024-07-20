@@ -12,6 +12,10 @@ public class SpawnerUnit : MonoBehaviour
     private GameObject spawnWorker;
     [SerializeField]
     private int numberMax = 5;
+
+    [SerializeField]
+    private UnitStatDisplay caserneDisplay;
+    
     public Vector3 spawnPoint;
     public float timeTilNextSpawn = 5f;
 
@@ -23,12 +27,10 @@ public class SpawnerUnit : MonoBehaviour
     private bool _running = true;
 
     // UI Elements
-    public CaserneDisplay caserneDisplay;
+    //public CaserneDisplay caserneDisplay;
     private float spawnProgress = 0f;
 
     private ResourceManager resourceManager;
-
-    
     
     // Start is called before the first frame update
 
@@ -40,7 +42,7 @@ public class SpawnerUnit : MonoBehaviour
         {
             spawnPoint = t.position;
         }
-
+        
         resourceManager = FindObjectOfType<ResourceManager>(); 
         StartCoroutine(Spawner());
     }
@@ -51,6 +53,7 @@ public class SpawnerUnit : MonoBehaviour
         {
             if (unitToSpawn == "")
             {
+                caserneDisplay.ShowProductionDisplay(false);
                 yield return new WaitForSeconds(timeTilNextSpawn);
                 continue;
             }
@@ -69,7 +72,7 @@ public class SpawnerUnit : MonoBehaviour
             }
             else if (currentCount < numberMax)
             {
-                
+                caserneDisplay.ShowProductionDisplay(true);
                 caserneDisplay.ChangeUnitIcon(unitToSpawn);
                 
                 // vérifie si le jouer a assez de resource, si c'est le cas, les resource sont déduit du stock et on return true

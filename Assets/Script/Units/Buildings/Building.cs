@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using PS.Units;
 using UnityEngine;
+using PS.Units.Enemy;
+using PS.Units.Player;
+
 
 public class Building : MonoBehaviour
 {
@@ -13,14 +16,22 @@ public class Building : MonoBehaviour
         
         private Transform aggroTarget;
 
-        private UnitStatDisplay aggroUnit;
+        private UnitStatDisplay unitStatDisplay;
         
         private bool hasAggro = false;
         
         private float distance;
 
         public float attackCooldown;
+        
+        public float currentHealth;
 
+        private void Start()
+        {
+            currentHealth = baseStats.health;
+            unitStatDisplay = gameObject.GetComponentInChildren<UnitStatDisplay>();
+        }
+        
         private void Update()
         {
             if (!hasAggro)
@@ -32,6 +43,7 @@ public class Building : MonoBehaviour
                 Attack();
                 attackCooldown -= Time.deltaTime;
             }
+            unitStatDisplay.HandleHealth(currentHealth);
         }
         
         private void CheckForEnemyTarget()
@@ -43,7 +55,6 @@ public class Building : MonoBehaviour
                 if (rangeColliders[i]?.gameObject.layer == unitHandler.pUnitLayer)
                 {
                     aggroTarget = rangeColliders[i].gameObject.transform;
-                    aggroUnit = aggroTarget.gameObject.GetComponentInChildren<UnitStatDisplay>();
                     hasAggro = true;
                     break;
                 }
@@ -52,10 +63,37 @@ public class Building : MonoBehaviour
 
         private void Attack()
         {
-            if (attackCooldown <= 0 && distance < baseStats.attackRange)
+            if (distance <= baseStats.attackRange && attackCooldown <= 0)
             {
-                aggroUnit.TakeDamage(baseStats.attack);
                 attackCooldown = baseStats.attackCooldown;
+                EnemyUnit enemyUnit = aggroTarget.GetComponent<EnemyUnit>();
+                if (enemyUnit is not null)
+                {
+                    enemyUnit.TakeDamage(baseStats.attack);
+                }
+                else
+                {
+                    PlayerUnit playerUnit = aggroTarget.GetComponent<PlayerUnit>();
+                    if (playerUnit is not null)
+                    {
+                        playerUnit.TakeDamage(baseStats.attack);
+                    }
+                }
             }
+        }
+        
+        public void TakeDamage(float damage)
+        {
+            float totalDamage = damage - baseStats.armor;
+            currentHealth -= totalDamage;
+            if (currentHealth <= 0)
+            {
+                Die();
+            }
+        }
+
+        private void Die()
+        {
+            Destroy(gameObject);
         }
 }
