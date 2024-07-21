@@ -11,7 +11,7 @@ namespace PS.Units
     {
         public PlayerManager playerManager;
         [SerializeField]
-        private Unit warrior, shooter, healer, worker, mairie, caserne, porte, entrepot, tower;
+        private Unit warrior, shooter, healer, worker, tank, mairie, caserne, porte, entrepot, tower;
 
         public LayerMask pUnitLayer;
         public LayerMask eUnitLayer;
@@ -29,6 +29,7 @@ namespace PS.Units
             Assert.IsNotNull(healer);
             Assert.IsNotNull(shooter);
             Assert.IsNotNull(warrior);
+            Assert.IsNotNull(tank);
             Assert.IsNotNull(porte);
             Assert.IsNotNull(caserne);
             Assert.IsNotNull(entrepot);
@@ -57,6 +58,9 @@ namespace PS.Units
                     break;
                 case "worker":
                     unit = worker;
+                    break;
+                case "tank":
+                    unit = tank;
                     break;
                 case "mairie":
                     unit = mairie;

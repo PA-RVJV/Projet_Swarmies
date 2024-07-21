@@ -7,6 +7,7 @@ namespace Script
         ConvertirEnWarriors,
         ConvertirEnShooters,
         ConvertirEnHealers,
+        ConvertirEnTanks,
     }
 
     public class GetText
@@ -25,6 +26,8 @@ namespace Script
                     return "+ Shooters";
                 case UnitActionsEnum.ConvertirEnHealers:
                     return "+ Healers";
+                case UnitActionsEnum.ConvertirEnTanks :
+                    return "+ Tanks";
             }
 
             return "Not defined in UnitActionsEnum";

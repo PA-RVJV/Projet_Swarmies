@@ -25,6 +25,7 @@ namespace Script.Systems
         public GameObject warriorsAllies;
         public GameObject shootersAllies;
         public GameObject healersAllies;
+        public GameObject tanksAllies;
         public GameObject workersAllies;
 
         public float closeRange; 
@@ -252,6 +253,14 @@ namespace Script.Systems
 
                         break;
                     }
+                    case UnitActionsEnum.ConvertirEnTanks:
+                    {
+                        var pu = unit.GetComponent<SpawnerUnit>();
+                        pu.unitToSpawn = "Tank";
+                        pu.myparent = tanksAllies.transform;
+
+                        break;
+                    }
                     default:
                         throw new NotImplementedException(nameof(action));
                 }
@@ -275,6 +284,7 @@ namespace Script.Systems
                     yield return UnitActionsEnum.ConvertirEnWarriors;
                     yield return UnitActionsEnum.ConvertirEnShooters;
                     yield return UnitActionsEnum.ConvertirEnHealers;
+                    yield return UnitActionsEnum.ConvertirEnTanks;
                     break;
                 }
             }

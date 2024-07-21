@@ -13,6 +13,7 @@ namespace PS.Units
             Shooter,
             Healer,
             Worker,
+            Tank,
             Mairie,
             Porte,
             Entrepot,

@@ -37,16 +37,16 @@ namespace PS.Units.Player
         private void OnEnable()
         {
             // Initialise la référence au composant NavMeshAgent.
-            navAgent = GetComponent<NavMeshAgent>();
-            navAgent.speed = 3f;
-            navAgent.angularSpeed = 120f;
-            navAgent.avoidancePriority = 50;
-            navAgent.stoppingDistance = 0.6f;
             isAttacked = GetComponent<NavMeshAgent>() && GetComponent<NavMeshAgent>().enabled;
         }
 
         private void Start()
         {
+            navAgent = GetComponent<NavMeshAgent>();
+            navAgent.speed = baseStats.speed;
+            navAgent.angularSpeed = 120f;
+            navAgent.avoidancePriority = 50;
+            navAgent.stoppingDistance = 0.6f;
             ApplyConfig(transform.parent);
             attackCooldown = baseStats.attackCooldown;
             currentHealth = baseStats.health;
