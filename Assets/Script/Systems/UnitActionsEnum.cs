@@ -19,9 +19,9 @@ namespace Script
             switch (actionsEnum)
             {
                 case UnitActionsEnum.ConstruireCaserne:
-                    return "+ Caserne";
+                    return "";
                 case UnitActionsEnum.ConstruireEntrepot:
-                    return "+ Entrepot";
+                    return "";
                 case UnitActionsEnum.ConvertirEnWarriors:
                     return "";
                 case UnitActionsEnum.ConvertirEnShooters:
@@ -31,7 +31,7 @@ namespace Script
                 case UnitActionsEnum.ConvertirEnTanks :
                     return "";
                 case UnitActionsEnum.Demolir:
-                    return "Demolish";
+                    return "";
                 case UnitActionsEnum.PausePlayProduction:
                     return "";
             }
