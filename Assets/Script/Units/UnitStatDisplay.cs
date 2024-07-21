@@ -11,21 +11,24 @@ namespace PS.Units
     {
         // Dictionnaire pour stocker les icônes chargées
         private Dictionary<string, Sprite> iconDictionary = new Dictionary<string, Sprite>();
-    
+        
         [SerializeField] private Image healthBarAmount;
         [SerializeField] private Image progressBarAmount;
         [SerializeField] private GameObject warningResourceObject;
         [SerializeField] private TextMeshProUGUI unitsInQueueText;
         [SerializeField] private Image unitIconImage;
         [SerializeField] private GameObject ProductionDisplay;
+        [SerializeField] private Image PausePlayImage;
+        [SerializeField] private Sprite pauseSprite;
+        [SerializeField] private Sprite playSprite;
     
         private Camera _camera;
         
         public float maxHealth;
         
         // Dossier contenant les icônes
-        private string iconFolder = "IconUnit";
-        
+        private string iconFolder = "IconButton";
+
         private void Start()
         {
             _camera = Camera.main;
@@ -126,6 +129,12 @@ namespace PS.Units
         public void ShowProductionDisplay(bool activate)
         {
             ProductionDisplay.SetActive(activate);
+        }
+        
+        // Méthode pour mettre à jour l'icône du bouton de pause/play
+        public void UpdatePausePlayButton(bool isPaused)
+        {
+            PausePlayImage.sprite = isPaused ? playSprite : pauseSprite;
         }
     }
 

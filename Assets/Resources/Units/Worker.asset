@@ -16,10 +16,14 @@ MonoBehaviour:
   name: 
   unitPrefab: {fileID: 2374471220910993860, guid: f9df890b18e4f044491c2c2e92c790a2, type: 3}
   baseStats:
-    cost: 25
+    woodCost: 0
+    stoneCost: 0
+    goldCost: 0
     attack: 5
     attackRange: 1
     attackCooldown: 2
     aggroRange: 5
     health: 25
+    speed: 3
     armor: 0
+    isHealer: 0

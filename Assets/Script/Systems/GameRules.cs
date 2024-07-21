@@ -83,7 +83,7 @@ namespace Script.Systems
             {
                 switch (action)
                 {
-                    case UnitActionsEnum.Construire:
+                    case UnitActionsEnum.ConstruireCaserne:
                     {
                         if (!unit)
                             continue;
@@ -261,6 +261,18 @@ namespace Script.Systems
 
                         break;
                     }
+                    case UnitActionsEnum.Demolir:
+                    {
+                        var pu = unit.GetComponent<PlayerUnit>();
+                        pu.Die();
+                        break;
+                    }
+                    case UnitActionsEnum.PausePlayProduction:
+                    {
+                        var pu = unit.GetComponent<SpawnerUnit>();
+                        pu.PlayStopToggle();
+                        break;
+                    }
                     default:
                         throw new NotImplementedException(nameof(action));
                 }
@@ -276,17 +288,43 @@ namespace Script.Systems
             switch (unit.parent.name)
             {
                 case "Workers":
-                    yield return UnitActionsEnum.Construire;
+                    yield return UnitActionsEnum.Demolir;
+                    yield return UnitActionsEnum.ConstruireCaserne;
                     yield return UnitActionsEnum.ConstruireEntrepot;
                     break;
+                
+                case "Warriors":
+                    yield return UnitActionsEnum.Demolir;
+                    break;
+                
+                case "Shooters":
+                    yield return UnitActionsEnum.Demolir;
+                    break;
+                
+                case "Tanks":
+                    yield return UnitActionsEnum.Demolir;
+                    break;
+                
+                case "Healers":
+                    yield return UnitActionsEnum.Demolir;
+                    break;
+                
                 case "Casernes":
-                {
+                    yield return UnitActionsEnum.Demolir;
                     yield return UnitActionsEnum.ConvertirEnWarriors;
                     yield return UnitActionsEnum.ConvertirEnShooters;
-                    yield return UnitActionsEnum.ConvertirEnHealers;
                     yield return UnitActionsEnum.ConvertirEnTanks;
+                    yield return UnitActionsEnum.ConvertirEnHealers;
+                    yield return UnitActionsEnum.PausePlayProduction;
                     break;
-                }
+                
+                case "Entrepots":
+                    yield return UnitActionsEnum.Demolir;
+                    break;
+                case "Mairies":
+                    yield return UnitActionsEnum.PausePlayProduction;
+                    break;
+                
             }
         }
 

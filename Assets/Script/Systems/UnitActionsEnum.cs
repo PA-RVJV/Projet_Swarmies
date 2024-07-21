@@ -2,12 +2,14 @@ namespace Script
 {
     public enum UnitActionsEnum
     {
-        Construire,
+        ConstruireCaserne,
         ConstruireEntrepot,
         ConvertirEnWarriors,
         ConvertirEnShooters,
         ConvertirEnHealers,
         ConvertirEnTanks,
+        Demolir,
+        PausePlayProduction
     }
 
     public class GetText
@@ -16,18 +18,22 @@ namespace Script
         {
             switch (actionsEnum)
             {
-                case UnitActionsEnum.Construire:
+                case UnitActionsEnum.ConstruireCaserne:
                     return "+ Caserne";
                 case UnitActionsEnum.ConstruireEntrepot:
                     return "+ Entrepot";
                 case UnitActionsEnum.ConvertirEnWarriors:
-                    return "+ Warriors";
+                    return "";
                 case UnitActionsEnum.ConvertirEnShooters:
-                    return "+ Shooters";
+                    return "";
                 case UnitActionsEnum.ConvertirEnHealers:
-                    return "+ Healers";
+                    return "";
                 case UnitActionsEnum.ConvertirEnTanks :
-                    return "+ Tanks";
+                    return "";
+                case UnitActionsEnum.Demolir:
+                    return "Demolish";
+                case UnitActionsEnum.PausePlayProduction:
+                    return "";
             }
 
             return "Not defined in UnitActionsEnum";

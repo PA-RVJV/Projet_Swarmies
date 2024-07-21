@@ -29,8 +29,10 @@ namespace PS.Units.Player
         private float distance;
         private bool isAttacked;
         public float currentHealth;
+        private bool isHealer;
         
         private Coroutine attackCoroutine;
+        private PlayerUnit allyUnit; // Variable pour stocker l'unité alliée actuelle
 
         
         // OnEnable est appelé quand le script est activé.
@@ -48,6 +50,7 @@ namespace PS.Units.Player
             navAgent.avoidancePriority = 50;
             navAgent.stoppingDistance = 0.6f;
             ApplyConfig(transform.parent);
+            isHealer = baseStats.isHealer;
             attackCooldown = baseStats.attackCooldown;
             currentHealth = baseStats.health;
             unitStatDisplay = gameObject.GetComponentInChildren<UnitStatDisplay>();
@@ -68,19 +71,43 @@ namespace PS.Units.Player
             unitStatDisplay.HandleHealth(currentHealth);
             if (!isAttacked)
                 return;
-            
-            if (!hasAggro)
+
+            if (isHealer)
             {
-                CheckForEnemyTarget();
+                if (!hasAggro)
+                {
+                    CheckForAlliedTarget();
+                }
+                else
+                {
+                    MoveToAggroTarget();
+                    Heal();
+                    attackCooldown -= Time.deltaTime;
+                    
+                    // Vérifie si l'unité ciblée est complètement guérie
+                    if (allyUnit != null && allyUnit.currentHealth >= allyUnit.baseStats.health)
+                    {
+                        hasAggro = false;
+                        aggroTarget = null;
+                        allyUnit = null; // Réinitialise l'unité alliée
+                    }
+                }
             }
             else
             {
-                MoveToAggroTarget();
-                Attack();
-                //CheckAggroDistance();
-                attackCooldown -= Time.deltaTime;
+                if (!hasAggro)
+                {
+                    CheckForEnemyTarget();
+                }
+                else
+                {
+                    MoveToAggroTarget();
+                    Attack();
+                    CheckAggroDistance();
+                    attackCooldown -= Time.deltaTime;
+                }
             }
-
+            
             if (isDeplaced == true)
             {
                 if (navAgent.remainingDistance <= navAgent.stoppingDistance) // Vérifie si l'agent est assez proche de la destination
@@ -147,6 +174,36 @@ namespace PS.Units.Player
                     aggroTarget = rangeColliders[i].gameObject.transform;
                     hasAggro = true;
                     break; 
+                }
+            }
+        }
+
+        private void CheckForAlliedTarget()
+        {
+            rangeColliders = Physics.OverlapSphere(transform.position, baseStats.aggroRange);
+
+            for (int i = 0; i < rangeColliders.Length; i++)
+            {
+                var unit = rangeColliders[i].GetComponent<PlayerUnit>();
+                if (unit != null && unit != this && unit.currentHealth < unit.baseStats.health)
+                {
+                    aggroTarget = unit.transform;
+                    allyUnit = unit; // Stocke la référence de l'unité alliée
+                    hasAggro = true;
+                    break;
+                }
+            }
+        }
+
+        private void Heal()
+        {
+            if (distance <= baseStats.attackRange && attackCooldown <= 0 && aggroTarget)
+            {
+                attackCooldown = baseStats.attackCooldown;
+                if (allyUnit != null)
+                {
+                    allyUnit.currentHealth = Mathf.Min(allyUnit.baseStats.health, allyUnit.currentHealth + baseStats.attack);
+                    // Ajoutez une animation ou un effet de particules pour le soin ici, si nécessaire.
                 }
             }
         }
@@ -222,7 +279,7 @@ namespace PS.Units.Player
             }
         }
 
-        private void Die()
+        public void Die()
         {
             Destroy(gameObject);
         }

@@ -10,6 +10,7 @@ namespace PS.Units
         public class Base
         {
             public float woodCost, stoneCost, goldCost, attack, attackRange, attackCooldown, aggroRange, health, speed, armor;
+            public bool isHealer;
         }
     }
 }

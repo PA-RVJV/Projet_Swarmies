@@ -24,4 +24,6 @@ MonoBehaviour:
     attackCooldown: 2
     aggroRange: 5
     health: 50
+    speed: 3.5
     armor: 0
+    isHealer: 0

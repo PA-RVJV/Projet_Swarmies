@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using PS.Units;
 using PS.Units.Player;
 using PS.Units.Enemy;
+using Script.Display;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,6 +35,8 @@ public class SpawnerUnit : MonoBehaviour
     
     private int playerLayer;
     private int enemyLayer;
+
+    private bool isPaused = false;
 
     void Start()
     {
@@ -73,6 +76,8 @@ public class SpawnerUnit : MonoBehaviour
                 yield return new WaitForSeconds(1f); // Attendez un peu avant de vérifier à nouveau
                 continue;
             }
+
+            SetCaserneUnitsNumber();
             
             if (unitToSpawn == "Worker" && currentCount < numberMax)
             {
@@ -86,8 +91,11 @@ public class SpawnerUnit : MonoBehaviour
 
                 while (spawnProgress < 1f)
                 {
-                    spawnProgress += Time.deltaTime / timeTilNextSpawn;
-                    caserneDisplay.UpdateProgressBar(spawnProgress);
+                    if (!isPaused)
+                    {
+                        spawnProgress += Time.deltaTime / timeTilNextSpawn;
+                        caserneDisplay.UpdateProgressBar(spawnProgress);
+                    }
                     yield return null;
                 }
                 
@@ -120,8 +128,11 @@ public class SpawnerUnit : MonoBehaviour
 
                 while (spawnProgress < 1f)
                 {
-                    spawnProgress += Time.deltaTime / timeTilNextSpawn;
-                    caserneDisplay.UpdateProgressBar(spawnProgress);
+                    if (!isPaused)
+                    {
+                        spawnProgress += Time.deltaTime / timeTilNextSpawn;
+                        caserneDisplay.UpdateProgressBar(spawnProgress);
+                    }
                     yield return null;
                 }
 
@@ -210,6 +221,26 @@ public class SpawnerUnit : MonoBehaviour
     {
         _running = false;
     }
+
+    private void SetCaserneUnitsNumber()
+    {
+        if (unitToSpawn == "Shooter")
+        {
+            numberMax = 7;
+        }
+        else if (unitToSpawn == "Tank")
+        {
+            numberMax = 2;
+        }
+        else if (unitToSpawn == "Healer")
+        {
+            numberMax = 1;
+        }
+    }
     
-    
+    public void PlayStopToggle()
+    {
+        isPaused = !isPaused;
+        caserneDisplay.UpdatePausePlayButton(isPaused);
+    }
 }

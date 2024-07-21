@@ -19,9 +19,11 @@ MonoBehaviour:
     woodCost: 2
     stoneCost: 0
     goldCost: 10
-    attack: 5
+    attack: 15
     attackRange: 1
     attackCooldown: 2
-    aggroRange: 5
+    aggroRange: 3
     health: 50
+    speed: 3
     armor: 0
+    isHealer: 1
