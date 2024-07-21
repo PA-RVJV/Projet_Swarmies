@@ -9857,6 +9857,7 @@ GameObject:
   - component: {fileID: 1061530867}
   - component: {fileID: 1061530866}
   - component: {fileID: 1061530868}
+  - component: {fileID: 1061530869}
   m_Layer: 0
   m_Name: Game Controller
   m_TagString: Untagged
@@ -9902,6 +9903,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 832
   GameRules: {fileID: 1061530868}
+  selectionGroupManager: {fileID: 0}
 --- !u!114 &1061530867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9962,6 +9964,18 @@ MonoBehaviour:
   closeRange: 1
   resourceOverlay: {fileID: 55283516}
   resourceManager: {fileID: 0}
+--- !u!114 &1061530869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1061530864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a7579a7e4850df46861d883b539fdc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1061865173
 PrefabInstance:
   m_ObjectHideFlags: 0

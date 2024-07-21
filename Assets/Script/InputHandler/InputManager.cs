@@ -19,7 +19,7 @@ namespace PS.InputHandlers
         public UIButtons uiButtons;
         public LayerMask layerMask;
         public GameRules GameRules;
-        
+        public SelectionGroupManager selectionGroupManager; // Référence au gestionnaire de groupes de sélection
         
         private RaycastHit _hit; // stocke l'information du raycast.
         private bool _isDragging = false; // Booléen de vérification sélection multiple en cour ou non.
@@ -43,6 +43,7 @@ namespace PS.InputHandlers
         private void Start()
         {
             _camController = _cam.GetComponent<CameraController>();
+            selectionGroupManager = GetComponent<SelectionGroupManager>();
         }
         
         // Dessine le rectangle de sélection sur l'interface a l'aide de la classe MultiSelect
@@ -57,6 +58,13 @@ namespace PS.InputHandlers
                 
                 // Dessine la bordure du rectangle de sélection.
                 MultiSelect.DrawScreenRectBorder(rect, 3, Color.blue); 
+            }
+            
+            // Capture des événements clavier pour les combinaisons de touches
+            Event e = Event.current;
+            if (e != null && e.isKey)
+            {
+                HandleSelectionGroups(e);
             }
         }
         
@@ -104,6 +112,55 @@ namespace PS.InputHandlers
                 }
 
                 lastClickTime = Time.time;
+            }
+        }
+        
+        private void HandleSelectionGroups(Event e)
+        {
+            KeyCode[] azertyKeys = {
+                KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5,
+                KeyCode.Alpha6, KeyCode.Alpha7, KeyCode.Alpha8, KeyCode.Alpha9, KeyCode.Alpha0
+            };
+
+            bool isCtrlPressed = e.control;
+            //Debug.Log("Ctrl pressed: " + isCtrlPressed);
+
+            if (isCtrlPressed)
+            {
+                for (int i = 0; i < azertyKeys.Length; i++)
+                {
+                    if (e.keyCode == azertyKeys[i] && e.type == EventType.KeyDown)
+                    {
+                        Debug.Log("Creating selection group: " + i);
+                        // Créer un groupe de sélection
+                        selectionGroupManager.CreateGroup(i, SelectedUnits);
+                        e.Use(); // Consomme l'événement pour éviter les conflits
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < azertyKeys.Length; i++)
+                {
+                    if (e.keyCode == azertyKeys[i] && e.type == EventType.KeyDown)
+                    {
+                        Debug.Log("Recalling selection group: " + i);
+                        // Rappeler un groupe de sélection
+                        var group = selectionGroupManager.GetGroup(i);
+                        if (group != null)
+                        {
+                            DeselectUnits();
+                            foreach (var unit in group)
+                            {
+                                if (unit.TryGetTarget(out Transform transform) && transform)
+                                {
+                                    SelectUnit(transform, true);
+                                }
+                            }
+                        }
+                        e.Use(); // Consomme l'événement pour éviter les conflits
+                    }
+                }
             }
         }
         
