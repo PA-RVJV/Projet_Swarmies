@@ -11,7 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Battle.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
+  - enabled: 0
     path: Assets/NativeLevel/Scenes/NativeBattle.unity
     guid: 8bf968507daf94cb4b3066d6ee251f69
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 775ec220affd26040a882fa945e6cdf7, type: 2}
+    com.unity.localization.settings: {fileID: 11400000, guid: 3f2d9693890d02046b7e3d36a7313d70, type: 2}

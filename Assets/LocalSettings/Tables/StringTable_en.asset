@@ -1,0 +1,179 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: StringTable_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 0eb054da26a561f41a852001ca509531, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 199879208960
+    m_Localized: Play
+    m_Metadata:
+      m_Items: []
+  - m_Id: 623210311680
+    m_Localized: Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 656441782272
+    m_Localized: Quit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7888772444160
+    m_Localized: Langage Setting
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8103592112128
+    m_Localized: English
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8161955852288
+    m_Localized: French
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14706756202496
+    m_Localized: New Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14762968264704
+    m_Localized: Load Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16962520002560
+    m_Localized: Graphics
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17062587707392
+    m_Localized: Sound
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17097836638208
+    m_Localized: Gameplay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17191810019328
+    m_Localized: Langage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18425786839040
+    m_Localized: Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18432795521024
+    m_Localized: No
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18574781100032
+    m_Localized: Start a new game ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20060579737600
+    m_Localized: Load a game ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20740757434368
+    m_Localized: No Save File Found
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21581618917376
+    m_Localized: Apply
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21852562567168
+    m_Localized: Reset To default
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21578682904576
+    m_Localized: Audio Setting
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23326772342784
+    m_Localized: Controller Sensivity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23325010735104
+    m_Localized: Gameplay Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23328173240320
+    m_Localized: Invert Y
+    m_Metadata:
+      m_Items: []
+  - m_Id: 25554857930752
+    m_Localized: Graphics Setting
+    m_Metadata:
+      m_Items: []
+  - m_Id: 25792154873856
+    m_Localized: Resolution
+    m_Metadata:
+      m_Items: []
+  - m_Id: 25793971007488
+    m_Localized: Quality
+    m_Metadata:
+      m_Items: []
+  - m_Id: 25801772412928
+    m_Localized: Fullscreen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30228889645056
+    m_Localized: Pause Menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30238465241088
+    m_Localized: Continue game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30246937735168
+    m_Localized: Save Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30278680227840
+    m_Localized: Return Menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30531030528000
+    m_Localized: Exit Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34190707568640
+    m_Localized: Save the game ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35885541928960
+    m_Localized: Back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39559953559552
+    m_Localized: Game Over
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43824352768000
+    m_Localized: 'Victory '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44514949115904
+    m_Localized: Your units are all wiped out
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44517725745152
+    m_Localized: All enemy units destroyed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 45514414010368
+    m_Localized: enemy units eliminated !
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

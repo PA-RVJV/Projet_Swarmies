@@ -11,6 +11,7 @@ public class EnemyAttackWave : MonoBehaviour
     public Transform attackTarget; // Position cible pour les unités ennemies
     public int initialUnitsToSendPerWave; // Nombre d'unités à envoyer par vague
     public int unitsToKeepInDefense; // Nombre d'unités à garder en défense
+    public int timeBeforeAttackWave;
     
     private int currentUnitsToSendPerWave; // Nombre actuel d'unités à envoyer par vague
     private List<EnemyUnit> enemyUnits;
@@ -52,7 +53,7 @@ public class EnemyAttackWave : MonoBehaviour
         {
             UpdateAttackGroup();
             SendUnitsToAttack();
-            yield return new WaitForSeconds(20); // Attend 3 minutes avant la prochaine vague
+            yield return new WaitForSeconds(timeBeforeAttackWave); // Attend 3 minutes avant la prochaine vague
             currentUnitsToSendPerWave++; // Augmente le nombre d'unités par vague
         }
     }

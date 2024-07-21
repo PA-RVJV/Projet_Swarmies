@@ -20,9 +20,9 @@ namespace PS.Player
         public Transform playerUnits;
         public Transform enemyUnits;
 
-        public void GameOver(string title, string underTitle, int stat)
+        public void GameOver(bool isGameOver, int stat)
         {
-            gameOverScreen.SetupEndGame(title, underTitle, stat);
+            gameOverScreen.SetupEndGame(isGameOver, stat);
         }
         
         private void Awake()
