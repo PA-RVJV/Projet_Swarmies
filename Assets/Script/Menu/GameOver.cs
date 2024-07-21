@@ -32,12 +32,12 @@ namespace PS.Player
             if (playerUnitsCount == 0)
             {
                 // affiche Screen GameOver : défaite
-                PlayerManager.GameOver("Game Over","Vos unités sont toutes anéantis",StartEnemyUnitsCount);
+                PlayerManager.GameOver(true,StartEnemyUnitsCount);
             }
             else if (enemyUnitsCount == 0)
             {
                 // affichje screen GameOver : Victoire
-                PlayerManager.GameOver("Victoire", "Toutes les unités ennemies ont été détruites", StartEnemyUnitsCount);
+                PlayerManager.GameOver(false, StartEnemyUnitsCount);
             }
         }
     }
