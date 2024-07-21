@@ -69,14 +69,14 @@ public class Building : MonoBehaviour
                 EnemyUnit enemyUnit = aggroTarget.GetComponent<EnemyUnit>();
                 if (enemyUnit is not null)
                 {
-                    enemyUnit.TakeDamage(baseStats.attack);
+                    enemyUnit.TakeDamage(baseStats.attack, transform);
                 }
                 else
                 {
                     PlayerUnit playerUnit = aggroTarget.GetComponent<PlayerUnit>();
                     if (playerUnit is not null)
                     {
-                        playerUnit.TakeDamage(baseStats.attack);
+                        playerUnit.TakeDamage(baseStats.attack, transform);
                     }
                 }
             }

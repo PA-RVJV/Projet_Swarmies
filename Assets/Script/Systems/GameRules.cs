@@ -127,8 +127,18 @@ namespace Script.Systems
                         selectCircle.transform.position = scpos;
 
                         // pastille minimap
-                        var pastille = Instantiate(pastilleMinimap, go.transform);
-                        pastille.transform.SetParent(go.transform, false);
+                        //var pastille = Instantiate(pastilleMinimap, go.transform);
+                        //pastille.transform.SetParent(go.transform, false);
+                        var pastille = go.GetComponentInChildren<Canvas>();
+                        if (go.layer == LayerMask.NameToLayer("PlayerUnits"))
+                        {
+                            pastille.GetComponentInChildren<Image>().color = Color.blue;
+                        }
+                        else
+                        {
+                            go.GetComponentInChildren<Image>().color = Color.red;
+                        }
+                        
                         
                         Destroy(unit);
                 }
@@ -202,8 +212,17 @@ namespace Script.Systems
                         selectCircle.transform.position = scpos;
 
                         // pastille minimap
-                        var pastille = Instantiate(pastilleMinimap, go.transform);
-                        pastille.transform.SetParent(go.transform, false);
+                        //var pastille = Instantiate(pastilleMinimap, go.transform);
+                        //pastille.transform.SetParent(go.transform, false);
+                        var pastille = go.GetComponentInChildren<Canvas>();
+                        if (go.layer == LayerMask.NameToLayer("PlayerUnits"))
+                        {
+                            pastille.GetComponentInChildren<Image>().color = Color.blue;
+                        }
+                        else
+                        {
+                            go.GetComponentInChildren<Image>().color = Color.red;
+                        }
                         
                         Destroy(unit);
                         break;

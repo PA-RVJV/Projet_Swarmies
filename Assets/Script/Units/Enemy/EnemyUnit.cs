@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 using PS.Units.Player;
+using UnityEditor;
 
 namespace PS.Units.Enemy
 {
@@ -11,27 +12,24 @@ namespace PS.Units.Enemy
     public class EnemyUnit : MonoBehaviour
     {
         public UnitHandler unitHandler;
-        private NavMeshAgent navAgent;
-        
         public UnitStatTypes.Base baseStats;
-        
-        private Collider[] rangeColliders;
-        
-        public Transform aggroTarget;
-        
-        private bool hasAggro = false;
-        
-        private float distance;
-        
-        private UnitStatDisplay unitStatDisplay;
-
-        public float attackCooldown;
-        
         public UnitConfigManager unitConfig;
+        public float attackCooldown;
         
         private bool isPlayerUnit;
         
+        private NavMeshAgent navAgent;
+        private Collider[] rangeColliders;
+        public Transform aggroTarget;
+        private UnitStatDisplay unitStatDisplay;
+        
+        private bool hasAggro = false;
+        private float distance;
+        private bool isAttacked;
         public float currentHealth;
+        
+        private Coroutine attackCoroutine;
+        
         
         // OnEnable est appelé quand le script est activé.
         private void OnEnable()
@@ -41,18 +39,38 @@ namespace PS.Units.Enemy
             navAgent.speed = 3f;
             navAgent.angularSpeed = 120f;
             navAgent.avoidancePriority = 50;
+            navAgent.stoppingDistance = 0.6f;
+            isAttacked = GetComponent<NavMeshAgent>() && GetComponent<NavMeshAgent>().enabled;
         }
 
         private void Start()
         {
+            if (gameObject.name.Contains("Caserne"))
+            {
+                baseStats = unitHandler.GetUnitStats("caserne");
+            }
+            
             ApplyConfig(transform.parent);
             currentHealth = baseStats.health;
             attackCooldown = baseStats.attackCooldown;
             unitStatDisplay = gameObject.GetComponentInChildren<UnitStatDisplay>();
+            DetectAndAvoidOverlap();
+        }
+        
+        private void OnDestroy()
+        {
+            if (attackCoroutine != null)
+            {
+                StopCoroutine(attackCoroutine);
+            }
         }
         
         private void Update()
         {
+            unitStatDisplay.HandleHealth(currentHealth);
+            if (!isAttacked)
+                return;
+            
             if (!hasAggro)
             {
                 CheckForEnemyTarget();
@@ -68,7 +86,8 @@ namespace PS.Units.Enemy
             {
                 attackCooldown = baseStats.attackCooldown;
             }
-            unitStatDisplay.HandleHealth(currentHealth);
+            
+            transform.position = Vector3.Lerp(transform.position, navAgent.nextPosition, Time.deltaTime * navAgent.speed);
         }
         
         public void ApplyConfig(Transform parent)
@@ -107,13 +126,13 @@ namespace PS.Units.Enemy
 
         private void Attack()
         {
-            if (distance <= baseStats.attackRange && attackCooldown <= 0)
+            if (distance <= baseStats.attackRange && attackCooldown <= 0 && aggroTarget)
             {
                 attackCooldown = baseStats.attackCooldown;
                 PlayerUnit playerUnit = aggroTarget.GetComponent<PlayerUnit>();
                 if (playerUnit is not null)
                 {
-                    playerUnit.TakeDamage(baseStats.attack);
+                    playerUnit.TakeDamage(baseStats.attack, transform);
                 }
                 else
                 {
@@ -129,6 +148,8 @@ namespace PS.Units.Enemy
         
         public void MoveToAggroTarget()
         {
+            if (!isAttacked)
+                return;
             if (aggroTarget == null)
             {
                 navAgent.SetDestination(transform.position);
@@ -137,7 +158,6 @@ namespace PS.Units.Enemy
             else
             {
                 distance = Vector3.Distance(aggroTarget.position, transform.position);
-                navAgent.stoppingDistance = baseStats.attackRange;
 
                 if (distance >= baseStats.attackRange)
                 {
@@ -145,7 +165,7 @@ namespace PS.Units.Enemy
                 }
             }
         }
-        public void TakeDamage(float damage)
+        public void TakeDamage(float damage, Transform attacker)
         {
             float totalDamage = damage - baseStats.armor;
             currentHealth -= totalDamage;
@@ -153,12 +173,78 @@ namespace PS.Units.Enemy
             {
                 Die();
             }
+            else
+            {
+                aggroTarget = attacker;
+                hasAggro = true;
+            }
         }
 
         private void Die()
         {
             Destroy(gameObject);
         }
+        
+        private void DetectAndAvoidOverlap()
+        {
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, 0.5f); // Smaller overlap radius
+            foreach (var hitCollider in hitColliders)
+            {
+                if (hitCollider != this.GetComponent<Collider>())
+                {
+                    Vector3 randomOffset = new Vector3(Random.Range(-0.5f, 0.5f), 0, Random.Range(-0.5f, 0.5f)); // Smaller random offset
+                    navAgent.Warp(transform.position + randomOffset);
+                }
+            }
+        }
+        
+        public void SetAttackTarget(Vector3 targetPosition)
+        {
+            aggroTarget = null;
+            hasAggro = false;
+            if (attackCoroutine != null)
+            {
+                StopCoroutine(attackCoroutine);
+            }
+            attackCoroutine = StartCoroutine(MoveToTargetWithAggro(targetPosition));
+        }
+
+        public void SetDefendTarget(Vector3 defendPosition)
+        {
+            aggroTarget = null;
+            hasAggro = false;
+            if (attackCoroutine != null)
+            {
+                StopCoroutine(attackCoroutine);
+            }
+            navAgent.SetDestination(defendPosition);
+        }
+
+        private IEnumerator MoveToTargetWithAggro(Vector3 targetPosition)
+        {
+            while (Vector3.Distance(transform.position, targetPosition) > navAgent.stoppingDistance)
+            {
+                if (!hasAggro)
+                {
+                    CheckForEnemyTarget();
+                }
+                if (hasAggro)
+                {
+                    MoveToAggroTarget();
+                    if (aggroTarget == null)
+                    {
+                        hasAggro = false;
+                    }
+                }
+                else
+                {
+                    navAgent.SetDestination(targetPosition);
+                }
+                yield return null;
+            }
+        }
+        
+        
     }
 }
 

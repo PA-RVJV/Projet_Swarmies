@@ -17,6 +17,7 @@ public class GameOverScreen : MonoBehaviour
     public void SetupEndGame(string title, string underTitle, int stat)
     {
         gameObject.SetActive(true);
+        Time.timeScale = 0f;
         statsEndGame.text = stat.ToString() + " unités ennemies éliminé";
         titleEndText.text = title;
         underTitleEndText.text = underTitle;
@@ -25,6 +26,7 @@ public class GameOverScreen : MonoBehaviour
     // permet de reset le jeu ou revenir au menu suivant le bouton cliquer sur écran gameOver
     public void EndGame(string sceneName)
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(sceneName);
     }
 }

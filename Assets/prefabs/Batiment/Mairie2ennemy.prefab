@@ -51,14 +51,14 @@ PrefabInstance:
     - target: {fileID: -2588083251142459373, guid: 5a6f75a94701b49a599237087f9175b1, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 6b0dc7600a781e140b67762fabda494f, type: 2}
+      objectReference: {fileID: 2100000, guid: 43d1fc6316da9da4ca17c2dc6d9b4948, type: 2}
     - target: {fileID: -2345831305504741678, guid: 5a6f75a94701b49a599237087f9175b1, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 729814134900302600, guid: 5a6f75a94701b49a599237087f9175b1, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5a6f75a94701b49a599237087f9175b1, type: 3}
       propertyPath: m_Name
@@ -66,11 +66,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5a6f75a94701b49a599237087f9175b1, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5a6f75a94701b49a599237087f9175b1, type: 3}
       propertyPath: m_TagString
-      value: PlayerUnit
+      value: EnemyUnit
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -80,41 +80,19 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5a6f75a94701b49a599237087f9175b1, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 622191276071255409}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5a6f75a94701b49a599237087f9175b1, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 8732720966403071574}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5a6f75a94701b49a599237087f9175b1, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3505199758663385287}
+      addedObject: {fileID: -172548893764309447}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5a6f75a94701b49a599237087f9175b1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -278409456323321144}
   m_SourcePrefab: {fileID: 100100000, guid: 5a6f75a94701b49a599237087f9175b1, type: 3}
 --- !u!1 &7734135401317901119 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 5a6f75a94701b49a599237087f9175b1, type: 3}
   m_PrefabInstance: {fileID: 7463664126055587438}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &622191276071255409
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7734135401317901119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bc799b023a794461b7fd391535616e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitHandler: {fileID: 0}
-  baseStats:
-    cost: 0
-    attack: 0
-    attackRange: 0
-    attackSpeed: 0
-    aggroRange: 0
-    health: 0
-    armor: 0
-  attackCooldown: 0
 --- !u!65 &8732720966403071574
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -136,19 +114,52 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.026184, y: 3.2783566, z: 2.1128845}
   m_Center: {x: -0.004211426, y: 1.6385441, z: -0.0053710938}
---- !u!208 &3505199758663385287
-NavMeshObstacle:
+--- !u!195 &-172548893764309447
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7734135401317901119}
+  m_Enabled: 0
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &-278409456323321144
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7734135401317901119}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0}
-  m_TimeToStationary: 0.5
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717faa9283ffca747b22c1791a6005b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitHandler: {fileID: 0}
+  baseStats:
+    woodCost: 0
+    stoneCost: 0
+    goldCost: 0
+    attack: 0
+    attackRange: 0
+    attackCooldown: 0
+    aggroRange: 0
+    health: 0
+    armor: 0
+  aggroTarget: {fileID: 0}
+  attackCooldown: 0
+  unitConfig: {fileID: 0}
+  currentHealth: 0

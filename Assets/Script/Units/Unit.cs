@@ -16,6 +16,7 @@ namespace PS.Units
             Mairie,
             Porte,
             Entrepot,
+            Caserne,
             Tower
         };
         
