@@ -27,12 +27,6 @@ public class ResourceOverlay : MonoBehaviour
         UpdateResourceUI();
     }
 
-    private void Update()
-    {
-        // Mettre à jour l'interface utilisateur à chaque frame
-        UpdateResourceUI();
-    }
-
     public void UpdateResourceUI()
     {
         woodText.text = "" + resourceManager.GetResourceAmount(ResourceType.Wood);

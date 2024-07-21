@@ -17,19 +17,16 @@ public class ResourceManager : MonoBehaviour
     
     private void Awake()
     {
-        InitializeResourceStock();
+        
+        
     }
     
     // Start is called before the first frame update
     void Start()
     {
         resourceOverlayScript = resourceOverlay.GetComponent<ResourceOverlay>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        InitializeResourceStock();
+        //UpdateResourceUI();
     }
     
     private void InitializeResourceStock()
@@ -51,6 +48,7 @@ public class ResourceManager : MonoBehaviour
         if (resourceStock.ContainsKey(type))
         {
             resourceStock[type] += amount;
+            UpdateResourceUI();
             // on peu déclencher un événement ici pour notifier le joueur de la mise à jour
         }
     }
@@ -101,6 +99,7 @@ public class ResourceManager : MonoBehaviour
         {
             resourceStock[kvp.Key] -= kvp.Value;
         }
+        UpdateResourceUI();
     }
 
     public Dictionary<ResourceType, int> GetConstructionCost(string unitName)
@@ -112,5 +111,10 @@ public class ResourceManager : MonoBehaviour
         Dictionary<ResourceType, int> constructionCost = unit.GetCost();
 
         return constructionCost;
+    }
+    
+    private void UpdateResourceUI()
+    {
+        resourceOverlayScript.UpdateResourceUI();
     }
 }

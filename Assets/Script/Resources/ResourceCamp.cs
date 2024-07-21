@@ -6,8 +6,7 @@ public class ResourceCamp : MonoBehaviour
 {
     public float collectionInterval; // Intervalle de collecte en secondes
     public int collectionAmount; // Quantité de ressources collectées à chaque intervalle
-    private float collectionTimer = 0.0f;
-
+    //private float collectionTimer = 0.0f;
     private ResourceType resourceType;
     private ResourceZone resourceZone; // Référence à la zone de ressources
     public ResourceManager resourceManager; // Référence à l'UI pour mettre à jour les ressources
@@ -20,18 +19,19 @@ public class ResourceCamp : MonoBehaviour
             collectionInterval = resourceZone.collectionInterval;
             collectionAmount = resourceZone.collectionAmount;
         }
-    }
-    
-    private void Update()
-    {
-        collectionTimer += Time.deltaTime;
-        if (collectionTimer >= collectionInterval)
-        {
-            CollectResources();
-            collectionTimer = 0.0f;
-        }
+
+        StartCoroutine(CollectResourcesRoutine());
     }
 
+    private IEnumerator CollectResourcesRoutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(collectionInterval);
+            CollectResources();
+        }
+    }
+    
     private void CollectResources()
     {
         if (resourceZone != null && resourceZone.resourceType == resourceType)
