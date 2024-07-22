@@ -20,7 +20,7 @@ MonoBehaviour:
     stoneCost: 0
     goldCost: 0
     attack: 10
-    attackRange: 3
+    attackRange: 6
     attackCooldown: 2
     aggroRange: 5
     health: 50

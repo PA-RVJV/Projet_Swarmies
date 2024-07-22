@@ -131,7 +131,10 @@ namespace PS.Units.Player
         // Méthode pour déplacer l'unité vers une destination spécifique.
         public void MoveUnit(Vector3 destination)
         {
+            navAgent.stoppingDistance = 0.1f;
             if (!isAttacked)
+                return;
+            if (!navAgent)
                 return;
             // Utilise le NavMeshAgent pour définir la destination de l'unité.
             isDeplaced = true;
@@ -252,6 +255,7 @@ namespace PS.Units.Player
             }
             else
             {
+                navAgent.stoppingDistance = baseStats.attackRange - 0.5f;
                 distance = Vector3.Distance(aggroTarget.position, transform.position);
                 
                 if (isDeplaced != true)
