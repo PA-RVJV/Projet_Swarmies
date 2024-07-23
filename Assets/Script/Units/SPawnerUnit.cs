@@ -12,12 +12,17 @@ public class SpawnerUnit : MonoBehaviour
 {
     [SerializeField]
     private GameObject spawnWorker;
-    [SerializeField]
-    private int numberMax = 5;
+
+    [SerializeField] private int workerNumberMax;
+    [SerializeField] private int warriorNumberMax;
+    [SerializeField] private int shooterNumberMax;
+    [SerializeField] private int tankNumberMax;
+    [SerializeField] private int healerNumberMax;
 
     [SerializeField]
     private UnitStatDisplay caserneDisplay;
     
+    private int numberMax = 5;
     public Vector3 spawnPoint;
     public float timeTilNextSpawn = 5f;
     public float enemyDetectionRadius = 3f;
@@ -64,6 +69,8 @@ public class SpawnerUnit : MonoBehaviour
                 continue;
             }
             
+            SetCaserneUnitsNumber();
+            
             if (currentCount != 0)
             {
                 caserneDisplay.UpdateUnitsInQueueText(currentCount, numberMax);
@@ -77,7 +84,6 @@ public class SpawnerUnit : MonoBehaviour
                 continue;
             }
 
-            SetCaserneUnitsNumber();
             
             if (unitToSpawn == "Worker" && currentCount < numberMax)
             {
@@ -224,17 +230,25 @@ public class SpawnerUnit : MonoBehaviour
 
     private void SetCaserneUnitsNumber()
     {
+        if (unitToSpawn == "Worker")
+        {
+            numberMax = workerNumberMax;
+        }
+        if (unitToSpawn == "Warrior")
+        {
+            numberMax = warriorNumberMax;
+        }
         if (unitToSpawn == "Shooter")
         {
-            numberMax = 7;
+            numberMax = shooterNumberMax;
         }
         else if (unitToSpawn == "Tank")
         {
-            numberMax = 2;
+            numberMax = tankNumberMax;
         }
         else if (unitToSpawn == "Healer")
         {
-            numberMax = 1;
+            numberMax = healerNumberMax;
         }
     }
     

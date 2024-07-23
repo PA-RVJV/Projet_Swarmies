@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2412,8 +2412,28 @@ PrefabInstance:
       value: Warrior
       objectReference: {fileID: 0}
     - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
+      propertyPath: tankNumberMax
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
+      propertyPath: healerNumberMax
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
+      propertyPath: workerNumberMax
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
+      propertyPath: shooterNumberMax
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
       propertyPath: timeTilNextSpawn
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
+      propertyPath: warriorNumberMax
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
       propertyPath: unitConfigManager
@@ -3566,8 +3586,28 @@ PrefabInstance:
       value: Warrior
       objectReference: {fileID: 0}
     - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
+      propertyPath: tankNumberMax
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
+      propertyPath: healerNumberMax
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
+      propertyPath: workerNumberMax
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
+      propertyPath: shooterNumberMax
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
       propertyPath: timeTilNextSpawn
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
+      propertyPath: warriorNumberMax
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
       propertyPath: unitConfigManager
@@ -4352,8 +4392,28 @@ PrefabInstance:
       value: Warrior
       objectReference: {fileID: 0}
     - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
+      propertyPath: tankNumberMax
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
+      propertyPath: healerNumberMax
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
+      propertyPath: workerNumberMax
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
+      propertyPath: shooterNumberMax
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
       propertyPath: timeTilNextSpawn
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
+      propertyPath: warriorNumberMax
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
       propertyPath: unitConfigManager
@@ -6701,7 +6761,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -8738,8 +8798,28 @@ PrefabInstance:
       value: Warrior
       objectReference: {fileID: 0}
     - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
+      propertyPath: tankNumberMax
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
+      propertyPath: healerNumberMax
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
+      propertyPath: workerNumberMax
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
+      propertyPath: shooterNumberMax
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
       propertyPath: timeTilNextSpawn
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
+      propertyPath: warriorNumberMax
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
       propertyPath: unitConfigManager
@@ -15405,8 +15485,28 @@ PrefabInstance:
       value: Warrior
       objectReference: {fileID: 0}
     - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
+      propertyPath: tankNumberMax
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
+      propertyPath: healerNumberMax
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
+      propertyPath: workerNumberMax
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
+      propertyPath: shooterNumberMax
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
       propertyPath: timeTilNextSpawn
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
+      propertyPath: warriorNumberMax
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5001099513430004563, guid: 9bcea32406784c846a269c94011938b4, type: 3}
       propertyPath: unitConfigManager
@@ -17567,7 +17667,7 @@ MonoBehaviour:
   resourceOverlay: {fileID: 55283516}
   startingWood: 100
   startingStone: 100
-  startingGold: 10
+  startingGold: 1000
 --- !u!4 &1785667367 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1223379371621718547, guid: 7fc420ec9f790f2428a28c18eed03dba, type: 3}
@@ -20550,7 +20650,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnWorker: {fileID: 0}
-  numberMax: 5
+  workerNumberMax: 0
+  warriorNumberMax: 0
+  shooterNumberMax: 0
+  tankNumberMax: 0
+  healerNumberMax: 0
   caserneDisplay: {fileID: 0}
   spawnPoint: {x: 0, y: 0, z: 0}
   timeTilNextSpawn: 5

@@ -117,19 +117,12 @@ namespace Script.Display
         {
             IsOverSomeButton = false;
             HideTooltip();
-            foreach (var go in sObjects)
-            {
-                ExecuteEvents.Execute<ButtonHoverListener>(
-                    target: go,
-                    eventData: new PointerEventData(eventSystem),
-                    functor: (receiver, data) => receiver.OnPointerLeave((PointerEventData)data)
-                );
-            }
         }
     
         private void ButtonOnclicked(UnitActionsEnum action, GameObject[] sObjects)
         {
             gameRules.DealWithAction(action, sObjects);
+            HideTooltip();
         }
     
         public void SetButtons(List<(GameObject, UnitActionsEnum)> actions)
@@ -232,11 +225,11 @@ namespace Script.Display
         {
             _tooltipLabel.style.visibility = Visibility.Hidden;
         }
-
+        
         private void MoveTooltip(MouseMoveEvent evt)
         {
             _tooltipLabel.style.left = evt.mousePosition.x + 10;
-            _tooltipLabel.style.top = evt.mousePosition.y + 10;
+            _tooltipLabel.style.top = evt.mousePosition.y -100;
         }
         
         private string GetAdditionalInfo(UnitActionsEnum action)

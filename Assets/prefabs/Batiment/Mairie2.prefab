@@ -391,7 +391,9 @@ MonoBehaviour:
     attackCooldown: 0
     aggroRange: 0
     health: 0
+    speed: 0
     armor: 0
+    isHealer: 0
   unitConfig: {fileID: 0}
   attackCooldown: 0
   currentHealth: 0
@@ -429,10 +431,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnWorker: {fileID: 2374471220910993860, guid: f9df890b18e4f044491c2c2e92c790a2, type: 3}
-  numberMax: 5
+  workerNumberMax: 5
+  warriorNumberMax: 0
+  shooterNumberMax: 0
+  tankNumberMax: 0
+  healerNumberMax: 0
   caserneDisplay: {fileID: 8373430351498427760}
   spawnPoint: {x: 0, y: 0, z: 0}
   timeTilNextSpawn: 5
+  enemyDetectionRadius: 3
   unitToSpawn: 
   unitConfigManager: {fileID: 0}
   myparent: {fileID: 0}

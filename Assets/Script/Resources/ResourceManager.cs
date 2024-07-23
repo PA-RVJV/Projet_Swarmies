@@ -81,6 +81,10 @@ public class ResourceManager : MonoBehaviour
     public bool HasEnoughResourcesForUnit(string unitName)
     {
         Dictionary<ResourceType, int> cost = GetConstructionCost(unitName);
+        if (cost == null)
+        {
+            return false;
+        }
         foreach (var kvp in cost)
         {
             if (GetResourceAmount(kvp.Key) < kvp.Value)
@@ -106,11 +110,16 @@ public class ResourceManager : MonoBehaviour
     {
         // Charger les statistiques de l'entrepôt à partir des assets
         Unit unit = Resources.Load<Unit>($"Units/{unitName}");
-                        
-        // Obtenir les coûts de construction
-        Dictionary<ResourceType, int> constructionCost = unit.GetCost();
+              
+        // Vérifier si l'unité a été chargée correctement
+        if (unit != null)
+        {
+            // Obtenir les coûts de construction
+            Dictionary<ResourceType, int> constructionCost = unit.GetCost();
+            return constructionCost;
+        }
 
-        return constructionCost;
+        return null;
     }
     
     private void UpdateResourceUI()

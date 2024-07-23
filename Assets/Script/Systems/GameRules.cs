@@ -119,13 +119,7 @@ namespace Script.Systems
                         var nvo = go.AddComponent<NavMeshObstacle>();
                         nvo.carving = true;
 
-                        // cercle de selectiom
-                        var selectCircle = Instantiate(selectCirclePrefab, go.transform);
-                        selectCircle.name = "Hightlight";
-                        selectCircle.transform.parent = go.transform;
-                        var scpos = selectCircle.transform.position;
-                        scpos.y = 0;
-                        selectCircle.transform.position = scpos;
+                       
 
                         // pastille minimap
                         //var pastille = Instantiate(pastilleMinimap, go.transform);
