@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 4108484332071745694}
   - component: {fileID: 3650704415699554748}
   - component: {fileID: 4452927038708386436}
+  - component: {fileID: 6135274543021369434}
   m_Layer: 8
   m_Name: playerUnit
   m_TagString: PlayerUnit
@@ -159,7 +160,9 @@ MonoBehaviour:
     attackCooldown: 0
     aggroRange: 0
     health: 0
+    speed: 0
     armor: 0
+    isHealer: 0
   unitConfig: {fileID: 0}
   attackCooldown: 0
   currentHealth: 0
@@ -200,6 +203,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 599a59187fc14f64798a4fe2c9a42e5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6135274543021369434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2374471220910993860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41649dbb37d544c899bf4d513095c582, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1912543690301757148

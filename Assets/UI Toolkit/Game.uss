@@ -12,3 +12,8 @@
     border-radius: 5px;
     font-size: 24px;
 }
+
+.buttons-row {
+    flex-direction: row;
+    display: flex;
+}
