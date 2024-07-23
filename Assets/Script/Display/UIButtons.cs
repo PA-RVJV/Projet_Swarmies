@@ -137,6 +137,7 @@ namespace Script.Display
             
             container.Clear();
 
+            int lines = 0;
             Dictionary<GameObject, VisualElement> unitToActionsMap = new();
             foreach (var (go, action) in actions)
             {
@@ -146,7 +147,10 @@ namespace Script.Display
                     ve.AddToClassList("buttons-row");
                     container.Add(ve);
                     unitToActionsMap.Add(go, ve);
-                    
+                    lines++;
+                    if (lines > 4)
+                        break;
+
                 }
                 VisualElement host = unitToActionsMap[go];
                 host.Add(AddButton(action, new []{go}));

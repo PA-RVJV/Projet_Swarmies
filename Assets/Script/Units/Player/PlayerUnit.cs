@@ -33,6 +33,9 @@ namespace PS.Units.Player
         
         private Coroutine attackCoroutine;
         private PlayerUnit allyUnit; // Variable pour stocker l'unité alliée actuelle
+        
+        public float interval = 0.5f;
+        private float timer = 0f;
 
         
         // OnEnable est appelé quand le script est activé.
@@ -76,14 +79,19 @@ namespace PS.Units.Player
             {
                 if (!hasAggro)
                 {
-                    CheckForAlliedTarget();
+                    timer += Time.deltaTime;
+                    if (timer >= interval)
+                    {
+                        CheckForAlliedTarget();
+                        timer = 0f;
+                    }
                 }
                 else
                 {
                     MoveToAggroTarget();
                     Heal();
                     attackCooldown -= Time.deltaTime;
-                    
+                
                     // Vérifie si l'unité ciblée est complètement guérie
                     if (allyUnit != null && allyUnit.currentHealth >= allyUnit.baseStats.health)
                     {
@@ -92,6 +100,8 @@ namespace PS.Units.Player
                         allyUnit = null; // Réinitialise l'unité alliée
                     }
                 }
+
+                
             }
             else
             {
@@ -102,7 +112,14 @@ namespace PS.Units.Player
                 else
                 {
                     MoveToAggroTarget();
-                    Attack();
+                    timer += Time.deltaTime;
+                    if (timer >= interval)
+                    {
+                        Attack();
+                        timer = 0f;
+                    }
+
+                    
                     CheckAggroDistance();
                     attackCooldown -= Time.deltaTime;
                 }
