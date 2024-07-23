@@ -174,6 +174,15 @@ MonoBehaviour:
     m_Localized: "unit\xE9s ennemies \xE9limin\xE9es !"
     m_Metadata:
       m_Items: []
+  - m_Id: 614642543669248
+    m_Localized: "L'entrep\xF4t doit se trouver dans une zone de ressource (bois,
+      pierre, or) "
+    m_Metadata:
+      m_Items: []
+  - m_Id: 615070840827904
+    m_Localized: 'Vous n''avez pas assez de resource ! '
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -171,6 +171,14 @@ MonoBehaviour:
     m_Key: GameOverStatsText
     m_Metadata:
       m_Items: []
+  - m_Id: 614642543669248
+    m_Key: ResourceOverlayZoneErrorText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 615070840827904
+    m_Key: ResourceOverlayCostErrorText
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
