@@ -165,7 +165,7 @@ namespace Script.Display
         
         private void OnGUI()
         {
-            GUI.Label(new Rect(10, 10, 300, 20), IsOverSomeButton.ToString());
+            //GUI.Label(new Rect(10, 10, 300, 20), IsOverSomeButton.ToString());
         }
         
         // Méthode pour charger les icônes

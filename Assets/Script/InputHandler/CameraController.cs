@@ -42,7 +42,7 @@ namespace PS.InputHandlers
 
         private Quaternion originalRotation;
         
-        void Start()
+        private void Start()
         {
             mainTransform = transform;
             groundMask = LayerMask.GetMask("Ground");
@@ -51,7 +51,7 @@ namespace PS.InputHandlers
             originalRotation = mainTransform.rotation;
         }
 
-        void Update()
+        private void Update()
         {
             if (!targetToFollow)
             {
@@ -63,7 +63,7 @@ namespace PS.InputHandlers
             }
 
             Rotation();
-            HeightCalculation();
+            //HeightCalculation();
             ComputeCameraBounds();
             LimitPosition();
 
@@ -73,7 +73,7 @@ namespace PS.InputHandlers
             }
         }
 
-        void Move()
+        private void Move()
         {
             if (Input.GetKey(dragKey))
             {
@@ -118,10 +118,25 @@ namespace PS.InputHandlers
                 desiredEdgeMove = mainTransform.InverseTransformDirection(desiredEdgeMove);
                 
                 mainTransform.Translate(desiredEdgeMove, Space.Self);
+                
+                // trackpad ordi portable
+                #region LaptopTrackPad
+
+                var dtp = Input.mouseScrollDelta;
+                if (dtp.x != 0 || dtp.y != 0)
+                {
+                    desiredEdgeMove.x = -dtp.x;
+                    desiredEdgeMove.y = dtp.y;
+                    
+                    mainTransform.Translate(desiredEdgeMove, Space.Self);
+                }
+
+                #endregion
+
             }
         }
 
-        void Rotation()
+        private void Rotation()
         {
             if (Input.GetKey(rotationKey))
             {
@@ -149,7 +164,7 @@ namespace PS.InputHandlers
             }
         }
 
-        void LimitPosition()
+        private void LimitPosition()
         {
             mainTransform.position = Vector3.Lerp(mainTransform.position, new Vector3(
                     Mathf.Clamp(mainTransform.position.x, _topLeftClamp.x, _bottomRightClamp.x), mainTransform.position.y,
@@ -158,7 +173,7 @@ namespace PS.InputHandlers
 
         }
 
-        void HeightCalculation()
+        private void HeightCalculation()
         {
             zoomAmount += -Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime * zoomSensitivity;
             zoomAmount = Mathf.Clamp01(zoomAmount);
@@ -174,8 +189,7 @@ namespace PS.InputHandlers
         private float DistanceToGround()
         {
             Ray ray = new Ray(mainTransform.position, Vector3.down);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, groundMask))
+            if (Physics.Raycast(ray, out var hit, Mathf.Infinity, groundMask))
             {
                 return hit.point.y; 
             }
