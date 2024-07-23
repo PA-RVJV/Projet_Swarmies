@@ -47,6 +47,7 @@ public class EnemyAttackWave : MonoBehaviour
         }
 
         SetUnitsToDefend();
+        yield return new WaitForSeconds(60);
         
         // Envoie des vagues successives d'unités toutes les 3 minutes
         while (true)

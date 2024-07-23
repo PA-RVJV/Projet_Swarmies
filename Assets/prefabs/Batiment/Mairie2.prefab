@@ -397,6 +397,7 @@ MonoBehaviour:
   unitConfig: {fileID: 0}
   attackCooldown: 0
   currentHealth: 0
+  interval: 0.5
 --- !u!65 &6774885477330347553
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -431,7 +432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnWorker: {fileID: 2374471220910993860, guid: f9df890b18e4f044491c2c2e92c790a2, type: 3}
-  workerNumberMax: 5
+  workerNumberMax: 3
   warriorNumberMax: 0
   shooterNumberMax: 0
   tankNumberMax: 0

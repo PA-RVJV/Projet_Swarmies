@@ -161,7 +161,10 @@ namespace PS.Units.Enemy
 
                 if (distance >= baseStats.attackRange)
                 {
-                    navAgent.SetDestination(aggroTarget.position);
+                    if (navAgent)
+                    {
+                        navAgent.SetDestination(aggroTarget.position);
+                    }
                 }
             }
         }

@@ -279,7 +279,10 @@ namespace PS.Units.Player
                 {
                     //if (_distance <= baseStats.aggroRange)
                     //{
-                    navAgent.SetDestination(aggroTarget.position);
+                    if (navAgent)
+                    {
+                        navAgent.SetDestination(aggroTarget.position);
+                    }
                     //}
                 }
             }

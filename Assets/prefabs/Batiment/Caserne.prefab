@@ -125,16 +125,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnWorker: {fileID: 2374471220910993860, guid: f9df890b18e4f044491c2c2e92c790a2, type: 3}
-  workerNumberMax: 50
-  warriorNumberMax: 50
-  shooterNumberMax: 50
-  tankNumberMax: 50
-  healerNumberMax: 50
+  workerNumberMax: 0
+  warriorNumberMax: 10
+  shooterNumberMax: 8
+  tankNumberMax: 2
+  healerNumberMax: 1
   caserneDisplay: {fileID: 6765899432911624182}
   spawnPoint: {x: 0, y: 0, z: 0}
-  timeTilNextSpawn: 5
+  timeTilNextSpawn: 3
   enemyDetectionRadius: 3
-  unitToSpawn: 50
+  unitToSpawn: 
   unitConfigManager: {fileID: 0}
   myparent: {fileID: 0}
 --- !u!195 &5435959878754354914
