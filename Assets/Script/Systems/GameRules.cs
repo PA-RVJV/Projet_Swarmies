@@ -114,7 +114,7 @@ namespace Script.Systems
 
                         // pour pouvoir etre cliqué
                         go.layer = LayerMask.NameToLayer("PlayerUnits");
-
+                        
                         // bloqueuer de pqthfinding
                         var nvo = go.AddComponent<NavMeshObstacle>();
                         nvo.carving = true;
