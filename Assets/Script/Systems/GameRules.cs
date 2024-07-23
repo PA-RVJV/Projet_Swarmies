@@ -14,10 +14,15 @@ namespace Script.Systems
     {
         public GameObject casernePrefab;
         public GameObject entrepotPrefab;
+        public GameObject tourPrefab;
+        
         public GameObject selectCirclePrefab;
         public GameObject terrain;
+        
         public GameObject casernesAlliees;
         public GameObject entrepotsAllies;
+        public GameObject tourAllies;
+        
         public GameObject pastilleMinimap;
         public GameObject unitStatsDisplay;
         public GameObject CaserneDisplay;
@@ -87,7 +92,7 @@ namespace Script.Systems
                     {
                         if (!unit)
                             continue;
-                        
+
                         // vérifie si le jouer a assez de resource, si c'est le cas, les resource sont déduit du stock et on return true
                         // sinon un message est afficher pendant quelque seconde et on return false
                         if (!resourceManager.HasEnoughResourcesForBuilding("Caserne"))
@@ -103,9 +108,9 @@ namespace Script.Systems
                         PlayerUnit pus = go.GetComponent<PlayerUnit>();
                         var ucf = transform.Find("UnitConfigManager").GetComponent<UnitConfigManager>();
                         pus.unitConfig = ucf;
-                        pus.unitHandler = GetComponent<UnitHandler>();                                                                                                                                                                                                                                                                                                                                                                                                                 
+                        pus.unitHandler = GetComponent<UnitHandler>();
                         pus.baseStats = pus.unitHandler.GetUnitStats("caserne");
-                        
+
                         // Le script de spawn attachée a la caserne
                         var spaner = go.GetComponent<SpawnerUnit>();
                         spaner.unitConfigManager = ucf;
@@ -114,12 +119,10 @@ namespace Script.Systems
 
                         // pour pouvoir etre cliqué
                         go.layer = LayerMask.NameToLayer("PlayerUnits");
-                        
+
                         // bloqueuer de pqthfinding
                         var nvo = go.AddComponent<NavMeshObstacle>();
                         nvo.carving = true;
-
-                       
 
                         // pastille minimap
                         //var pastille = Instantiate(pastilleMinimap, go.transform);
@@ -133,12 +136,11 @@ namespace Script.Systems
                         {
                             go.GetComponentInChildren<Image>().color = Color.red;
                         }
-                        
-                        
-                        Destroy(unit);
-                }
 
-                break;
+
+                        Destroy(unit);
+                        break;
+                    }
                     case UnitActionsEnum.ConstruireEntrepot:
                     {
                         if (!unit)
@@ -222,6 +224,55 @@ namespace Script.Systems
                         Destroy(unit);
                         break;
                     }
+                    case UnitActionsEnum.ConstruireTour:
+                    {
+                        if (!unit)
+                            continue;
+
+                        // vérifie si le jouer a assez de resource, si c'est le cas, les resource sont déduit du stock et on return true
+                        // sinon un message est afficher pendant quelque seconde et on return false
+                        if (!resourceManager.HasEnoughResourcesForBuilding("Tour"))
+                        {
+                            continue;
+                        }
+
+                        // on commence la construction
+                        var go = Instantiate(tourPrefab, unit.transform.position, unit.transform.rotation);
+                        go.transform.parent = tourAllies.transform;
+                        go.name = tourPrefab.name;
+
+                        PlayerUnit pus = go.GetComponent<PlayerUnit>();
+                        var ucf = transform.Find("UnitConfigManager").GetComponent<UnitConfigManager>();
+                        pus.unitConfig = ucf;
+                        pus.unitHandler = GetComponent<UnitHandler>();
+                        pus.baseStats = pus.unitHandler.GetUnitStats("tour");
+
+                        checkForTreesIntersecting(go);
+
+                        // pour pouvoir etre cliqué
+                        go.layer = LayerMask.NameToLayer("PlayerUnits");
+
+                        // bloqueuer de pqthfinding
+                        var nvo = go.AddComponent<NavMeshObstacle>();
+                        nvo.carving = true;
+
+                        // pastille minimap
+                        //var pastille = Instantiate(pastilleMinimap, go.transform);
+                        //pastille.transform.SetParent(go.transform, false);
+                        var pastille = go.GetComponentInChildren<Canvas>();
+                        if (go.layer == LayerMask.NameToLayer("PlayerUnits"))
+                        {
+                            pastille.GetComponentInChildren<Image>().color = Color.blue;
+                        }
+                        else
+                        {
+                            go.GetComponentInChildren<Image>().color = Color.red;
+                        }
+
+
+                        Destroy(unit);
+                        break;
+                    }
                     
                     case UnitActionsEnum.ConvertirEnWarriors:
                     {
@@ -285,6 +336,7 @@ namespace Script.Systems
                     yield return UnitActionsEnum.Demolir;
                     yield return UnitActionsEnum.ConstruireCaserne;
                     yield return UnitActionsEnum.ConstruireEntrepot;
+                    yield return UnitActionsEnum.ConstruireTour;
                     break;
                 
                 case "Warriors":

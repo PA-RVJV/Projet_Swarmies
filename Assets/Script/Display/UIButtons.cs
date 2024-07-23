@@ -52,6 +52,9 @@ namespace Script.Display
                 case UnitActionsEnum.ConstruireEntrepot:
                     button.style.backgroundImage = new StyleBackground(SpriteToTexture(_iconDictionary["Entrepot"]));
                     break;
+                case UnitActionsEnum.ConstruireTour:
+                    button.style.backgroundImage = new StyleBackground(SpriteToTexture(_iconDictionary["Tour"]));
+                    break;
                 case UnitActionsEnum.ConvertirEnWarriors:
                     button.style.backgroundImage = new StyleBackground(SpriteToTexture(_iconDictionary["Warrior"]));
                     break;
@@ -70,6 +73,7 @@ namespace Script.Display
                 case UnitActionsEnum.Demolir:
                     button.style.backgroundImage = new StyleBackground(SpriteToTexture(_iconDictionary["Dead"]));
                     break;
+                
             }
             
             button.AddToClassList("swarmies-button");

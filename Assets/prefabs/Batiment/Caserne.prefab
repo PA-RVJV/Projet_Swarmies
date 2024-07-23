@@ -187,6 +187,7 @@ MonoBehaviour:
   unitConfig: {fileID: 0}
   attackCooldown: 0
   currentHealth: 0
+  interval: 0.5
 --- !u!1 &7678350970425553998
 GameObject:
   m_ObjectHideFlags: 0
@@ -374,7 +375,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3578964451680764320, guid: e14a804724ae440d398fe38af842b43a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.54
+      value: -0.19
       objectReference: {fileID: 0}
     - target: {fileID: 3578964451680764320, guid: e14a804724ae440d398fe38af842b43a, type: 3}
       propertyPath: m_LocalPosition.z

@@ -22,7 +22,7 @@ MonoBehaviour:
     attack: 5
     attackRange: 1
     attackCooldown: 2
-    aggroRange: 5
+    aggroRange: 2
     health: 25
     speed: 3
     armor: 0

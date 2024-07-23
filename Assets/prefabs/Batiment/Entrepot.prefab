@@ -116,15 +116,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 300ed784ca4744cb2b93057048111ef6, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 300ed784ca4744cb2b93057048111ef6, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 300ed784ca4744cb2b93057048111ef6, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 300ed784ca4744cb2b93057048111ef6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -244,10 +244,13 @@ MonoBehaviour:
     attackCooldown: 0
     aggroRange: 0
     health: 0
+    speed: 0
     armor: 0
+    isHealer: 0
   unitConfig: {fileID: 0}
   attackCooldown: 0
   currentHealth: 0
+  interval: 0.5
 --- !u!65 &1871312965936379676
 BoxCollider:
   m_ObjectHideFlags: 0

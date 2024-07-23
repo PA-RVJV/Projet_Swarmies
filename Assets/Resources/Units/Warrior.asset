@@ -18,11 +18,11 @@ MonoBehaviour:
   baseStats:
     woodCost: 0
     stoneCost: 0
-    goldCost: 5
+    goldCost: 10
     attack: 25
     attackRange: 1.5
     attackCooldown: 2
-    aggroRange: 5
+    aggroRange: 4
     health: 100
     speed: 3
     armor: 2
