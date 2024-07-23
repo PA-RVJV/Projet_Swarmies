@@ -19,25 +19,52 @@ namespace Script
             switch (actionsEnum)
             {
                 case UnitActionsEnum.ConstruireCaserne:
-                    return "";
+                    return "Construire une caserne";
                 case UnitActionsEnum.ConstruireEntrepot:
-                    return "";
+                    return "Construire un entrepot";
                 case UnitActionsEnum.ConvertirEnWarriors:
-                    return "";
+                    return "Fabriquer des guerriers";
                 case UnitActionsEnum.ConvertirEnShooters:
-                    return "";
+                    return "Fabriquer des tireurs";
                 case UnitActionsEnum.ConvertirEnHealers:
-                    return "";
+                    return "Fabriquer des Healeurs";
                 case UnitActionsEnum.ConvertirEnTanks :
-                    return "";
+                    return "Fabriquer des tanks";
                 case UnitActionsEnum.Demolir:
-                    return "";
+                    return "Démolir";
                 case UnitActionsEnum.PausePlayProduction:
-                    return "";
+                    return "Mettre en pause/marche la production";
             }
 
             return "Not defined in UnitActionsEnum";
         }
+    }
+    
+    public class GetIcone
+    {
+        public static string Get(UnitActionsEnum actionsEnum)
+        {
+            switch (actionsEnum)
+            {
+                case UnitActionsEnum.ConstruireCaserne:
+                    return "Construire une caserne";
+                case UnitActionsEnum.ConstruireEntrepot:
+                    return "Construire un entrepot";
+                case UnitActionsEnum.ConvertirEnWarriors:
+                    return "Fabriquer des guerriers";
+                case UnitActionsEnum.ConvertirEnShooters:
+                    return "Fabriquer des tireurs";
+                case UnitActionsEnum.ConvertirEnHealers:
+                    return "Fabriquer des Healeurs";
+                case UnitActionsEnum.ConvertirEnTanks :
+                    return "Fabriquer des tanks";
+                case UnitActionsEnum.Demolir:
+                    return "Démolir";
+                case UnitActionsEnum.PausePlayProduction:
+                    return "Mettre en pause/marche la production";
+            }
 
+            return "Not defined in UnitActionsEnum";
+        }
     }
 }
