@@ -235,8 +235,76 @@ namespace PS.InputHandlers
             // Vérifie si le bouton droit de la souris est pressé et si des unités sont sélectionnées.
             if (Input.GetMouseButtonDown(1) && HaveSelectedUnits())
             {
-                // Crée un rayon partant de la caméra vers la position de la souris.
-                Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
+                HandleRightClick(Input.mousePosition);
+            } 
+            // ou alors qu'on a deux doigts pressés
+            else if (Input.touchCount == 2) {
+                Touch touchZero = Input.GetTouch(0);
+                Touch touchOne = Input.GetTouch(1);
+
+                if (touchZero.phase == TouchPhase.Ended && touchOne.phase == TouchPhase.Ended)
+                {
+                    float touchTime = Mathf.Max(touchZero.deltaTime, touchOne.deltaTime);
+
+                    if (touchTime < 0.2f)
+                    {
+                        // Two fingers tap detected
+                        Vector2 touchCenter = (touchZero.position + touchOne.position) / 2;
+
+                        HandleRightClick(touchCenter);
+                    }
+                }
+            }
+        }
+        
+        // Sélectionne une unité et active un objet enfant spécifié pour indiquer la sélection.
+        private void SelectUnit(Transform unit, bool canMultiselect = false)
+        {
+            Assert.IsNotNull(unit);
+            
+            // Désélectionne toutes les unités si la multisélection n'est pas autorisée.
+            if (!canMultiselect)
+            {
+                DeselectUnits();
+            }
+            // Ajoute l'unité à la liste des unités sélectionnées.
+            SelectedUnits.Add(new WeakReference<Transform>(unit));
+            // Active un objet enfant spécifié de l'unité pour indiquer la sélection.
+            Transform t = unit.Find("Hightlight");
+            if (!t)
+            {
+                Debug.LogWarning("Le gameobject "+unit.name+" n'a pas de descendant Hightlight");
+                return;
+            }
+            t.gameObject.SetActive(true); // Attention à l'erreur de frappe : "Highlight".
+        }
+
+        // Désélectionne toutes les unités sélectionnées et désactive l'indicateur de sélection.
+        private void DeselectUnits()
+        {
+            for (int i = 0; i < SelectedUnits.Count; i++)
+            {
+                var sel = SelectedUnits[i];
+                if(sel.TryGetTarget(out Transform trans) && trans) {
+                    Transform t = trans.Find("Hightlight"); // Attention à l'erreur de frappe : "Highlight".
+                    if (!t)
+                    {
+                        Debug.LogWarning("Le gameobject "+unit.name+" n'a pas de descendant Hightlight");
+                        continue;
+                    }
+
+                    t.gameObject.SetActive(false);
+                }
+            }
+            // Efface la liste des unités sélectionnées.
+            SelectedUnits.Clear();
+        }
+
+
+        private void HandleRightClick(Vector2 position)
+        {
+            // Crée un rayon partant de la caméra vers la position de la souris.
+                Ray ray = _cam.ScreenPointToRay(position);
                 
                 // Vérifie si le rayon touche quelque chose, en ignorant le Layer "ResourceZone"
                 int ignoreResourceZoneMask = ~LayerMask.GetMask("ResourceZone");
@@ -291,50 +359,6 @@ namespace PS.InputHandlers
                             break;
                     }
                 }
-            }
-        }
-        
-        // Sélectionne une unité et active un objet enfant spécifié pour indiquer la sélection.
-        private void SelectUnit(Transform unit, bool canMultiselect = false)
-        {
-            Assert.IsNotNull(unit);
-            
-            // Désélectionne toutes les unités si la multisélection n'est pas autorisée.
-            if (!canMultiselect)
-            {
-                DeselectUnits();
-            }
-            // Ajoute l'unité à la liste des unités sélectionnées.
-            SelectedUnits.Add(new WeakReference<Transform>(unit));
-            // Active un objet enfant spécifié de l'unité pour indiquer la sélection.
-            Transform t = unit.Find("Hightlight");
-            if (!t)
-            {
-                Debug.LogWarning("Le gameobject "+unit.name+" n'a pas de descendant Hightlight");
-                return;
-            }
-            t.gameObject.SetActive(true); // Attention à l'erreur de frappe : "Highlight".
-        }
-
-        // Désélectionne toutes les unités sélectionnées et désactive l'indicateur de sélection.
-        private void DeselectUnits()
-        {
-            for (int i = 0; i < SelectedUnits.Count; i++)
-            {
-                var sel = SelectedUnits[i];
-                if(sel.TryGetTarget(out Transform trans) && trans) {
-                    Transform t = trans.Find("Hightlight"); // Attention à l'erreur de frappe : "Highlight".
-                    if (!t)
-                    {
-                        Debug.LogWarning("Le gameobject "+unit.name+" n'a pas de descendant Hightlight");
-                        continue;
-                    }
-
-                    t.gameObject.SetActive(false);
-                }
-            }
-            // Efface la liste des unités sélectionnées.
-            SelectedUnits.Clear();
         }
 
         // Vérifie si une unité se trouve dans les bornes de sélection.

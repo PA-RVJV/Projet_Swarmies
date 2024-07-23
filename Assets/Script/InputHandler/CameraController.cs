@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace PS.InputHandlers
 {
@@ -42,6 +43,7 @@ namespace PS.InputHandlers
 
         private Quaternion originalRotation;
         
+        
         private void Start()
         {
             mainTransform = transform;
@@ -53,23 +55,28 @@ namespace PS.InputHandlers
 
         private void Update()
         {
-            if (!targetToFollow)
+            if (Input.touchCount > 0)
             {
-                Move();
-            }
-            else
-            {
-                FollowTarget();
-            }
+                HandleTouch();
+            } else {
+                if (!targetToFollow)
+                {
+                    Move();
+                }
+                else
+                {
+                    FollowTarget();
+                }
 
-            Rotation();
-            //HeightCalculation();
-            ComputeCameraBounds();
-            LimitPosition();
+                Rotation();
+                //HeightCalculation();
+                ComputeCameraBounds();
+                LimitPosition();
 
-            if (Input.GetKey(KeyCode.Space))
-            {
-                ResetTarget();
+                if (Input.GetKey(KeyCode.Space))
+                {
+                    ResetTarget();
+                }
             }
         }
 
@@ -133,6 +140,66 @@ namespace PS.InputHandlers
 
                 #endregion
 
+            }
+        }
+
+        private void HandleTouch()
+        {
+            Debug.Log("touch "+Input.touchCount);
+
+            if (Input.touchCount == 2)
+            {
+                Touch touchZero = Input.GetTouch(0);
+                Touch touchOne = Input.GetTouch(1);
+
+                if (touchZero.phase == TouchPhase.Moved && touchOne.phase == TouchPhase.Moved)
+                {
+                    // Move camera with two fingers swipe
+                    Vector2 touchZeroDelta = touchZero.deltaPosition;
+                    Vector2 touchOneDelta = touchOne.deltaPosition;
+
+                    Debug.Log("one "+touchZeroDelta);
+                    Debug.Log("two "+touchOneDelta);
+
+                    Vector2 averageDelta = (touchZeroDelta + touchOneDelta) / 2;
+                    Vector3 desiredDragMove = new Vector3(-averageDelta.x, 0, -averageDelta.y) * dragSpeed * 0.1f;
+                    desiredDragMove = Quaternion.Euler(new Vector3(0, mainTransform.eulerAngles.y, 0)) * desiredDragMove * Time.deltaTime;
+                    desiredDragMove = mainTransform.InverseTransformDirection(desiredDragMove);
+                    Debug.Log("end "+desiredDragMove);
+
+                    mainTransform.Translate(desiredDragMove, Space.Self);
+                }
+                else if (touchZero.phase == TouchPhase.Ended && touchOne.phase == TouchPhase.Ended)
+                {
+                    float touchTime = Mathf.Max(touchZero.deltaTime, touchOne.deltaTime);
+
+                    if (touchTime < 0.2f)
+                    {
+                        // Two fingers tap detected
+                        Vector2 touchCenter = (touchZero.position + touchOne.position) / 2;
+
+                        SimulateRightClick(touchCenter);
+                    }
+                }
+            }
+        }
+
+        private void SimulateRightClick(Vector2 position)
+        {
+            Debug.Log("two click simulate");
+
+            PointerEventData pointerData = new PointerEventData(EventSystem.current)
+            {
+                position = position,
+                button = PointerEventData.InputButton.Right
+            };
+
+            List<RaycastResult> raycastResults = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(pointerData, raycastResults);
+
+            foreach (var result in raycastResults)
+            {
+                ExecuteEvents.Execute(result.gameObject, pointerData, ExecuteEvents.pointerClickHandler);
             }
         }
 
