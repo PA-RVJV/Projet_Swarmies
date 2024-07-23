@@ -1,15 +1,17 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Script.Systems;
+using Script.Units;
 using Unity.Assertions;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 
 namespace Script.Display
 {
     public class UIButtons : MonoBehaviour
     {
+        public EventSystem eventSystem;
         
         //public VisualTreeAsset uxmlVisualTree;
         public UIDocument uiDocument;
@@ -71,9 +73,9 @@ namespace Script.Display
             }
             
             button.AddToClassList("swarmies-button");
-            button.RegisterCallback<MouseEnterEvent>((_) => _OnUI(_, action));
-            button.RegisterCallback<MouseLeaveEvent>(_OutUI);
-            button.RegisterCallback<DetachFromPanelEvent>(_DestroyButton);
+            button.RegisterCallback<MouseEnterEvent>(ev => _OnUI(ev, action, sObjects));
+            button.RegisterCallback<MouseLeaveEvent>(ev => _OutUI(ev, sObjects));
+            button.RegisterCallback<DetachFromPanelEvent>(ev => _DestroyButton(ev, sObjects));
             button.RegisterCallback<MouseMoveEvent>(MoveTooltip);
             
             button.clickable.clicked += () => ButtonOnclicked(action, sObjects);
@@ -81,20 +83,48 @@ namespace Script.Display
             return button;
         }
     
-        private void _OnUI(MouseEnterEvent _, UnitActionsEnum action)
+        private void _OnUI(MouseEnterEvent _, UnitActionsEnum action, GameObject[] sObjects)
         {
             IsOverSomeButton = true;
+
+            foreach (var go in sObjects)
+            {
+                ExecuteEvents.Execute<ButtonHoverListener>(
+                    target: go,
+                    eventData: new PointerEventData(eventSystem),
+                    functor: (receiver, data) => receiver.OnPointerEnter((PointerEventData)data)
+                );
+            }
+            
             ShowTooltip(_, action);
         }
-        private void _OutUI(MouseLeaveEvent _)
+        private void _OutUI(MouseLeaveEvent _, GameObject[] sObjects)
         {
             IsOverSomeButton = false;
-            HideTooltip(_);
+            HideTooltip();
+            foreach (var go in sObjects)
+            {
+                ExecuteEvents.Execute<ButtonHoverListener>(
+                    target: go,
+                    eventData: new PointerEventData(eventSystem),
+                    functor: (receiver, data) => receiver.OnPointerLeave((PointerEventData)data)
+                );
+            }
+
         }
 
-        private void _DestroyButton(DetachFromPanelEvent _)
+        private void _DestroyButton(DetachFromPanelEvent _, GameObject[] sObjects)
         {
             IsOverSomeButton = false;
+            HideTooltip();
+            foreach (var go in sObjects)
+            {
+                ExecuteEvents.Execute<ButtonHoverListener>(
+                    target: go,
+                    eventData: new PointerEventData(eventSystem),
+                    functor: (receiver, data) => receiver.OnPointerLeave((PointerEventData)data)
+                );
+            }
         }
     
         private void ButtonOnclicked(UnitActionsEnum action, GameObject[] sObjects)
@@ -113,9 +143,20 @@ namespace Script.Display
             Assert.IsNotNull(container);
             
             container.Clear();
-            foreach (var action in actions)
+
+            Dictionary<GameObject, VisualElement> unitToActionsMap = new();
+            foreach (var (go, action) in actions)
             {
-                container.Add(AddButton(action.Item2, new []{action.Item1}));
+                if (!unitToActionsMap.ContainsKey(go))
+                {
+                    var ve = new VisualElement();
+                    ve.AddToClassList("buttons-row");
+                    container.Add(ve);
+                    unitToActionsMap.Add(go, ve);
+                    
+                }
+                VisualElement host = unitToActionsMap[go];
+                host.Add(AddButton(action, new []{go}));
             }
     
             _currentActions = actions;
@@ -187,7 +228,7 @@ namespace Script.Display
             _tooltipLabel.style.visibility = Visibility.Visible;
         }
 
-        private void HideTooltip(MouseLeaveEvent evt)
+        private void HideTooltip()
         {
             _tooltipLabel.style.visibility = Visibility.Hidden;
         }
