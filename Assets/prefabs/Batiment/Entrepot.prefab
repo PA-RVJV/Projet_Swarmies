@@ -170,6 +170,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Entrepot
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 300ed784ca4744cb2b93057048111ef6, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 300ed784ca4744cb2b93057048111ef6, type: 3}
+      propertyPath: m_TagString
+      value: PlayerUnit
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: -8700617353114198275, guid: 300ed784ca4744cb2b93057048111ef6, type: 3}
