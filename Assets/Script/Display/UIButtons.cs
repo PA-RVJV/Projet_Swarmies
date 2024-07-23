@@ -84,7 +84,7 @@ namespace Script.Display
         private void _OnUI(MouseEnterEvent _, UnitActionsEnum action)
         {
             IsOverSomeButton = true;
-            ShowTooltip(_, GetText.Get(action));
+            ShowTooltip(_, action);
         }
         private void _OutUI(MouseLeaveEvent _)
         {
@@ -179,9 +179,11 @@ namespace Script.Display
             root.Add(_tooltipLabel);
         }
         
-        private void ShowTooltip(MouseEnterEvent evt, string text)
+        private void ShowTooltip(MouseEnterEvent evt, UnitActionsEnum action)
         {
-            _tooltipLabel.text = text;
+            string tooltipText = GetText.Get(action);
+            string additionalInfo = GetAdditionalInfo(action);
+            _tooltipLabel.text = $"{tooltipText}\n{additionalInfo}";
             _tooltipLabel.style.visibility = Visibility.Visible;
         }
 
@@ -194,6 +196,54 @@ namespace Script.Display
         {
             _tooltipLabel.style.left = evt.mousePosition.x + 10;
             _tooltipLabel.style.top = evt.mousePosition.y + 10;
+        }
+        
+        private string GetAdditionalInfo(UnitActionsEnum action)
+        {
+            if (action == UnitActionsEnum.Demolir || action == UnitActionsEnum.PausePlayProduction)
+            {
+                return string.Empty;
+            }
+            
+            string unitName = GetUnitName(action);
+            if (string.IsNullOrEmpty(unitName))
+            {
+                return string.Empty;
+            }
+            
+            Dictionary<ResourceType, int> costs = gameRules.resourceManager.GetConstructionCost(unitName);
+
+            if (costs != null && costs.Count > 0)
+            {
+                List<string> costStrings = new List<string>();
+                foreach (var cost in costs)
+                {
+                    costStrings.Add($"{cost.Key}: {cost.Value}");
+                }
+                return string.Join("\n", costStrings);
+            }
+            return string.Empty;
+        }
+        
+        private string GetUnitName(UnitActionsEnum action)
+        {
+            switch (action)
+            {
+                case UnitActionsEnum.ConstruireCaserne:
+                    return "Caserne";
+                case UnitActionsEnum.ConstruireEntrepot:
+                    return "Entrepot";
+                case UnitActionsEnum.ConvertirEnWarriors:
+                    return "Warrior";
+                case UnitActionsEnum.ConvertirEnShooters:
+                    return "Shooter";
+                case UnitActionsEnum.ConvertirEnHealers:
+                    return "Healer";
+                case UnitActionsEnum.ConvertirEnTanks:
+                    return "Tank";
+                default:
+                    return string.Empty;
+            }
         }
     }
 }

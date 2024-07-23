@@ -19,21 +19,21 @@ namespace Script
             switch (actionsEnum)
             {
                 case UnitActionsEnum.ConstruireCaserne:
-                    return "Construire une caserne";
+                    return "Barrack";
                 case UnitActionsEnum.ConstruireEntrepot:
-                    return "Construire un entrepot";
+                    return "Storage";
                 case UnitActionsEnum.ConvertirEnWarriors:
-                    return "Fabriquer des guerriers";
+                    return "Warriors";
                 case UnitActionsEnum.ConvertirEnShooters:
-                    return "Fabriquer des tireurs";
+                    return "Shooters";
                 case UnitActionsEnum.ConvertirEnHealers:
-                    return "Fabriquer des Healeurs";
+                    return "Healeurs";
                 case UnitActionsEnum.ConvertirEnTanks :
-                    return "Fabriquer des tanks";
+                    return "Tanks";
                 case UnitActionsEnum.Demolir:
                     return "Démolir";
                 case UnitActionsEnum.PausePlayProduction:
-                    return "Mettre en pause/marche la production";
+                    return "Start/Stop Production";
             }
 
             return "Not defined in UnitActionsEnum";
