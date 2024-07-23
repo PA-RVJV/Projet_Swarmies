@@ -82,3 +82,5 @@ mono_crash*
 # Specific to JetBrains Rider
 .idea/workspace.xml
 .idea/
+
+Assets/NativeLevel

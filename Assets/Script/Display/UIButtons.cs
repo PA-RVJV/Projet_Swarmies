@@ -10,24 +10,29 @@ namespace Script.Display
 {
     public class UIButtons : MonoBehaviour
     {
-        // Dictionnaire pour stocker les icônes chargées
-        private Dictionary<string, Sprite> iconDictionary = new Dictionary<string, Sprite>();
         
         //public VisualTreeAsset uxmlVisualTree;
         public UIDocument uiDocument;
         public bool IsOverSomeButton { get; private set; }
-    
         public GameRules gameRules;
         
+        
         private List<(GameObject, UnitActionsEnum)> _currentActions = new();
+        private Button _pausePlayButton;
+        // Dictionnaire pour stocker les icônes chargées
+        private readonly Dictionary<string, Sprite> _iconDictionary = new();
         
-        private Button pausePlayButton;
         
+        // Tooltips
+        public string tooltipText = "This is a tooltip";
+        private Label _tooltipLabel;
+
         // Start is called before the first frame update
         private void Start()
         {
             Assert.IsNotNull(uiDocument);
             LoadIcons();
+            CreateToolTip();
             //uiDocument.rootVisualElement
             //uiDocument.rootVisualElement.Clear();
             //uiDocument.rootVisualElement.Add(container);
@@ -36,52 +41,55 @@ namespace Script.Display
     
         private Button AddButton(UnitActionsEnum action, GameObject[] sObjects)
         {
-            var button = new Button() { text = GetText.Get(action) };
+            var button = new Button() { /*text = GetText.Get(action)*/ };
             switch (action)
             {
                 case UnitActionsEnum.ConstruireCaserne:
-                    button.style.backgroundImage = new StyleBackground(SpriteToTexture(iconDictionary["Caserne"]));
+                    button.style.backgroundImage = new StyleBackground(SpriteToTexture(_iconDictionary["Caserne"]));
                     break;
                 case UnitActionsEnum.ConstruireEntrepot:
-                    button.style.backgroundImage = new StyleBackground(SpriteToTexture(iconDictionary["Entrepot"]));
+                    button.style.backgroundImage = new StyleBackground(SpriteToTexture(_iconDictionary["Entrepot"]));
                     break;
                 case UnitActionsEnum.ConvertirEnWarriors:
-                    button.style.backgroundImage = new StyleBackground(SpriteToTexture(iconDictionary["Warrior"]));
+                    button.style.backgroundImage = new StyleBackground(SpriteToTexture(_iconDictionary["Warrior"]));
                     break;
                 case UnitActionsEnum.ConvertirEnShooters:
-                    button.style.backgroundImage = new StyleBackground(SpriteToTexture(iconDictionary["Shooter"]));
+                    button.style.backgroundImage = new StyleBackground(SpriteToTexture(_iconDictionary["Shooter"]));
                     break;
                 case UnitActionsEnum.ConvertirEnHealers:
-                    button.style.backgroundImage = new StyleBackground(SpriteToTexture(iconDictionary["Healer"]));
+                    button.style.backgroundImage = new StyleBackground(SpriteToTexture(_iconDictionary["Healer"]));
                     break;
                 case UnitActionsEnum.ConvertirEnTanks:
-                    button.style.backgroundImage = new StyleBackground(SpriteToTexture(iconDictionary["Tank"]));
+                    button.style.backgroundImage = new StyleBackground(SpriteToTexture(_iconDictionary["Tank"]));
                     break;
                 case UnitActionsEnum.PausePlayProduction:
-                    button.style.backgroundImage = new StyleBackground(SpriteToTexture(iconDictionary["PausePlay"]));
+                    button.style.backgroundImage = new StyleBackground(SpriteToTexture(_iconDictionary["PausePlay"]));
                     break;
                 case UnitActionsEnum.Demolir:
-                    button.style.backgroundImage = new StyleBackground(SpriteToTexture(iconDictionary["Dead"]));
+                    button.style.backgroundImage = new StyleBackground(SpriteToTexture(_iconDictionary["Dead"]));
                     break;
             }
             
             button.AddToClassList("swarmies-button");
-            button.RegisterCallback<MouseEnterEvent>(_OnUI);
+            button.RegisterCallback<MouseEnterEvent>((_) => _OnUI(_, action));
             button.RegisterCallback<MouseLeaveEvent>(_OutUI);
             button.RegisterCallback<DetachFromPanelEvent>(_DestroyButton);
+            button.RegisterCallback<MouseMoveEvent>(MoveTooltip);
             
             button.clickable.clicked += () => ButtonOnclicked(action, sObjects);
             
             return button;
         }
     
-        private void _OnUI(MouseEnterEvent _)
+        private void _OnUI(MouseEnterEvent _, UnitActionsEnum action)
         {
             IsOverSomeButton = true;
+            ShowTooltip(_, GetText.Get(action));
         }
         private void _OutUI(MouseLeaveEvent _)
         {
             IsOverSomeButton = false;
+            HideTooltip(_);
         }
 
         private void _DestroyButton(DetachFromPanelEvent _)
@@ -127,13 +135,13 @@ namespace Script.Display
             // Ajoute chaque icône au dictionnaire
             foreach (Sprite icon in icons)
             {
-                iconDictionary.Add(icon.name, icon);
+                _iconDictionary.Add(icon.name, icon);
             }
         }
         
         private Texture2D SpriteToTexture(Sprite sprite)
         {
-            if (sprite.rect.width != sprite.texture.width)
+            if (!Mathf.Approximately(sprite.rect.width, sprite.texture.width))
             {
                 Texture2D newText = new Texture2D((int)sprite.rect.width, (int)sprite.rect.height);
                 Color[] newColors = sprite.texture.GetPixels((int)sprite.textureRect.x,
@@ -148,6 +156,44 @@ namespace Script.Display
             {
                 return sprite.texture;
             }
+        }
+
+        /// <summary>
+        /// Gestion du tooltip sur les boutons
+        /// </summary>
+        private void CreateToolTip()
+        {
+            // Get the root of the UI
+            var root = uiDocument.rootVisualElement;
+
+            // Create the tooltip label
+            _tooltipLabel = new Label
+            {
+                style =
+                {
+                    position = Position.Absolute,
+                    visibility = Visibility.Hidden,
+                }
+            };
+            _tooltipLabel.AddToClassList("tooltip");
+            root.Add(_tooltipLabel);
+        }
+        
+        private void ShowTooltip(MouseEnterEvent evt, string text)
+        {
+            _tooltipLabel.text = text;
+            _tooltipLabel.style.visibility = Visibility.Visible;
+        }
+
+        private void HideTooltip(MouseLeaveEvent evt)
+        {
+            _tooltipLabel.style.visibility = Visibility.Hidden;
+        }
+
+        private void MoveTooltip(MouseMoveEvent evt)
+        {
+            _tooltipLabel.style.left = evt.mousePosition.x + 10;
+            _tooltipLabel.style.top = evt.mousePosition.y + 10;
         }
     }
 }
