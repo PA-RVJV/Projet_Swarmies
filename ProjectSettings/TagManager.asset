@@ -8,6 +8,7 @@ TagManager:
   - EnemyUnit
   - HealthBar
   - PastilleMinimap
+  - Audio
   layers:
   - Default
   - TransparentFX

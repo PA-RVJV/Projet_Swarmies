@@ -12,6 +12,8 @@ namespace Script.Display
     public class UIButtons : MonoBehaviour
     {
         public EventSystem eventSystem;
+
+        private AudioManager audioManager;
         
         //public VisualTreeAsset uxmlVisualTree;
         public UIDocument uiDocument;
@@ -29,6 +31,11 @@ namespace Script.Display
         public string tooltipText = "This is a tooltip";
         private Label _tooltipLabel;
 
+        private void Awake()
+        {
+            audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        }
+        
         // Start is called before the first frame update
         private void Start()
         {
@@ -125,6 +132,7 @@ namespace Script.Display
     
         private void ButtonOnclicked(UnitActionsEnum action, GameObject[] sObjects)
         {
+            audioManager.PlayUIButtonClickSFX();
             gameRules.DealWithAction(action, sObjects);
             HideTooltip();
         }

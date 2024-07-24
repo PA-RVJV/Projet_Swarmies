@@ -11,6 +11,8 @@ namespace PS.Units.Player
     [RequireComponent(typeof(NavMeshAgent))]
     public class PlayerUnit : MonoBehaviour
     {
+        private AudioManager audioManager;
+        
         public UnitHandler unitHandler;
         public UnitStatTypes.Base baseStats;
         public UnitConfigManager unitConfig;
@@ -27,7 +29,7 @@ namespace PS.Units.Player
         private bool hasAggro;
         private bool isDeplaced;
         private float distance;
-        private bool isAttacked;
+        private bool isUnit;
         public float currentHealth;
         private bool isHealer;
         
@@ -37,12 +39,16 @@ namespace PS.Units.Player
         public float interval = 0.5f;
         private float timer = 0f;
 
-        
+
+        private void Awake()
+        {
+            audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        }
         // OnEnable est appelé quand le script est activé.
         private void OnEnable()
         {
             // Initialise la référence au composant NavMeshAgent.
-            isAttacked = GetComponent<NavMeshAgent>() && GetComponent<NavMeshAgent>().enabled;
+            isUnit = GetComponent<NavMeshAgent>() && GetComponent<NavMeshAgent>().enabled;
         }
 
         private void Start()
@@ -72,7 +78,7 @@ namespace PS.Units.Player
         private void Update()
         {
             unitStatDisplay.HandleHealth(currentHealth);
-            if (!isAttacked)
+            if (!isUnit)
                 return;
 
             if (isHealer)
@@ -149,7 +155,7 @@ namespace PS.Units.Player
         public void MoveUnit(Vector3 destination)
         {
             navAgent.stoppingDistance = 0.1f;
-            if (!isAttacked)
+            if (!isUnit)
                 return;
             if (!navAgent)
                 return;
@@ -305,6 +311,10 @@ namespace PS.Units.Player
 
         public void Die()
         {
+            if (!isUnit)
+            {
+                audioManager.PlaySFX(audioManager.destroyUnit);
+            }
             Destroy(gameObject);
         }
         

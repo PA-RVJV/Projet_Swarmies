@@ -22,12 +22,16 @@ public class GameOverScreen : MonoBehaviour
     
     public TextMeshProUGUI statsEndGame;
 
+    public AudioManager audioManager;
+    
     public void SetupEndGame(bool isGameOver, int stat)
     {
+        audioManager.ChangeBackgroundClip();
         gameObject.SetActive(true);
         Time.timeScale = 0f;
         if (isGameOver)
         {
+            
             gameOverTitleEndText.SetActive(false);
             gameOverUnderTitleEndText.SetActive(false);
             victoryTitleEndText.SetActive(true);
