@@ -31,7 +31,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7888772444160
-    m_Localized: Langage Setting
+    m_Localized: Langage Settings
     m_Metadata:
       m_Items: []
   - m_Id: 8103592112128
@@ -95,7 +95,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 21578682904576
-    m_Localized: Audio Setting
+    m_Localized: Audio Settings
     m_Metadata:
       m_Items: []
   - m_Id: 23326772342784
