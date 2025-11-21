@@ -19,3 +19,4 @@ TODO :
 - gestion unité et construction
 
 
+![demo du jeu](/demo.gif)
