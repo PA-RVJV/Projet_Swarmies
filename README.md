@@ -1,4 +1,7 @@
 # Projet_Swarmies
+
+![demo du jeu](/demo.gif)
+
 Projet de dévelopement du groupe 1 dans le cadre du projet Anuelle du Bachelor RVJV de l'année 2023/2024.
 
 Developeur : 
@@ -19,4 +22,3 @@ TODO :
 - gestion unité et construction
 
 
-![demo du jeu](/demo.gif)
